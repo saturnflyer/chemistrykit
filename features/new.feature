@@ -17,12 +17,4 @@ Feature: ckit new
     # └── formulas
 
   Scenario: Project name is inserted in configs
-    Then a file named "_config/chemistrykit.yaml" has:
-      """yaml
-      ---
-      chemistrykit: {
-        project: Booker,
-        capture_output: false,
-        run_locally: true
-      }
-      """
+    Then "Booker" is set as the project name
