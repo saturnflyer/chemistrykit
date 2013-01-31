@@ -5,6 +5,7 @@ Feature: ckit new
   Background: Running ckit new
     When I run `ckit new booker`
 
+  @announce
   Scenario: Project directory is created
     Then I should see a project with the following structure:
     # └── booker
