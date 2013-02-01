@@ -36,15 +36,15 @@ Or install it yourself as:
 
 Staying in Character
 --------------
-These things        =>  Are called these things
-Specs/Test scripts  =>  Beakers
-Page Objects        =>  Formulas
-Log Output          =>  Evidence
+These things        =>  Are called these things  
+Specs/Test scripts  =>  Beakers  
+Page Objects        =>  Formulas  
+Log Output          =>  Evidence  
 
 Spec Discovery
 --------------
 
-ChemistryKit is built on top of RSpec. All specs are in the _beaker_ directory. Rather than being discovered via class or file name as some systems they are by identified by tag. 
+ChemistryKit is built on top of RSpec. All specs are in the _beaker_ directory and end in _beaker.rb. Rather than being discovered via class or file name as some systems they are by identified by tag. 
 
 ```ruby
 it 'with invalid credentials', :depth => 'shallow' do
@@ -93,7 +93,7 @@ Facade all the Things!
 
 Chemistry Kit injects itself between you and WebDriver and various other future components. You should also inject something between your project and Chemistry Kit. Chemistry Kit has started this for you in the following ways:
 
-- __config/requires.rb_: @driver inside your scripts comes from the first line in this file
+- _config/requires.rb: @driver inside your scripts comes from the first line in this file
 
 Configuration
 -------------
