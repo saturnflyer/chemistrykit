@@ -6,6 +6,10 @@ ChemistryKit
 
 ### A simple and opinionated web testing framework for Selenium built in Ruby
 
+This framework was designed to help you get started acceptance testing quickly and to help keep your momentum going by following convention over configuration. 
+
+This product is the result of years of experience and real world trial and error.
+
 For a Python and PHP version, check out [py.saunter and saunter.php](https://github.com/Element-34/). ChemistryKit's inspiration comes from Saunter.
 
 ## Installation
@@ -30,10 +34,17 @@ Or install it yourself as:
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
 
+Staying in Character
+--------------
+These things        =>  Are called these things
+Specs/Test scripts  =>  Beakers
+Page Objects        =>  Formulas
+Log Output          =>  Evidence
+
 Spec Discovery
 --------------
 
-All Chemistry Kit specs are in the _spec_ directory. Rather than being discovered via class or file name as some systems they are by identified by tag. The tagging implementation in RSpec isn't the greatest, but...
+ChemistryKit is built on top of RSpec. All specs are in the _beaker_ directory. Rather than being discovered via class or file name as some systems they are by identified by tag. 
 
 ```ruby
 it 'with invalid credentials', :depth => 'shallow' do
@@ -54,7 +65,7 @@ it 'with invalid credentials', :depth => 'shallow', :authentication => true do
 end
 ````
 
-By default Chemistry Kit will discovery and run the _:depth => 'shallow'_ scripts. To run different ones you use the --tag option.
+By default ChemistryKit will discover and run the _:depth => 'shallow'_ scripts. To run different ones you use the --tag option.
 
     ckit --tag authentication
 
@@ -80,22 +91,14 @@ Chemistry Kit executes specs in a random order. This is intentional. Knowing the
 Facade all the Things!
 ----------------------
 
-Chemistry Kit injects itself between you and WebDriver, the page-object gem, and various other future components. You should also inject something between your project and Chemistry Kit. Chemistry Kit has started this for you in the following ways:
+Chemistry Kit injects itself between you and WebDriver and various other future components. You should also inject something between your project and Chemistry Kit. Chemistry Kit has started this for you in the following ways:
 
-- _lib/tailored/webdriver.rb_: @driver inside your scripts refers to this class
+- __config/requires.rb_: @driver inside your scripts comes from the first line in this file
 
 Configuration
 -------------
 
-Configuration should not be in your script. Nor should it be commit to version control. Before you can run a spec you need to copy _config/chemistrykit.yaml.default_ to _config/chemistrykit.yaml_. The various keys that are available and what they do is in the default file.
-
-To use something in the config it is as simple as 
-
-```ruby
-CHEMISTRY_CONFIG['chemistrykit']['baseurl']
-```
-
-You can add your own sections as well. And probably should. 
+Configuration should not be in your script. Nor should it be commit to version control. 
 
 Before and After
 ----------------
@@ -113,4 +116,4 @@ You can even nest them inside different describe/context blocks and they will ge
 Logs and CI Integration
 -----------------------
 
-Each run of Chemistry Kit creates a timestamped directory inside the logs directory. And in there will be the full set of JUnit Ant XML files. You don't point your CI server at this timestamped directory. Instead you want to point at the _latest_ directory which is a symlink to the latest timestamp directory.
+Each run of Chemistry Kit creates a timestamped directory inside the evidence directory. And in there will be the full set of JUnit Ant XML files. You don't point your CI server at this timestamped directory. Instead you want to point at the _latest_ directory which is a symlink to the latest timestamp directory.
