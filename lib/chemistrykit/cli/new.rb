@@ -12,13 +12,7 @@ module ChemistryKit
       end
 
       def create_project
-        if name == "."
-          # An attempt to change the :name before it's pass to 'directory'. Causes an error on destination
-          # name = File.basename(Dir.getwd)
-          directory "templates/chemistrykit", File.join(Dir.getwd)
-        else
-          directory "templates/chemistrykit", File.join(Dir.getwd, name)
-        end
+        directory "templates/chemistrykit", File.join(Dir.getwd, name)
       end
 
       def notify
