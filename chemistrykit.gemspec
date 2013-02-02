@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "Simple and opinionated web testing framework for Selenium that follows convention over configuration -- borrowed from Saunter, built in Ruby"
-  s.description   = File.read(File.join(File.dirname(__FILE__), 'README.md'))
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
