@@ -1,7 +1,10 @@
 require "thor"
+require 'rspec'
+require 'chemistrykit/config'
+require 'chemistrykit/shared_context'
+require 'ci/reporter/rake/rspec_loader'
 require 'chemistrykit/cli/generators'
 require 'chemistrykit/cli/new'
-require 'rspec'
 
 module ChemistryKit
   module CLI
@@ -13,18 +16,36 @@ module ChemistryKit
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
 
       desc "brew", "Run the Chemistry kit"
-      long_desc <<-LONGDESC
-        Runs the Chemistry kit
-      LONGDESC
       method_option :tag, :default => ['depth:shallow'], :type => :array
       def brew
-        require 'chemistrykit/config'
-        require 'chemistrykit/shared_context'
-        require 'ci/reporter/rake/rspec_loader'
+        load_page_objects
+        set_logs_dir
+        turn_stdout_stderr_on_off
+        setup_rspec_and_taging
+        symlink_latest_report
+        run_rspec
+      end
 
-        # Wow... that feels like a hack...
+      # All the helper methods
+      protected
+
+      def load_page_objects
         Dir["#{Dir.getwd}/formulas/*.rb"].each {|file| require file }
+      end
 
+      def log_timestamp
+        Time.now.strftime("%Y-%m-%d-%H-%M-%S")
+      end
+
+      def set_logs_dir
+        ENV['CI_REPORTS'] = File.join(Dir.getwd, 'evidence', log_timestamp)
+      end
+
+      def turn_stdout_stderr_on_off
+        ENV['CI_CAPTURE'] = CHEMISTRY_CONFIG['chemistrykit']['capture_output'] ? 'on' : 'off'
+      end
+
+      def setup_rspec_and_taging
         tags = {}
         options['tag'].each do |tag|
           filter_type = tag.start_with?('~') ? :exclusion_filter : :filter
@@ -38,12 +59,6 @@ module ChemistryKit
           tags[filter_type][name] = value
         end
 
-        log_timestamp = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
-        FileUtils.makedirs(File.join(Dir.getwd, 'evidence', log_timestamp))
-
-        ENV['CI_REPORTS'] = File.join(Dir.getwd, 'evidence', log_timestamp)
-        ENV['CI_CAPTURE'] = CHEMISTRY_CONFIG['chemistrykit']['capture_output'] ? 'on' : 'off'
-
         RSpec.configure do |c|
           c.filter_run tags[:filter] unless tags[:filter].nil?
           c.filter_run_excluding tags[:exclusion_filter] unless tags[:exclusion_filter].nil?
@@ -52,9 +67,9 @@ module ChemistryKit
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
         end
+      end
 
-        exit_code = RSpec::Core::Runner.run(Dir.glob(File.join(Dir.getwd)))
-
+      def symlink_latest_report
         if RUBY_PLATFORM.downcase.include?("mswin")
           require 'win32/dir'
 
@@ -68,8 +83,12 @@ module ChemistryKit
           end
           File.symlink(File.join(Dir.getwd, 'evidence', log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
         end
-        exit_code
       end
+
+      def run_rspec
+        RSpec::Core::Runner.run(Dir.glob(File.join(Dir.getwd)))
+      end
+
     end
   end
 end
