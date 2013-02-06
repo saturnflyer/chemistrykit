@@ -34,14 +34,14 @@ module ChemistryKit
           end
         end
       end
-      self.example_tags.compact!
+      example_tags.compact!
     end
 
     def create_payload
       self.payload = {
         :tags => example_tags,
-        :name => self.example.metadata[:full_description],
-        :passed => self.example.exception ? false : true
+        :name => example.metadata[:full_description],
+        :passed => example.exception ? false : true
       }
     end
 
