@@ -15,7 +15,7 @@ module ChemistryKit
       register(ChemistryKit::CLI::Generate, 'generate', 'generate <formula> or <beaker> [NAME]', 'generates a page object or script')
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
 
-      desc "brew", "Run the Chemistry kit"
+      desc "brew", "Run ChemistryKit"
       method_option :tag, :default => ['depth:shallow'], :type => :array
       def brew
         load_page_objects
@@ -69,6 +69,7 @@ module ChemistryKit
         end
       end
 
+
       def symlink_latest_report
         if RUBY_PLATFORM.downcase.include?("mswin")
           require 'win32/dir'
@@ -78,10 +79,7 @@ module ChemistryKit
           end
           Dir.create_junction(File.join(Dir.getwd, 'evidence', 'latest'), File.join(Dir.getwd, 'evidence', log_timestamp))
         else
-          if File.symlink?(File.join(Dir.getwd, 'evidence', 'latest'))
-            File.delete(File.join(Dir.getwd, 'evidence', 'latest'))
-          end
-          File.symlink(File.join(Dir.getwd, 'evidence', log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
+          FileUtils.ln_sf(File.join(Dir.getwd, 'evidence', log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
         end
       end
 
