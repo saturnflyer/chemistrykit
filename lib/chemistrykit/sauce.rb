@@ -26,7 +26,7 @@ module ChemistryKit
 
     def setup_data_for_sauce
       self.example_tags = self.example.metadata.collect do |k, v|
-        if not self.magic_keys.include?(k)
+        if not magic_keys.include?(k)
           if v.to_s == 'true'
             k
           else
@@ -39,14 +39,14 @@ module ChemistryKit
 
     def create_payload
       self.payload = {
-        :tags => self.example_tags,
+        :tags => example_tags,
         :name => self.example.metadata[:full_description],
         :passed => self.example.exception ? false : true
       }
     end
 
     def post_to_sauce
-      RestClient.put sauce_api_url, self.payload.to_json, {:content_type => :json}
+      RestClient.put sauce_api_url, payload.to_json, {:content_type => :json}
     end
 
   end
