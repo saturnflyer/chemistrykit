@@ -72,13 +72,15 @@ module ChemistryKit
       end
 
       def symlink_latest_report
-        if RUBY_PLATFORM.downcase.include?("mswin")
+        case # Depending on platform, symlinks are done differently
+        when RUBY_PLATFORM.downcase.include?("mswin")
           require 'win32/dir'
           if Dir.junction?(File.join(Dir.getwd, 'evidence', 'latest'))
             File.delete(File.join(Dir.getwd, 'evidence', 'latest'))
           end
           Dir.create_junction(File.join(Dir.getwd, 'evidence', 'latest'), File.join(Dir.getwd, 'evidence', @log_timestamp))
         else
+          # This will work on any unix like platform
           FileUtils.ln_sf(File.join(Dir.getwd, 'evidence', @log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
         end
       end
