@@ -10,13 +10,6 @@ module ChemistryKit
 
     attr_accessor :magic_keys, :example_tags, :payload, :executor
 
-    def initialize
-      @magic_keys
-      @example_tags
-      @payload
-      @executor
-    end
-
     def capabilities
       Selenium::WebDriver::Remote::Capabilities.send(CHEMISTRY_CONFIG['webdriver']['browser'])
     end
