@@ -8,23 +8,36 @@ module ChemistryKit
     extend RSpec::Core::SharedContext
     include ChemistryKit::Sauce
 
-    def capabilities
-      capabilities = Selenium::WebDriver::Remote::Capabilities.send(CHEMISTRY_CONFIG['webdriver']['browser'])
+    attr_accessor :magic_keys, :example_tags, :payload, :executor
+
+    def initialize
+      @magic_keys
+      @example_tags
+      @payload
+      @executor
     end
 
-    def driver_for_server(executor, capabilities)
-      @driver = ChemistryKit::WebDriver::Driver.new(:url => executor, :desired_capabilities => capabilities)
+    def capabilities
+      Selenium::WebDriver::Remote::Capabilities.send(CHEMISTRY_CONFIG['webdriver']['browser'])
+    end
+
+    def driver_for_server(an_executor, capabilities)
+      @driver = ChemistryKit::WebDriver::Driver.new(:url => an_executor, :desired_capabilities => capabilities)
     end
 
     def driver_for_local
       @driver = Selenium::WebDriver.for(CHEMISTRY_CONFIG['webdriver']['browser'].to_sym)
     end
 
-    def executor
+    def selenium_server_executor
+      @executor = 'http://' + CHEMISTRY_CONFIG['webdriver']['server_host'] + ":" + CHEMISTRY_CONFIG['webdriver']['server_port'].to_s + '/wd/hub'
+    end
+
+    def choose_executor
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        "http://#{SAUCE_CONFIG['username']}:#{SAUCE_CONFIG['key']}@ondemand.saucelabs.com:80/wd/hub"
+        sauce_executor
       else
-        'http://' + CHEMISTRY_CONFIG['webdriver']['server_host'] + ":" + CHEMISTRY_CONFIG['webdriver']['server_port'].to_s + '/wd/hub'
+        selenium_server_executor
       end
     end
 
@@ -39,11 +52,11 @@ module ChemistryKit
           capabilities[:platform] = CHEMISTRY_CONFIG['saucelabs']['platform']
         end
         set_sauce_keys
-        executor
-        driver_for_server(executor, capabilities)
+        choose_executor
+        driver_for_server(@executor, capabilities)
       else
         executor
-        driver_for_server(executor, capabilities)
+        driver_for_server(@executor, capabilities)
       end
     end
 
