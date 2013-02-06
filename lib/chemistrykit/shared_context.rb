@@ -41,8 +41,37 @@ module ChemistryKit
       end
     end
 
+    def sauce_api_url
+      "http://#{SAUCE_CONFIG['username']}:#{SAUCE_CONFIG['key']}@saucelabs.com:80/rest/v1/#{SAUCE_CONFIG['username']}/jobs/#{@session_id}"
+    end
+
+    def setup_data_for_sauce
+      @example_tags = self.example.metadata.collect do |k, v|
+        if not @magic_keys.include?(k)
+          if v.to_s == 'true'
+            k
+          else
+            "#{k}:#{v}"
+          end
+        end
+      end
+      @example_tags.compact!
+    end
+
+    def create_payload
+      @payload = {
+        :tags => @example_tags,
+        :name => self.example.metadata[:full_description],
+        :passed => self.example.exception ? false : true
+      }
+    end
+
+    def post_to_sauce
+      RestClient.put sauce_api_url, @payload.to_json, {:content_type => :json}
+    end
+
     before(:each) do
-      case
+      case # Three different options: selenium-webdriver, selenium server, and selenium server on Sauce
       when CHEMISTRY_CONFIG['chemistrykit']['run_locally']
         driver_for_local
       when CHEMISTRY_CONFIG['saucelabs']['ondemand']
@@ -62,33 +91,15 @@ module ChemistryKit
 
     after(:each) do
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        session_id = @driver.session_id
-      end
-
-      @driver.quit
-
-      if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        # puts self.example.metadata
-        example_tags = self.example.metadata.collect{ |k, v|
-          if not @magic_keys.include?(k) 
-            if v.to_s == 'true'
-              k
-            else
-              "#{k}:#{v}"
-            end
-          end
-        }
-        example_tags.compact!
-        # puts self.example.exception
-        payload = {
-          :tags => example_tags,
-          :name => self.example.metadata[:full_description],
-          :passed => self.example.exception ? false : true
-        }
-        api_url = "http://#{SAUCE_CONFIG['username']}:#{SAUCE_CONFIG['key']}@saucelabs.com:80/rest/v1/#{SAUCE_CONFIG['username']}/jobs/#{session_id}"
-        RestClient.put api_url, payload.to_json, {:content_type => :json}
-        # puts payload.to_json
+        @session_id = @driver.session_id
+        @driver.quit
+        setup_data_for_sauce
+        create_payload
+        post_to_sauce
+      else
+        @driver.quit
       end
     end
+
   end
 end
