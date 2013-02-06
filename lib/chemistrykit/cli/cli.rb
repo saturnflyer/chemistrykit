@@ -34,7 +34,7 @@ module ChemistryKit
       end
 
       def log_timestamp
-        Time.now.strftime("%Y-%m-%d-%H-%M-%S")
+        @log_timestamp = Time.now.strftime("%Y-%m-%d-%H-%M-%S")
       end
 
       def set_logs_dir
@@ -73,13 +73,12 @@ module ChemistryKit
       def symlink_latest_report
         if RUBY_PLATFORM.downcase.include?("mswin")
           require 'win32/dir'
-
           if Dir.junction?(File.join(Dir.getwd, 'evidence', 'latest'))
             File.delete(File.join(Dir.getwd, 'evidence', 'latest'))
           end
-          Dir.create_junction(File.join(Dir.getwd, 'evidence', 'latest'), File.join(Dir.getwd, 'evidence', log_timestamp))
+          Dir.create_junction(File.join(Dir.getwd, 'evidence', 'latest'), File.join(Dir.getwd, 'evidence', @log_timestamp))
         else
-          FileUtils.ln_sf(File.join(Dir.getwd, 'evidence', log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
+          FileUtils.ln_sf(File.join(Dir.getwd, 'evidence', @log_timestamp), File.join(Dir.getwd, 'evidence', 'latest'))
         end
       end
 
