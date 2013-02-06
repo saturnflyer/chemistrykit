@@ -1,4 +1,4 @@
-require "thor"
+require 'thor'
 require 'rspec'
 require 'chemistrykit/config'
 require 'chemistrykit/shared_context'
@@ -12,8 +12,8 @@ module ChemistryKit
       check_unknown_options!
       default_task :help
 
-      register(ChemistryKit::CLI::Generate, 'generate', 'generate <formula> or <beaker> [NAME]', 'generates a page object or script')
-      register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
+      register ChemistryKit::CLI::Generate, 'generate', 'generate <formula> or <beaker> [NAME]', 'generates a page object or script'
+      register ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project'
 
       desc "brew", "Run ChemistryKit"
       method_option :tag, :default => ['depth:shallow'], :type => :array
@@ -21,12 +21,12 @@ module ChemistryKit
         load_page_objects
         set_logs_dir
         turn_stdout_stderr_on_off
-        setup_rspec_and_taging
+        setup_tags
+        rspec_config
         symlink_latest_report
         run_rspec
       end
 
-      # All the helper methods
       protected
 
       def load_page_objects
@@ -45,8 +45,8 @@ module ChemistryKit
         ENV['CI_CAPTURE'] = CHEMISTRY_CONFIG['chemistrykit']['capture_output'] ? 'on' : 'off'
       end
 
-      def setup_rspec_and_taging
-        tags = {}
+      def setup_tags
+        @tags = {}
         options['tag'].each do |tag|
           filter_type = tag.start_with?('~') ? :exclusion_filter : :filter
 
@@ -55,20 +55,21 @@ module ChemistryKit
 
           value = true if value.nil?
 
-          tags[filter_type] ||= {}
-          tags[filter_type][name] = value
+          @tags[filter_type] ||= {}
+          @tags[filter_type][name] = value
         end
+      end
 
+      def rspec_config
         RSpec.configure do |c|
-          c.filter_run tags[:filter] unless tags[:filter].nil?
-          c.filter_run_excluding tags[:exclusion_filter] unless tags[:exclusion_filter].nil?
+          c.filter_run @tags[:filter] unless @tags[:filter].nil?
+          c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
           c.include ChemistryKit::SharedContext
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
         end
       end
-
 
       def symlink_latest_report
         if RUBY_PLATFORM.downcase.include?("mswin")
