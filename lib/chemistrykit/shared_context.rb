@@ -14,12 +14,13 @@ module ChemistryKit
       Selenium::WebDriver::Remote::Capabilities.send(CHEMISTRY_CONFIG['webdriver']['browser'])
     end
 
-    def driver_for_server(an_executor, capabilities)
-      @driver = ChemistryKit::WebDriver::Driver.new(:url => an_executor, :desired_capabilities => capabilities)
-    end
-
-    def driver_for_local
-      @driver = Selenium::WebDriver.for(CHEMISTRY_CONFIG['webdriver']['browser'].to_sym)
+    def driver(an_executor, capabilities)
+      if CHEMISTRY_CONFIG['chemistrykit']['run_locally']
+        @driver = Selenium::WebDriver.for(CHEMISTRY_CONFIG['webdriver']['browser'].to_sym)
+      else
+        puts "remote"
+        @driver = ChemistryKit::WebDriver::Driver.new(:url => an_executor, :desired_capabilities => capabilities)
+      end
     end
 
     def selenium_server_executor
@@ -35,10 +36,7 @@ module ChemistryKit
     end
 
     before(:each) do
-      case # Three different options: selenium-webdriver, selenium server, and selenium server on Sauce
-      when CHEMISTRY_CONFIG['chemistrykit']['run_locally']
-        driver_for_local
-      when CHEMISTRY_CONFIG['saucelabs']['ondemand']
+      if CHEMISTRY_CONFIG['saucelabs']['ondemand']
         if CHEMISTRY_CONFIG['webdriver']['browser'] != 'chrome'
           capabilities[:version] = CHEMISTRY_CONFIG['saucelabs']['version']
         else
@@ -46,10 +44,10 @@ module ChemistryKit
         end
         set_sauce_keys
         choose_executor
-        driver_for_server(@executor, capabilities)
+        driver(@executor, capabilities)
       else
         executor
-        driver_for_server(@executor, capabilities)
+        driver(@executor, capabilities)
       end
     end
 
