@@ -33,4 +33,5 @@ Feature: ckit brew
   Scenario: Returns true
     Given I cd to "booker"
     When I run `ckit brew`
+#    When I execute `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
