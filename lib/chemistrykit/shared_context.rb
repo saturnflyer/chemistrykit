@@ -8,50 +8,54 @@ module ChemistryKit
     extend RSpec::Core::SharedContext
     include ChemistryKit::Sauce
 
-    attr_accessor :magic_keys, :example_tags, :payload, :executor
+    attr_accessor :magic_keys, :example_tags, :payload
+
+    # This needs to be tested
+    def choose_executor
+      puts "choosing executor"
+      if CHEMISTRY_CONFIG['saucelabs']['ondemand']
+        @executor = sauce_executor
+      else
+        @executor = 'http://' + CHEMISTRY_CONFIG['webdriver']['server_host'] + ":" + CHEMISTRY_CONFIG['webdriver']['server_port'].to_s + '/wd/hub'
+      end
+    end
 
     def capabilities
+      puts "defining capabilities"
       Selenium::WebDriver::Remote::Capabilities.send(CHEMISTRY_CONFIG['webdriver']['browser'])
     end
 
     def driver(an_executor, capabilities)
+      puts "setting driver"
       if CHEMISTRY_CONFIG['chemistrykit']['run_locally']
         @driver = Selenium::WebDriver.for(CHEMISTRY_CONFIG['webdriver']['browser'].to_sym)
       else
-        puts "remote"
         @driver = ChemistryKit::WebDriver::Driver.new(:url => an_executor, :desired_capabilities => capabilities)
       end
     end
 
-    def selenium_server_executor
-      @executor = 'http://' + CHEMISTRY_CONFIG['webdriver']['server_host'] + ":" + CHEMISTRY_CONFIG['webdriver']['server_port'].to_s + '/wd/hub'
-    end
-
-    def choose_executor
+    before(:all) do
+      puts "setting up global configs"
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        sauce_executor
-      else
-        selenium_server_executor
+        if CHEMISTRY_CONFIG['saucelabs']['ondemand']
+          if CHEMISTRY_CONFIG['webdriver']['browser'] != 'chrome'
+            capabilities[:version] = CHEMISTRY_CONFIG['saucelabs']['version']
+          else
+            capabilities[:platform] = CHEMISTRY_CONFIG['saucelabs']['platform']
+          end
+        end
+        set_sauce_keys
       end
+      choose_executor
     end
 
     before(:each) do
-      if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        if CHEMISTRY_CONFIG['webdriver']['browser'] != 'chrome'
-          capabilities[:version] = CHEMISTRY_CONFIG['saucelabs']['version']
-        else
-          capabilities[:platform] = CHEMISTRY_CONFIG['saucelabs']['platform']
-        end
-        set_sauce_keys
-        choose_executor
-        driver(@executor, capabilities)
-      else
-        executor
-        driver(@executor, capabilities)
-      end
+      puts "creating the driver"
+      driver(@executor, capabilities)
     end
 
     after(:each) do
+      puts "shutting things down"
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
         @session_id = @driver.session_id
         @driver.quit

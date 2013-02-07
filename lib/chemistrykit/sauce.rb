@@ -17,7 +17,7 @@ module ChemistryKit
     end
 
     def sauce_executor
-      self.executor = "http://#{SAUCE_CONFIG['username']}:#{SAUCE_CONFIG['key']}@ondemand.saucelabs.com:80/wd/hub"
+      "http://#{SAUCE_CONFIG['username']}:#{SAUCE_CONFIG['key']}@ondemand.saucelabs.com:80/wd/hub"
     end
 
     def sauce_api_url
