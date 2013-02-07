@@ -14,8 +14,10 @@ module ChemistryKit
     def choose_executor
       puts "choosing executor"
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
+        puts "Chose sauce executor"
         @executor = sauce_executor
       else
+        puts "Chose selenium server executor"
         @executor = 'http://' + CHEMISTRY_CONFIG['webdriver']['server_host'] + ":" + CHEMISTRY_CONFIG['webdriver']['server_port'].to_s + '/wd/hub'
       end
     end
@@ -28,8 +30,10 @@ module ChemistryKit
     def driver(an_executor, capabilities)
       puts "setting driver"
       if CHEMISTRY_CONFIG['chemistrykit']['run_locally']
+        puts "chose local driver"
         @driver = Selenium::WebDriver.for(CHEMISTRY_CONFIG['webdriver']['browser'].to_sym)
       else
+        puts "chose selenium remote driver"
         @driver = ChemistryKit::WebDriver::Driver.new(:url => an_executor, :desired_capabilities => capabilities)
       end
     end
@@ -37,13 +41,15 @@ module ChemistryKit
     before(:all) do
       puts "setting up global configs"
       if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-        if CHEMISTRY_CONFIG['saucelabs']['ondemand']
-          if CHEMISTRY_CONFIG['webdriver']['browser'] != 'chrome'
-            capabilities[:version] = CHEMISTRY_CONFIG['saucelabs']['version']
-          else
-            capabilities[:platform] = CHEMISTRY_CONFIG['saucelabs']['platform']
-          end
+        puts "choosing capabilities of browser"
+        if CHEMISTRY_CONFIG['webdriver']['browser'] != 'chrome'
+          puts "chose non-chrome browser"
+          capabilities[:version] = CHEMISTRY_CONFIG['saucelabs']['version']
+        else
+          puts "chose chrome browser"
+          capabilities[:platform] = CHEMISTRY_CONFIG['saucelabs']['platform']
         end
+        puts "Setting up sauce keys"
         set_sauce_keys
       end
       choose_executor
