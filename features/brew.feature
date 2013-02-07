@@ -6,10 +6,14 @@ Feature: ckit brew
     Given I run `ckit new booker`
     And a file named "booker/formulas/bookie.rb" with:
       """ruby
-      module PageObjects
+      module Formulas
         class Bookie
           def initialize(driver)
             @driver = driver
+          end
+
+          def open(url)
+            @driver.get url
           end
         end
       end
@@ -17,12 +21,10 @@ Feature: ckit brew
     And a file named "booker/beaker/bookie_beaker.rb" with:
       """ruby
       describe "Bookie", :depth => 'shallow' do
-        before(:each) do
-          @book = PageObjects::Bookie.new(@driver)
-        end
+        let(:book) { Formulas::Bookie.new(@driver) }
 
-        it "check on sauce" do
-          true
+        it "load an external web page" do
+          book.open "http://www.google.com"
         end
       end
       """
