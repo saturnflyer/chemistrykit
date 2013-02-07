@@ -1,7 +1,6 @@
 describe "<%= name.capitalize %>", :depth => 'shallow' do
 
-  before(:each) do
-    @<%= name %> = Formulas::<%= name.capitalize %>.new(@driver)
-  end
+  let(:<%= name %>) { Formulas::<%= name.capitalize %>.new(@driver) }
+
 
 end
