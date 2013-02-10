@@ -1,7 +1,5 @@
 require 'thor'
 require 'rspec'
-require 'chemistrykit/config'
-require 'chemistrykit/shared_context'
 require 'ci/reporter/rake/rspec_loader'
 require 'chemistrykit/cli/generators'
 require 'chemistrykit/cli/new'
@@ -18,6 +16,8 @@ module ChemistryKit
       desc "brew", "Run ChemistryKit"
       method_option :tag, :default => ['depth:shallow'], :type => :array
       def brew
+        require 'chemistrykit/config'
+        require 'chemistrykit/shared_context'
         load_page_objects
         set_logs_dir
         turn_stdout_stderr_on_off
