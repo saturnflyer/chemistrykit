@@ -146,6 +146,6 @@ Feature: Brewing a ChemistryKit project
   #  ---
   #  username: 
   #  key: 
-    """
-    When I run `ckit brew`
-    Then the stdout should contain "1 example, 0 failures"
+  #  """
+  #  When I run `ckit brew`
+  #  Then the stdout should contain "1 example, 0 failures"
