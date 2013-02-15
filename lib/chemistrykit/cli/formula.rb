@@ -2,7 +2,7 @@ require 'thor/group'
 
 module ChemistryKit
   module CLI
-    class PageObjectGenerator < Thor::Group
+    class FormulaGenerator < Thor::Group
       include Thor::Actions
 
       argument :name

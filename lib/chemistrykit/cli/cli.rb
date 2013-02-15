@@ -1,17 +1,24 @@
 require 'thor'
 require 'rspec'
 require 'ci/reporter/rake/rspec_loader'
-require 'chemistrykit/cli/generators'
 require 'chemistrykit/cli/new'
+require 'chemistrykit/cli/formula'
+require 'chemistrykit/cli/beaker'
 
 module ChemistryKit
   module CLI
+
+    class Generate < Thor
+      register(ChemistryKit::CLI::FormulaGenerator, 'formula', 'formula [NAME]', 'generates a page object')
+      register(ChemistryKit::CLI::BeakerGenerator, 'beaker', 'beaker [NAME]', 'generates a beaker')
+    end
+
     class CKitCLI < Thor
       check_unknown_options!
       default_task :help
 
-      register ChemistryKit::CLI::Generate, 'generate', 'generate <formula> or <beaker> [NAME]', 'generates a page object or script'
-      register ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project'
+      desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
+      subcommand "generate", Generate
 
       desc "brew", "Run ChemistryKit"
       method_option :tag, :default => ['depth:shallow'], :type => :array
