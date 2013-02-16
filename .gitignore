@@ -14,3 +14,6 @@ vendor/bundle
 
 # Testing files
 tmp/
+
+# Dave's junk
+.rvmrc
