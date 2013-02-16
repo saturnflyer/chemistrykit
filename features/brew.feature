@@ -42,7 +42,7 @@ Feature: Brewing a ChemistryKit project
     key: ab7a6e17-16df-42d2-9ef6-c8d2539cc38a
     """
 
-  Scenario Outline: Different  
+  Scenario Outline: All The Things
     When I overwrite _config/chemistrykit.yaml with:
       """
       chemistrykit: {
