@@ -4,6 +4,7 @@ Feature: ckit new
 
   Background: Running ckit new
     When I run `ckit new booker`
+    And I cd to "booker"
 
   @announce
   Scenario: Project directory is created
@@ -18,4 +19,7 @@ Feature: ckit new
     # └── formulas
 
   Scenario: Project name is inserted in configs
-    Then "Booker" is set as the project name
+    Then the file "_config/chemistrykit.yaml" should contain:
+    """
+    project: Booker
+    """

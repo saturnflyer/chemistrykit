@@ -14,6 +14,7 @@ module ChemistryKit
     end
 
     class CKitCLI < Thor
+      register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
       check_unknown_options!
       default_task :help
 
