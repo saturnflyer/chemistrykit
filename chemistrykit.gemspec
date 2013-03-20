@@ -1,16 +1,16 @@
 # -*- encoding: utf-8 -*-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'chemistrykit/version'
+#require 'chemistrykit/version'
 
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = ChemistryKit::VERSION
+  s.version       = "0.1.2"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Wieringa"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
-  s.summary       = "Simple and opinionated web testing framework for Selenium that follows convention over configuration -- borrowed from Saunter, built in Ruby"
+  s.summary       = "Simple and opinionated web testing framework for Selenium Webdriver that follows convention over configuration -- borrowed from Saunter, built in Ruby"
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
