@@ -1,8 +1,8 @@
 #!/usr/bin/env ruby
-
 require "rubygems" # Allows for Ruby versions older than 1.9.3
 require 'chemistrykit/cli/cli'
 
-exit_code = ChemistryKit::CLI::CKitCLI.start
-exit_code.kind_of?(Integer) ? exit(exit_code) : exit(0)
+#exit_code = ChemistryKit::CLI::CKitCLI.start
+#exit_code.kind_of?(Integer) ? exit(exit_code) : exit(0)
 
+ChemistryKit::CLI::CKitCLI.start
