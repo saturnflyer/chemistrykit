@@ -4,6 +4,7 @@ require 'ci/reporter/rake/rspec_loader'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
+require 'turnip/rspec'
 
 module ChemistryKit
   module CLI
@@ -22,14 +23,14 @@ module ChemistryKit
       subcommand "generate", Generate
 
       desc "brew", "Run ChemistryKit"
-      method_option :tag, :default => ['depth:shallow'], :type => :array
+#      method_option :tag, :default => [':type => :feature'], :type => :array
       def brew
         require 'chemistrykit/config'
         require 'chemistrykit/shared_context'
         load_page_objects
         set_logs_dir
         turn_stdout_stderr_on_off
-        setup_tags
+#        setup_tags
         rspec_config
         symlink_latest_report
         run_rspec
@@ -70,12 +71,14 @@ module ChemistryKit
 
       def rspec_config
         RSpec.configure do |c|
-          c.filter_run @tags[:filter] unless @tags[:filter].nil?
-          c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+#          c.filter_run @tags[:filter] unless @tags[:filter].nil?
+#          c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
           c.include ChemistryKit::SharedContext
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
+          c.pattern << ',**/*.feature'
+          c.treat_symbols_as_metadata_keys_with_true_values = true
         end
       end
 
