@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="This is a test Fingers Crossed" tests="1" time="6.0181" failures="0" errors="0" skipped="0">
-  <testcase name="This is a test Fingers Crossed I want to say &quot;Hello World!&quot; -&gt; the computer should display it" time="6.016865">
-  </testcase>
-  <system-out>
-  </system-out>
-  <system-err>
-  </system-err>
-</testsuite>
