@@ -16,7 +16,7 @@ module ChemistryKit
       end
 
       def notify
-        say "Your project name has been added to _config/chemistrykit.yaml"
+        say "Your test harness has been created."
       end
 
     end

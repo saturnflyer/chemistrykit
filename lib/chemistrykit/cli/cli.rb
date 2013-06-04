@@ -24,7 +24,6 @@ module ChemistryKit
       desc "brew", "Run ChemistryKit"
       method_option :tag, :default => ['depth:shallow'], :type => :array
       def brew
-        require 'chemistrykit/config'
         require 'chemistrykit/shared_context'
         load_page_objects
         set_logs_dir
@@ -50,7 +49,7 @@ module ChemistryKit
       end
 
       def turn_stdout_stderr_on_off
-        ENV['CI_CAPTURE'] = CHEMISTRY_CONFIG['chemistrykit']['capture_output'] ? 'on' : 'off'
+        ENV['CI_CAPTURE'] = 'on' #CHEMISTRY_CONFIG['chemistrykit']['capture_output'] ? 'on' : 'off'
       end
 
       def setup_tags
@@ -68,7 +67,7 @@ module ChemistryKit
         end
       end
 
-      def rspec_config
+      def rspec_config #These bits aren't working properly
         RSpec.configure do |c|
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?

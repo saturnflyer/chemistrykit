@@ -1,1 +1,1 @@
-require 'chemistrykit/version'
+#require 'chemistrykit/version'

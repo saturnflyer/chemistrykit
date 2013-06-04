@@ -1,16 +1,12 @@
-# -*- encoding: utf-8 -*-
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'chemistrykit/version'
-
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = ChemistryKit::VERSION
+  s.version       = "1.0.0"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Wieringa"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
-  s.summary       = "Simple and opinionated web testing framework for Selenium that follows convention over configuration -- borrowed from Saunter, built in Ruby"
+  s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
+  s.description   = "A major refactoring along with a revamping of the yaml config structure. See the github page for details."
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -25,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "selenium-webdriver", "~> 2.29.0"
   s.add_dependency "ci_reporter", "~> 1.8.3"
   s.add_dependency "rest-client", "~> 1.6.7"
+  s.add_dependency "selenium-connect", "~> 1.8.0"
 
   s.add_development_dependency "rspec", "~> 2.12.0"
   s.add_development_dependency "aruba", "~> 0.5.1"
