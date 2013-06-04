@@ -1,5 +1,4 @@
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit)
-[![Dependency Status](https://gemnasium.com/arrgyle/chemistrykit.png)](https://gemnasium.com/arrgyle/chemistrykit)
 [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit)
 
 ChemistryKit
@@ -16,7 +15,7 @@ ChemistryKit's inspiration comes from the Saunter Selenium framework, which is a
     $ gem install chemistrykit
     $ ckit new framework_name
 
-This will create a new folder based on the name you provide. It contains all of the bits you'll need to get started.
+This will create a new folder based on the name you provide and it will contain all of the bits you'll need to get started.
 
     $ cd framework_name
     $ ckit generate beaker beaker_name
