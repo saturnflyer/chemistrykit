@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = "1.0.0"
+  s.version       = "1.1.0"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Wieringa"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
-  s.description   = "A major refactoring along with a revamping of the yaml config structure. See the github page for details."
+  s.description   = "Added the ability to pass in environment variables using --params=THING1:value THING2:value"
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)

@@ -22,9 +22,11 @@ module ChemistryKit
       subcommand "generate", Generate
 
       desc "brew", "Run ChemistryKit"
+      method_option :params, :type => :hash
       method_option :tag, :default => ['depth:shallow'], :type => :array
       def brew
         require 'chemistrykit/shared_context'
+        pass_params if options['params']
         load_page_objects
         set_logs_dir
         turn_stdout_stderr_on_off
@@ -35,6 +37,12 @@ module ChemistryKit
       end
 
       protected
+
+      def pass_params
+        options['params'].each_pair do |key, value|
+          ENV[key] = value
+        end
+      end
 
       def load_page_objects
         Dir["#{Dir.getwd}/formulas/*.rb"].each {|file| require file }
@@ -67,7 +75,7 @@ module ChemistryKit
         end
       end
 
-      def rspec_config #These bits aren't working properly
+      def rspec_config #Some of these bits work and others don't
         RSpec.configure do |c|
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
