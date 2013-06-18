@@ -1,12 +1,11 @@
+require 'chemistrykit'
+
 describe 'Chemistry Kit' do
-  let(:brew) { ChemistryKit::CLI::CKitCLI.start }
+  let(:ckit) { ChemistryKit::CLI::CKitCLI.start }
 
   context "exit codes" do
-    it "pass"
-
     it "fail" do
-      brew
+      puts ckit.class
     end
-
   end
 end
