@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = "1.2.1"
+  s.version       = "1.3.0"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Fox"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
-  s.description   = "Fixing the exit codes better, and addressing a bug with logging."
+  s.description   = "Updated file loading, documentation and tests."
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
