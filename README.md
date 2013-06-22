@@ -43,7 +43,6 @@ This project conforms to the [neverstopbuilding/craftsmanship](https://github.co
 2. Do something awesome.
 3. Submit a pull request.
 
-
 All issues and questions related to this project should be logged using the [github issues](https://github.com/arrgyle/chemistrykit/issues) feature.
 
 ### Install Dependencies
