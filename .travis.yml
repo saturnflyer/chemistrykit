@@ -5,3 +5,5 @@ branches:
   only:
     - master
     - develop
+notifications:
+  hipchat: 2a07784c1aeed1b6efa332242d3fc3@Regulation Station
