@@ -1,4 +1,8 @@
 #1.3.0 (2013-06-22)
+- Added explicit recursive file loading process for formulas
+- Cleaned up documentation
+- Updated tests
+- Cleaned up logging
 
 #1.2.1 (2013-06-21)
 - Bumping version number and adding Jason Fox as an author
