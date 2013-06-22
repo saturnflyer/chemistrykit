@@ -32,8 +32,19 @@ This will run ckit and execute your beakers. By default it will run the tests lo
 
 
 ## Contributing
+This project conforms to the [neverstopbuilding/craftsmanship](https://github.com/neverstopbuilding/craftsmanship) guidelines. Please see them for details on:
+- Branching theory
+- Documentation expectations
+- Release process
 
-This project conforms to the [neverstopbuilding/craftsmanship](https://github.com/neverstopbuilding/craftsmanship) guidelines. Please see them for details.
+###It's simple
+
+1. Create a feature branch from develop: `git checkout -b feature/myfeature develop` or `git flow feature start myfeature`
+2. Do something awesome.
+3. Submit a pull request.
+
+
+All issues and questions related to this project should be logged using the [github issues](https://github.com/arrgyle/chemistrykit/issues) feature.
 
 ### Install Dependencies
 
@@ -45,4 +56,4 @@ This project conforms to the [neverstopbuilding/craftsmanship](https://github.co
 
 ### Run the local version of the executable:
 
-    bin/ckit
+    ckit
