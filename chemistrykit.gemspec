@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency "selenium-webdriver", "~> 2.29.0"
   s.add_dependency "ci_reporter", "~> 1.8.3"
   s.add_dependency "rest-client", "~> 1.6.7"
-  s.add_dependency "selenium-connect", "~> 1.8.1"
+  s.add_dependency "selenium-connect", "~> 1.9.3"
 
   s.add_development_dependency "rspec", "~> 2.12.0"
   s.add_development_dependency "aruba", "~> 0.5.1"
