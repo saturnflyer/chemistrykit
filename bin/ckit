@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 require 'chemistrykit'
 
 # Had difficulties getting Thor to return a proper exit status on failure
