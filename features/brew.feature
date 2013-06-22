@@ -37,6 +37,7 @@ Feature: Brewing a ChemistryKit project
   Scenario Outline: Run All Configurations
     When I overwrite _config.yaml with:
       """
+      log: 'evidence'
       host: '<%= <hostname> %>'
       sauce_username: 'testing_arrgyle'
       sauce_api_key:  'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
@@ -51,3 +52,5 @@ Feature: Brewing a ChemistryKit project
     | hostname    |
     | "localhost" |
 #    | "saucelabs" |
+
+
