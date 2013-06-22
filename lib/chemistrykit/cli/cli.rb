@@ -73,6 +73,7 @@ module ChemistryKit
 
       def rspec_config #Some of these bits work and others don't
         RSpec.configure do |c|
+          c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
           c.include ChemistryKit::SharedContext
