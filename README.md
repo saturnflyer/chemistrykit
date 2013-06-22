@@ -1,6 +1,10 @@
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit)
 [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit)
 
+Master branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=master)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
+
+Develop branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
+
 ChemistryKit
 ============================================================
 
