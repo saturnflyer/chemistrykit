@@ -4,6 +4,7 @@ require 'ci/reporter/rake/rspec_loader'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
+require 'chemistrykit/cli/helpers/formula_loader'
 
 module ChemistryKit
   module CLI
@@ -46,7 +47,7 @@ module ChemistryKit
 
       def load_page_objects
         loader = ChemistryKit::CLI::Helpers::FormulaLoader.new
-        loader.get_formulas(File.join(Dir.getwd, formulas)).each {|file| require file }
+        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each {|file| require file }
       end
 
       def set_logs_dir
