@@ -11,10 +11,7 @@ require 'fileutils'
 #not sure it this is the right way to include all the files under test.
 require_relative '../lib/chemistrykit/cli/helpers/formula_loader'
 
-
-
 TEST_TMP_PATH = File.join(Dir.pwd, 'build', 'tmp')
-
 
 RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
