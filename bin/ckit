@@ -1,14 +1,7 @@
 #!/usr/bin/env ruby
-
 require 'chemistrykit'
-
-ckit_result = ChemistryKit::CLI::CKitCLI.start
 
 # Had difficulties getting Thor to return a proper exit status on failure
 # Will need to revisit
-
-if ckit_result.is_a? Array
-  exit 0
-else
-  exit ckit_result
-end
+ckit_result = ChemistryKit::CLI::CKitCLI.start
+ckit_result.kind_of?(Integer)? exit(ckit_result): exit(0)
