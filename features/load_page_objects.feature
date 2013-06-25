@@ -20,7 +20,7 @@ Formulas should be loaded in the correct order with thier dependencies
     And a file named "formulas/lib/formula.rb" with:
       """
       module Formulas
-        class Formula
+        class Formula < ChemistryKit::Formula::Base
           def initialize(driver)
             @driver = driver
           end
