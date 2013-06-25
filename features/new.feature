@@ -9,9 +9,11 @@ Feature: ckit new
   @announce
   Scenario: Test Harness is created
     Then the following directories should exist:
-      | beakers  |
-      | formulas |
-      | evidence |
+      | beakers       |
+      | formulas      |
+      | formulas/lib  |
+      | evidence      |
     And the following files should exist:
-      | _config.yaml  |
-      | .rspec        |
+      | _config.yaml            |
+      | .rspec                  |
+      | formulas/lib/formula.rb |

@@ -21,10 +21,6 @@ Formulas should be loaded in the correct order with thier dependencies
       """
       module Formulas
         class Formula < ChemistryKit::Formula::Base
-          def initialize(driver)
-            @driver = driver
-          end
-
           def helper_open(url)
             @driver.get url
           end
