@@ -3,6 +3,12 @@ Feature: Exit Status
   Background:
     Given I run `ckit new cheese`
     And I cd to "cheese"
+    And a file named "config.yaml" with:
+      """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
+      log: 'evidence'
+      host: 'localhost'
+      """
 
   Scenario: Passing
     And a file named "beaker/test_beaker.rb" with:
