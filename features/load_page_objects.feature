@@ -4,6 +4,12 @@ Formulas should be loaded in the correct order with thier dependencies
   Scenario: Load the libs first
     Given I run `ckit new big-project`
     And I cd to "big-project"
+    And a file named "config.yaml" with:
+      """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
+      log: 'evidence'
+      host: 'localhost'
+      """
     And a file named "formulas/big.rb" with:
       """
       module Formulas
