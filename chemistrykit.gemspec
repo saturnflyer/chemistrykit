@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
+  s.files.reject! { |file| file.include? '.jar' }
   s.test_files    = s.files.grep(%r{^(scripts|spec|features)/})
   s.executables   = s.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   s.require_paths = ["lib"]

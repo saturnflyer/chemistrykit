@@ -34,13 +34,12 @@ Feature: Brewing a ChemistryKit project
       end
       """
 
-  Scenario Outline: Run All Configurations
-    When I overwrite _config.yaml with:
+  Scenario: Localhost
+    Given a file named "config.yaml" with:
       """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
-      host: '<%= <hostname> %>'
-      sauce_username: 'testing_arrgyle'
-      sauce_api_key:  'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
+      host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -48,9 +47,18 @@ Feature: Brewing a ChemistryKit project
       | evidence/SPEC-Bookie.xml  |
       | evidence/server.log       |
 
-    Examples:
-    | hostname    |
-    | "localhost" |
-#    | "saucelabs" |
 
-
+  Scenario: Saucelabs
+    Given a file named "config.yaml" with:
+      """
+      log: 'evidence'
+      host: 'saucelabs'
+      brower: 'iexplore'
+      os: 'windows 2003'
+      sauce_username: 'dave_arrgyle'
+      sauce_api_key: '58092e14-4e9c-4911-bfc4-a09ecc02db63'
+      browser_version: '8'
+      description: 'ckit feature check'
+      """
+    When I run `ckit brew`
+    Then the stdout should contain "1 example, 0 failures"
