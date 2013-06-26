@@ -10,7 +10,7 @@ describe ChemistryKit::Formula::Base do
     Dir.mkdir(File.join(TEST_TMP_PATH, 'catalyst'))
     @data_file = File.join(TEST_TMP_PATH, 'catalyst', 'catalyst_data.csv')
     File.open(@data_file, 'w') {|f| f.write("first_key,first_value\nsecond_key,second_value") }
-    @catalyst = ChemistryKit::Catalyst.new(@data_file)
+    @catalyst = @data_file
   end
 
   it 'Should allow a catalyst to be set.' do
