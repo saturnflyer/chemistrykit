@@ -70,8 +70,7 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
         let(:google) { Formulas::Google.new(@driver) }
 
         it "loads an external web page" do
-          test_data = ChemistryKit::Catalyst.new('formulas/lib/catalysts/google_test_data.csv')
-          google.catalyst = test_data
+          google.catalyst = 'formulas/lib/catalysts/google_test_data.csv'
           google.visit
           google.search
           google.search_results_found?.should eq true
