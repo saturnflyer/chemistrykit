@@ -4,10 +4,10 @@ module ChemistryKit
 
     attr_accessor :catalyst
 
-    def initialize(driver)
-      @driver = driver
-    end
+      def initialize(driver)
+        @driver = driver
+      end
 
-    end
-  end
-end
+    end #Base
+  end #Formula
+end #ChemistryKit

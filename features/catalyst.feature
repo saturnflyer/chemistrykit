@@ -1,23 +1,35 @@
-Feature: Inject a Catalyst
-Using a catalyst to encapsulate arbitraty data from a csv file for data
-driven tests.
+Feature: Catalyst
+Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test that needs it.
 
   Scenario: Use a catalyst value to drive a test
-    Given I run `ckit new catalyst-project`
-    And I cd to "catalyst-project"
+    Given I run `ckit new catalyst-example`
+    And I cd to "catalyst-example"
 
-    And a file named "formulas/lib/catalysts/test_data.csv" with:
+    And a file named "formulas/lib/catalysts/google_test_data.csv" with:
     """
     url,http://www.google.com
+    search_query,Flying Elephants
     """
 
-    And a file named "formulas/big.rb" with:
+    And a file named "formulas/google.rb" with:
       """
       module Formulas
-        class CatProject < Formula
+        class Google < Formula
 
-          def do_a_thing
-            helper_open(catalyst.url)
+          def visit
+            open catalyst.url
+          end
+
+          def search
+            search_box = find id: 'gbqfq'
+            search_box.send_keys catalyst.search_query
+            search_box.send_keys :enter
+          end
+
+          def search_results_found?
+            wait_for(5) { displayed? id: 'search' }
+            search_results = find id: 'search'
+            search_results.text.include?(catalyst.search_query)
           end
 
         end
@@ -28,70 +40,50 @@ driven tests.
       """
       module Formulas
         class Formula < ChemistryKit::Formula::Base
-          def helper_open(url)
+
+          def open(url)
             @driver.get url
+          end
+
+          def find(locator)
+            @driver.find_element locator
+          end
+
+          def displayed?(locator)
+            begin
+              find(locator).displayed?
+            rescue
+              false
+            end
+          end
+
+          def wait_for(seconds=2)
+            Selenium::WebDriver::Wait.new(:timeout => seconds).until { yield }
           end
         end
       end
       """
 
-    And a file named "beaker/big_beaker.rb" with:
+    And a file named "beaker/google_beaker.rb" with:
       """
-      describe "Cat", :depth => 'shallow' do
-        let(:book) { Formulas::CatProject.new(@driver) }
+      describe "Google", :depth => 'shallow' do
+        let(:google) { Formulas::Google.new(@driver) }
 
         it "loads an external web page" do
-          meow_catalyst = ChemistryKit::Catalyst.new('formulas/lib/catalysts/test_data.csv')
-          book.catalyst = meow_catalyst
-          book.do_a_thing
+          test_data = ChemistryKit::Catalyst.new('formulas/lib/catalysts/google_test_data.csv')
+          google.catalyst = test_data
+          google.visit
+          google.search
+          google.search_results_found?.should eq true
         end
       end
       """
 
+    And a file named "config.yaml" with:
+      """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
+      log: 'evidence'
+      host: 'localhost'
+      """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
-
-
-    # And a file named "formulas/lib/catalysts/test_data.csv" with:
-    # """
-    # url,http://www.google.com
-    # """
-
-    # And a file named "beaker/catalyst_beaker.rb" with:
-    #   """
-    #   describe "Meow", :depth => 'shallow' do
-    #     let(:meow) { Formulas::Meow.new(@driver) }
-
-    #     meow_catalyst = ChemistryKit::Catalyst.new('formulas/lib/catalysts/test_data.csv')
-    #     meow.catalyst = meow_catalyst
-
-    #     it "loads an external web page" do
-    #       meow.do_a_thing
-    #     end
-    #   end
-    #   """
-
-
-    # And a file named "formulas/meow.rb" with:
-    #   """
-    #   module Formulas
-    #     class Meow < Formula
-
-    #       def do_a_thing
-    #         helper_open(catalyst.url)
-    #       end
-
-    #     end
-    #   end
-    #   """
-
-    # And a file named "formulas/lib/formula.rb" with:
-    #   """
-    #   module Formulas
-    #     class Formula < ChemistryKit::Formula::Base
-    #       def helper_open(url)
-    #         @driver.get url
-    #       end
-    #     end
-    #   end
-    #   """
