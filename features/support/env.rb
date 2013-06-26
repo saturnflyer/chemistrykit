@@ -5,6 +5,6 @@ Before do
   @dirs = ["build/tmp"]
 end
 
-After('@clear_tmp') do
+After do
   FileUtils.rm_rf("build/tmp")
 end

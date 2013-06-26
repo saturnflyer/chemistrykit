@@ -1,4 +1,3 @@
-#multi-config.feature
 Feature: Support for multiple configuration files
   In order to quickly change between different configurations
   As a chemistry kit harness developer
@@ -16,11 +15,11 @@ Feature: Support for multiple configuration files
       end
     end
     """
-  @clear_tmp
   Scenario: The default will be conifg.yaml
     Given a directory named "evidence_config"
     When I overwrite config.yaml with:
       """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_config'
       host: 'localhost'
       """
@@ -29,11 +28,11 @@ Feature: Support for multiple configuration files
     And the following files should exist:
       | evidence_config/server.log       |
 
-  @clear_tmp
   Scenario: I can specifiy an alternative configuration with --config
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_alternate'
       host: 'localhost'
       """
@@ -42,11 +41,11 @@ Feature: Support for multiple configuration files
       And the following files should exist:
         | evidence_alternate/server.log       |
 
-  @clear_tmp
   Scenario: I can specifiy an alternative configuration with -c
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
+      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_alternate'
       host: 'localhost'
       """
