@@ -5,6 +5,8 @@ require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
+require 'chemistrykit/catalyst'
+require 'chemistrykit/formula/base'
 
 module ChemistryKit
   module CLI
@@ -26,7 +28,9 @@ module ChemistryKit
       desc "brew", "Run ChemistryKit"
       method_option :params, :type => :hash
       method_option :tag, :default => ['depth:shallow'], :type => :array
+      method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
       def brew
+        load_config
         require 'chemistrykit/shared_context'
         pass_params if options['params']
         turn_stdout_stderr_on_off
@@ -56,6 +60,12 @@ module ChemistryKit
 
       def turn_stdout_stderr_on_off
         ENV['CI_CAPTURE'] = 'on'
+      end
+
+      def load_config
+        #not wild about using an env variable here... but maybe it makes sense
+        #just not sure how to inject it into the shared context.
+        ENV['CONFIG_FILE'] = options['config']
       end
 
       def setup_tags
