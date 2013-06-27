@@ -2,12 +2,14 @@ module ChemistryKit
   module Formula
     class Base
 
+      attr_accessor :catalyst
+
       def initialize(driver)
         @driver = driver
       end
 
-      def catalyst=(path_to_file)
-        @catalyst = ChemistryKit::Catalyst.new(path_to_file)
+      def catalyze(path_to_file)
+        self.catalyst = ChemistryKit::Catalyst.new(path_to_file)
       end
 
       def catalyst

@@ -1,3 +1,9 @@
+#2.0.0 (2013-06-27)
+- Updated to Selenium-Connect version to 2.0.0
+- Improved performance with driver hooks
+- Added the ability to specify config files on brew.
+- Added the "catalyst" concept for injecting data into formulas.
+
 #1.3.0 (2013-06-22)
 - Added explicit recursive file loading process for formulas
 - Cleaned up documentation

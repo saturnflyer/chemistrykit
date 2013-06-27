@@ -10,7 +10,7 @@ describe ChemistryKit::Formula::Base do
     Dir.mkdir(File.join(TEST_TMP_PATH, 'catalyst'))
     @data_file = File.join(TEST_TMP_PATH, 'catalyst', 'catalyst_data.csv')
     File.open(@data_file, 'w') {|f| f.write("first_key,first_value\nsecond_key,second_value") }
-    @catalyst = @data_file
+    @catalyst = ChemistryKit::Catalyst.new(@data_file)
   end
 
   it 'Should allow a catalyst to be set.' do
@@ -18,7 +18,12 @@ describe ChemistryKit::Formula::Base do
     @formula_base.catalyst.should be_an_instance_of ChemistryKit::Catalyst
   end
 
-    after(:each) do
+  it 'Should allow the use of catalyze as a convenience method.' do
+    @formula_base.catalyze(@data_file)
+    @formula_base.catalyst.should be_an_instance_of ChemistryKit::Catalyst
+  end
+
+  after(:each) do
     FileUtils.rm_rf(File.join(TEST_TMP_PATH, 'catalyst'))
   end
 
