@@ -8,7 +8,7 @@ module ChemistryKit
         @driver = driver
       end
 
-      def catalyize(path_to_file)
+      def catalyze(path_to_file)
         self.catalyst = ChemistryKit::Catalyst.new(path_to_file)
       end
 

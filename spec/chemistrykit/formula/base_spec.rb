@@ -18,8 +18,8 @@ describe ChemistryKit::Formula::Base do
     @formula_base.catalyst.should be_an_instance_of ChemistryKit::Catalyst
   end
 
-  it 'Should allow the use of catalyize as a convenience method.' do
-    @formula_base.catalyize(@data_file)
+  it 'Should allow the use of catalyze as a convenience method.' do
+    @formula_base.catalyze(@data_file)
     @formula_base.catalyst.should be_an_instance_of ChemistryKit::Catalyst
   end
 
