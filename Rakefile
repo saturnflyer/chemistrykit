@@ -55,7 +55,8 @@ task :release_start, :version do |t, args|
   File.open(gemspec, 'w'){ |f| f.write(updated) }
 
   #commit the version bump
-  system "git commit -am 'Bumped version to #{version} to prepare for release."
+  system "git add chemistrykit.gemspec"
+  system "git commit -m 'Bumped version to #{version} to prepare for release.'"
 
   puts "You've started release #{version}, make any last minute updates now.\n"
 end
