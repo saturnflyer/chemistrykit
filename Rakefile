@@ -35,7 +35,7 @@ task :release_start, :version do |t, args|
 
   #first make sure develop is checked out and up to date
   system "git checkout develop"
-  system "git pull --no-edit rigin develop"
+  system "git pull --no-edit origin develop"
 
   #then make sure master is up to date
   system "git checkout master"
