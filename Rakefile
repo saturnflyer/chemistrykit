@@ -33,13 +33,13 @@ task :release_start, :version do |t, args|
   #make sure we have the latest stuff
   system "git fetch --all"
 
-  #first make sure develop is checked out and up to date
-  system "git checkout develop"
-  system "git pull --no-edit origin develop"
-
-  #then make sure master is up to date
+  #first make sure master is checked out and up to date
   system "git checkout master"
   system "git pull --no-edit origin master"
+
+  #then make sure develop is up to date
+  system "git checkout develop"
+  system "git pull --no-edit origin develop"
 
   #next assure all the tests run
   task(:build).invoke
