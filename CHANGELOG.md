@@ -1,3 +1,14 @@
+#2.1.0 (2013-06-28)
+- Updated documentation for #62 release process.
+- Bumped version to 2.1.0 to prepare for release.
+- Changed the oder of branch updates in rakefile #62
+- #62 fixed another small issue with rakefile
+- fixed small typo in Rakefile per #62
+- updated a note to the change log and built out the rake tasks to close #62
+- updated gemspec to remove the ext, cleaned up the base class.
+-  updated rvm version files and removed the ext directory
+- moved the build dir deletion to the before so that post test inspection could be carried out, also added a rough implementation to close #63
+
 #2.0.0 (2013-06-27)
 - Updated to Selenium-Connect version to 2.0.0
 - Improved performance with driver hooks
