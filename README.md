@@ -56,3 +56,14 @@ All issues and questions related to this project should be logged using the [git
 ### Run the local version of the executable:
 
     ckit
+
+##Releaseing
+The release process is rather automated, just use one rake task with the new version number:
+
+    rake release_start['2.1.0']
+
+And another to finish the release:
+
+    rake release_finish['A helpful tag message that will be included in the gemspec.']
+
+This handles updating the change log, committing, and tagging the release.
