@@ -12,10 +12,6 @@ module ChemistryKit
         self.catalyst = ChemistryKit::Catalyst.new(path_to_file)
       end
 
-      def catalyst
-        @catalyst
-      end
-
     end #Base
   end #Formula
 end #ChemistryKit

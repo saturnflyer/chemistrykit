@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = "2.0.0"
+  s.version       = "2.1.0"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Fox"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
-  s.description   = "Added catalyst data injection, multiple configuration usage, improved perfomrance."
+  s.description   = "Automated build process"
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -28,6 +28,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "aruba", "~> 0.5.1"
   s.add_development_dependency "cucumber", "~> 1.2.1"
   s.add_development_dependency "rake", "~> 10.0.3"
-
-  s.extensions = 'ext/mkrf_conf.rb'
 end
