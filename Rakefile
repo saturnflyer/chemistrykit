@@ -104,7 +104,9 @@ task :release_finish, :update_message do |t, args|
   system "rm chemistrykit-#{version}.gem"
 
   #finish the release
-  system "git flow release finish -m '#{message}' #{version}"
+  #TODO there is a bug with git flow, and you still need to deal with merge messages, might just
+  #do this with git directly
+  system "git flow release finish -m'#{version}' #{version}"
 
   #push develop
   system "git push origin develop"
