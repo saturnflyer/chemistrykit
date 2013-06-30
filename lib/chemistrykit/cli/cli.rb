@@ -7,6 +7,8 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
+#require 'parallel_tests/rspec/runner'
+require 'parallel'
 
 module ChemistryKit
   module CLI
@@ -31,6 +33,7 @@ module ChemistryKit
       method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
       #TODO there should be a facility to simply pass a path to this command
       method_option :beaker, :type => :string
+      method_option :parallel, :default => false
 
       def brew
         load_config
@@ -44,8 +47,11 @@ module ChemistryKit
 
         if options['beaker']
           run_rspec([options['beaker']])
+        elsif options['parallel']
+          run_in_parallel
         else
-          run_rspec(Dir.glob(File.join(Dir.getwd)))
+          ckit_lab_dir = Dir.glob(File.join(Dir.getwd))
+          run_rspec ckit_lab_dir
         end
       end
 
@@ -103,13 +109,18 @@ module ChemistryKit
         end
       end
 
+      def run_in_parallel
+        beakers = Dir.glob('beakers/*')
+        Parallel.map(beakers.map {|beaker_file| [beaker_file]}, :in_processes => beakers.count) do |beaker|
+#          puts "#{$$}: #{beaker} of #{beaker.class}"
+          run_rspec [beaker]
+        end
+      end
+
       def run_rspec(beakers)
-
-        #puts single_beaker.inspect
-
         RSpec::Core::Runner.run(beakers)
       end
 
-    end
-  end
-end
+    end #CkitCLI
+  end #CLI
+end #ChemistryKit

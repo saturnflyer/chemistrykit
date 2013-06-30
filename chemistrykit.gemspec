@@ -23,6 +23,8 @@ Gem::Specification.new do |s|
   s.add_dependency "ci_reporter", "~> 1.8.3"
   s.add_dependency "rest-client", "~> 1.6.7"
   s.add_dependency "selenium-connect", "~> 2.0.0"
+  s.add_dependency "parallel_tests", "~> 0.15.0"
+  s.add_dependency "parallel", "~> 0.7.0"
 
   s.add_development_dependency "rspec", "~> 2.12.0"
   s.add_development_dependency "aruba", "~> 0.5.1"
