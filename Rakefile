@@ -6,7 +6,7 @@ require 'rspec/core/rake_task'
 task :default => [:build_ci]
 
 desc 'Runs standard build activities.'
-task :build => [:clean, :prepare, :spec, :cucumber]
+task :build => [:clean, :prepare, :rubocop, :spec, :cucumber]
 
 desc 'Runs standard build activities for ci server.'
 task :build_ci => [:clean, :prepare, :spec]
@@ -24,8 +24,12 @@ RSpec::Core::RakeTask.new(:spec)
 
 Cucumber::Rake::Task.new(:cucumber)
 
+desc 'Runs code quality check'
+task :rubocop do
+  sh 'rubocop'
+end
 
-#TODO This could probablly be more cleanly automated
+#TODO This could probably be more cleanly automated
 desc 'Start a release (Requires Git Flow)'
 task :release_start, :version do |t, args|
   version = args['version']
