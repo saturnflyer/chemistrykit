@@ -115,8 +115,8 @@ module ChemistryKit
 #          run_rspec [beaker]
 #        end
         require 'parallel_tests'
-        require 'chemistrykit/parallel'
-        ParallelTests::CLI.new.run(["--type", "rspec"] + ['-n', '1'] + beakers)
+        require 'chemistrykit/parallel_tests_mods'
+        ParallelTests::CLI.new.run(["--type", "rspec"] + ['-n', '2'] + beakers)
       end
 
       def run_rspec(beakers)
