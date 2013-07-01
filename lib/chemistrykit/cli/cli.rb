@@ -7,8 +7,6 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
-#require 'parallel_tests/rspec/runner'
-require 'parallel'
 
 module ChemistryKit
   module CLI
@@ -21,7 +19,7 @@ module ChemistryKit
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
-      check_unknown_options!
+#      check_unknown_options!
       default_task :help
 
       desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
@@ -111,10 +109,14 @@ module ChemistryKit
 
       def run_in_parallel
         beakers = Dir.glob('beakers/*')
-        Parallel.map(beakers.map {|beaker_file| [beaker_file]}, :in_processes => beakers.count) do |beaker|
-#          puts "#{$$}: #{beaker} of #{beaker.class}"
-          run_rspec [beaker]
-        end
+#        require 'parallel'
+#        Parallel.map(beakers.map {|beaker_file| [beaker_file]}, :in_processes => beakers.count) do |beaker|
+##          puts "#{$$}: #{beaker} of #{beaker.class}"
+#          run_rspec [beaker]
+#        end
+        require 'parallel_tests'
+        require 'chemistrykit/parallel'
+        ParallelTests::CLI.new.run(["--type", "rspec"] + ['-n', '1'] + beakers)
       end
 
       def run_rspec(beakers)
