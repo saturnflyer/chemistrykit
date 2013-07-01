@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
+# Encoding: utf-8
+
 require 'chemistrykit'
 
 # Had difficulties getting Thor to return a proper exit status on failure
 # Will need to revisit
 ckit_result = ChemistryKit::CLI::CKitCLI.start
-ckit_result.kind_of?(Integer)? exit(ckit_result): exit(0)
+ckit_result.kind_of?(Integer) ? exit(ckit_result) : exit(0)

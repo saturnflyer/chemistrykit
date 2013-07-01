@@ -1,8 +1,11 @@
+# Encoding: utf-8
+
 require 'csv'
 
 module ChemistryKit
+  # Serves as a hash wrapper class for injecting data into formulas
   class Catalyst
-    #this class serves as a standard container for data that can be injected into a formula
+    # this class serves as a standard container for data that can be injected into a formula
 
     def initialize(data_file)
       @data = {}
@@ -24,9 +27,7 @@ module ChemistryKit
     private
 
       def validate_key(key)
-        unless @data.has_key?(key.to_sym)
-          raise "Unknown \"#{key}\""
-        end
+        raise "Unknown \"#{key}\"" unless @data.has_key?(key.to_sym)
       end
   end
 end

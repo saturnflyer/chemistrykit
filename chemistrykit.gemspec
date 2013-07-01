@@ -1,3 +1,5 @@
+# Encoding: utf-8
+
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
   s.version       = "2.1.0"

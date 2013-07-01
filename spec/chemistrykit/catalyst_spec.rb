@@ -1,3 +1,5 @@
+# Encoding: utf-8
+
 require 'spec_helper'
 
 describe ChemistryKit::Catalyst do
@@ -6,7 +8,7 @@ describe ChemistryKit::Catalyst do
 
     Dir.mkdir(File.join(TEST_TMP_PATH, 'catalyst'))
     @data_file = File.join(TEST_TMP_PATH, 'catalyst', 'catalyst_data.csv')
-    File.open(@data_file, 'w') {|f| f.write("first_key,first_value\nsecond_key,second_value") }
+    File.open(@data_file, 'w') { |f| f.write("first_key,first_value\nsecond_key,second_value") }
     @catalyst = ChemistryKit::Catalyst.new(@data_file)
   end
 
@@ -25,14 +27,8 @@ describe ChemistryKit::Catalyst do
   end
 
   it 'Should throw an exception for a non existant key.' do
-    expect {
-      @catalyst.get_value_for('third_key')
-    }.to raise_error("Unknown \"third_key\"")
-
-    expect {
-      @catalyst.third_key
-    }.to raise_error("Unknown \"third_key\"")
-
+    expect { @catalyst.get_value_for('third_key') }.to raise_error("Unknown \"third_key\"")
+    expect { @catalyst.third_key }.to raise_error("Unknown \"third_key\"")
   end
 
   after(:each) do
