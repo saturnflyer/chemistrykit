@@ -1,7 +1,10 @@
+# Encoding: utf-8
+
 require 'thor/group'
 
 module ChemistryKit
   module CLI
+    # Creates a starting beaker from a template
     class BeakerGenerator < Thor::Group
       include Thor::Actions
       argument :name

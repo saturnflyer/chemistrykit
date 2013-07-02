@@ -1,3 +1,5 @@
+# Encoding: utf-8
+
 require 'thor'
 require 'rspec'
 require 'ci/reporter/rake/rspec_loader'
@@ -11,29 +13,31 @@ require 'chemistrykit/formula/base'
 module ChemistryKit
   module CLI
 
+    # Registers the formula and beaker commands
     class Generate < Thor
       register(ChemistryKit::CLI::FormulaGenerator, 'formula', 'formula [NAME]', 'generates a page object')
       register(ChemistryKit::CLI::BeakerGenerator, 'beaker', 'beaker [NAME]', 'generates a beaker')
     end
 
+    # Main Chemistry Kit CLI Class
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
       check_unknown_options!
       default_task :help
 
-      desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
-      subcommand "generate", Generate
+      desc 'generate SUBCOMMAND', 'generate <formula> or <beaker> [NAME]'
+      subcommand 'generate', Generate
 
-      desc "brew", "Run ChemistryKit"
-      method_option :params, :type => :hash
-      method_option :tag, :default => ['depth:shallow'], :type => :array
-      method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
-      #TODO there should be a facility to simply pass a path to this command
-      method_option :beaker, :type => :string
-      method_option :beakers, :type => :array
-      method_option :parallel, :default => false
-      method_option :processes, :default => '5'
+      desc 'brew', 'Run ChemistryKit'
+      method_option :params, type: :hash
+      method_option :tag, default: ['depth:shallow'], type: :array
+      method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
+      # TODO there should be a facility to simply pass a path to this command
+      method_option :beaker, type: :string
+      method_option :beakers, type: :array
+      method_option :parallel, default: false
+      method_option :processes, default: '5'
 
       def brew
         load_config
@@ -67,7 +71,7 @@ module ChemistryKit
 
       def load_page_objects
         loader = ChemistryKit::CLI::Helpers::FormulaLoader.new
-        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each {|file| require file }
+        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each { |file| require file }
       end
 
       def set_logs_dir
@@ -79,8 +83,8 @@ module ChemistryKit
       end
 
       def load_config
-        #not wild about using an env variable here... but maybe it makes sense
-        #just not sure how to inject it into the shared context.
+        # not wild about using an env variable here... but maybe it makes sense
+        # just not sure how to inject it into the shared context.
         ENV['CONFIG_FILE'] = options['config']
       end
 
@@ -99,7 +103,7 @@ module ChemistryKit
         end
       end
 
-      def rspec_config #Some of these bits work and others don't
+      def rspec_config # Some of these bits work and others don't
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?

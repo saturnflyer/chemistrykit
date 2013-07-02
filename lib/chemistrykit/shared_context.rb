@@ -1,8 +1,11 @@
+# Encoding: utf-8
+
 require 'rspec/core/shared_context'
 require 'selenium-connect'
 require 'yaml'
 
 module ChemistryKit
+  # Extends the Rspec Shared Context to include hooks for Selenium Connect
   module SharedContext
     extend RSpec::Core::SharedContext
 
@@ -30,5 +33,5 @@ module ChemistryKit
         SeleniumConnect.finish
       end
 
-  end #SharedContext
-end #ChemistryKit
+  end # SharedContext
+end # ChemistryKit
