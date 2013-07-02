@@ -11,8 +11,19 @@ module ParallelTests
           exe = executable # expensive, so we cache
           version = (exe =~ /\brspec\b/ ? 2 : 1)
 
-#          cmd = [exe, options[:test_options], (rspec_2_color if version == 2), spec_opts, *test_files].compact.join(" ")
-          cmd = exe # ckit doesn't take additional args, rewrote the above line with this one
+        # // Beginning of method modifications //
+        # cmd = [exe, options[:test_options], (rspec_2_color if version == 2), spec_opts, *test_files].compact.join(" ")
+        # NOTE: The above line was modified to conform to ckit's command line constraints
+
+          cmd = [exe, options[:test_options]].compact.join(" ")
+          cmd << test_files.join(" ")
+          puts cmd
+
+        # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3`
+        # Which enables each test group to be run in its own command
+        # --beakers= is set in lib/chemkistrykit/cli/cli.rb when parallel_tests is executed (using the -o options flag)
+
+        # // End of method modifications //
 
           options = options.merge(:env => rspec_1_color) if version == 1
           execute_command(cmd, process_number, num_processes, options)

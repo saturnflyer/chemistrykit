@@ -19,7 +19,7 @@ module ChemistryKit
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
-#      check_unknown_options!
+      check_unknown_options!
       default_task :help
 
       desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
@@ -31,6 +31,7 @@ module ChemistryKit
       method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
       #TODO there should be a facility to simply pass a path to this command
       method_option :beaker, :type => :string
+      method_option :beakers, :type => :array
       method_option :parallel, :default => false
 
       def brew
@@ -45,6 +46,8 @@ module ChemistryKit
 
         if options['beaker']
           run_rspec([options['beaker']])
+        elsif options['beakers']
+          run_rspec([options['beakers']])
         elsif options['parallel']
           run_in_parallel
         else
@@ -109,14 +112,9 @@ module ChemistryKit
 
       def run_in_parallel
         beakers = Dir.glob('beakers/*')
-#        require 'parallel'
-#        Parallel.map(beakers.map {|beaker_file| [beaker_file]}, :in_processes => beakers.count) do |beaker|
-##          puts "#{$$}: #{beaker} of #{beaker.class}"
-#          run_rspec [beaker]
-#        end
         require 'parallel_tests'
         require 'chemistrykit/parallel_tests_mods'
-        ParallelTests::CLI.new.run(["--type", "rspec"] + ['-n', '2'] + beakers)
+        ParallelTests::CLI.new.run(['--type', 'rspec'] + ['-n', '3'] + ['-o', '--beakers='] + beakers)
       end
 
       def run_rspec(beakers)
