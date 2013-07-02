@@ -1,5 +1,8 @@
+# Encoding: utf-8
+
 module ChemistryKit
   module Formula
+    # Base functionality for the Formula class
     class Base
 
       attr_accessor :catalyst
@@ -12,6 +15,6 @@ module ChemistryKit
         self.catalyst = ChemistryKit::Catalyst.new(path_to_file)
       end
 
-    end #Base
-  end #Formula
-end #ChemistryKit
+    end # Base
+  end # Formula
+end # ChemistryKit

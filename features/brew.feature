@@ -51,8 +51,8 @@ Feature: Brewing a ChemistryKit project
       host: 'saucelabs'
       brower: 'iexplore'
       os: 'windows 2003'
-      sauce_username: 'dave_arrgyle'
-      sauce_api_key: '58092e14-4e9c-4911-bfc4-a09ecc02db63'
+      sauce_username: 'testing_arrgyle'
+      sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
       browser_version: '8'
       description: 'ckit feature check'
       """

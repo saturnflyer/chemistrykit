@@ -1,3 +1,5 @@
+# Encoding: utf-8
+
 require 'thor'
 require 'rspec'
 require 'ci/reporter/rake/rspec_loader'
@@ -11,26 +13,31 @@ require 'chemistrykit/formula/base'
 module ChemistryKit
   module CLI
 
+    # Registers the formula and beaker commands
     class Generate < Thor
       register(ChemistryKit::CLI::FormulaGenerator, 'formula', 'formula [NAME]', 'generates a page object')
       register(ChemistryKit::CLI::BeakerGenerator, 'beaker', 'beaker [NAME]', 'generates a beaker')
     end
 
+    # Main Chemistry Kit CLI Class
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
       check_unknown_options!
       default_task :help
 
-      desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
-      subcommand "generate", Generate
+      desc 'generate SUBCOMMAND', 'generate <formula> or <beaker> [NAME]'
+      subcommand 'generate', Generate
 
-      desc "brew", "Run ChemistryKit"
-      method_option :params, :type => :hash
-      method_option :tag, :default => ['depth:shallow'], :type => :array
-      method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
-      #TODO there should be a facility to simply pass a path to this command
-      method_option :beaker, :type => :string
+      desc 'brew', 'Run ChemistryKit'
+      method_option :params, type: :hash
+      method_option :tag, default: ['depth:shallow'], type: :array
+      method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
+      # TODO there should be a facility to simply pass a path to this command
+      method_option :beaker, type: :string
+      method_option :beakers, type: :array
+      method_option :parallel, default: false
+      method_option :processes, default: '5'
 
       def brew
         load_config
@@ -44,8 +51,13 @@ module ChemistryKit
 
         if options['beaker']
           run_rspec([options['beaker']])
+        elsif options['beakers']
+          run_rspec([options['beakers']])
+        elsif options['parallel']
+          run_in_parallel
         else
-          run_rspec(Dir.glob(File.join(Dir.getwd)))
+          ckit_lab_dir = Dir.glob(File.join(Dir.getwd))
+          run_rspec ckit_lab_dir
         end
       end
 
@@ -59,7 +71,7 @@ module ChemistryKit
 
       def load_page_objects
         loader = ChemistryKit::CLI::Helpers::FormulaLoader.new
-        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each {|file| require file }
+        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each { |file| require file }
       end
 
       def set_logs_dir
@@ -71,8 +83,8 @@ module ChemistryKit
       end
 
       def load_config
-        #not wild about using an env variable here... but maybe it makes sense
-        #just not sure how to inject it into the shared context.
+        # not wild about using an env variable here... but maybe it makes sense
+        # just not sure how to inject it into the shared context.
         ENV['CONFIG_FILE'] = options['config']
       end
 
@@ -91,7 +103,7 @@ module ChemistryKit
         end
       end
 
-      def rspec_config #Some of these bits work and others don't
+      def rspec_config # Some of these bits work and others don't
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
@@ -103,13 +115,17 @@ module ChemistryKit
         end
       end
 
+      def run_in_parallel
+        beakers = Dir.glob('beakers/*')
+        require 'parallel_tests'
+        require 'chemistrykit/parallel_tests_mods'
+        ParallelTests::CLI.new.run(['--type', 'rspec'] + ['-n', options['processes']] + ['-o', '--beakers='] + beakers)
+      end
+
       def run_rspec(beakers)
-
-        #puts single_beaker.inspect
-
         RSpec::Core::Runner.run(beakers)
       end
 
-    end
-  end
-end
+    end #CkitCLI
+  end #CLI
+end #ChemistryKit
