@@ -119,13 +119,13 @@ module ChemistryKit
         beakers = Dir.glob('beakers/*')
         require 'parallel_tests'
         require 'chemistrykit/parallel_tests_mods'
-        ParallelTests::CLI.new.run(['--type', 'rspec'] + ['-n', options['processes']] + ['-o', '--beakers='] + beakers)
+        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', options['processes']] + %w(-o --beakers=) + beakers)
       end
 
       def run_rspec(beakers)
         RSpec::Core::Runner.run(beakers)
       end
 
-    end #CkitCLI
-  end #CLI
-end #ChemistryKit
+    end # CkitCLI
+  end # CLI
+end # ChemistryKit

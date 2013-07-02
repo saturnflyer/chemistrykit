@@ -13,8 +13,8 @@ module ChemistryKit
 
       config_options = YAML.load_file(config_file)
 
-      if config_options["base_url"]
-        ENV['BASE_URL'] = config_options["base_url"]
+      if config_options['base_url']
+        ENV['BASE_URL'] = config_options['base_url']
       end
 
       SeleniumConnect.configure do |c|
