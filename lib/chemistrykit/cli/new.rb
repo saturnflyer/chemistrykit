@@ -1,7 +1,10 @@
+# Encoding: utf-8
+
 require 'thor/group'
 
 module ChemistryKit
   module CLI
+    # Creates a new test harness
     class New < Thor::Group
       include Thor::Actions
 
@@ -12,11 +15,11 @@ module ChemistryKit
       end
 
       def create_project
-        directory "templates/chemistrykit", File.join(Dir.getwd, name)
+        directory 'templates/chemistrykit', File.join(Dir.getwd, name)
       end
 
       def notify
-        say "Your test harness has been created."
+        say 'Your test harness has been created.'
       end
 
     end
