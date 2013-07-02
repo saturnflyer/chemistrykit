@@ -19,9 +19,9 @@ module ParallelTests
           cmd << test_files.join(" ")
           puts cmd
 
-        # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3`
+        # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3 etc`
         # Which enables each test group to be run in its own command
-        # --beakers= is set in lib/chemkistrykit/cli/cli.rb when parallel_tests is executed (using the -o options flag)
+        # --beakers= is set in lib/chemkistrykit/cli/cli.rb when parallel_tests is executed using its -o option flag
 
         # // End of method modifications //
 
