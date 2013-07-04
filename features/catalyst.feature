@@ -64,7 +64,7 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
       end
       """
 
-    And a file named "beaker/google_beaker.rb" with:
+    And a file named "beakers/google_beaker.rb" with:
       """
       describe "Google", :depth => 'shallow' do
         let(:google) { Formulas::Google.new(@driver) }

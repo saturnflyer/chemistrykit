@@ -9,6 +9,8 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
+require 'selenium-connect'
+require 'chemistrykit/configuration'
 
 module ChemistryKit
   module CLI
@@ -41,7 +43,7 @@ module ChemistryKit
 
       def brew
         load_config
-        require 'chemistrykit/shared_context'
+        # require 'chemistrykit/shared_context'
         pass_params if options['params']
         turn_stdout_stderr_on_off
         set_logs_dir
@@ -104,11 +106,28 @@ module ChemistryKit
       end
 
       def rspec_config # Some of these bits work and others don't
+
+        config_file = File.join(Dir.getwd, ENV['CONFIG_FILE'])
+        config = ChemistryKit::Configuration.initialize_with_yaml config_file
+
+        SeleniumConnect.configure do |c|
+          c.populate_with_hash config.selenium_connect
+        end
+
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
-          c.include ChemistryKit::SharedContext
+          c.before(:each) do
+            @driver = SeleniumConnect.start
+            @config = config
+          end
+          c.after(:each) do
+            @driver.quit
+          end
+          c.after(:all) do
+            SeleniumConnect.finish
+          end
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
@@ -117,6 +136,7 @@ module ChemistryKit
 
       def run_in_parallel
         beakers = Dir.glob('beakers/*')
+        puts beakers.inspect
         require 'parallel_tests'
         require 'chemistrykit/parallel_tests_mods'
         ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', options['processes']] + %w(-o --beakers=) + beakers)

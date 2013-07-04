@@ -6,7 +6,7 @@ Feature: Initialize a global configuration
   Scenario: Use a configuration option in a beaker
     Given I run `ckit new global-config-test`
     And I cd to "global-config-test"
-    And a file named "beaker/test_beaker.rb" with:
+    And a file named "beakers/test_beaker.rb" with:
     """
     describe "Cheese", :depth => 'shallow' do
       it "loads an external web page" do

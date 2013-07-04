@@ -19,7 +19,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    And a file named "beaker/bookie_beaker.rb" with:
+    And a file named "beakers/bookie_beaker.rb" with:
       """
       describe "Bookie", :depth => 'shallow' do
         let(:book) { Formulas::Bookie.new(@driver) }
@@ -67,7 +67,7 @@ Feature: Brewing a ChemistryKit project
           log: 'evidence'
           host: 'localhost'
       """
-    And a file named "beaker/other_beaker.rb" with:
+    And a file named "beakers/other_beaker.rb" with:
       """
       describe "Other", :depth => 'shallow' do
         let(:book) { Formulas::Bookie.new(@driver) }

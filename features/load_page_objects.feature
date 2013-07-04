@@ -34,7 +34,7 @@ Formulas should be loaded in the correct order with thier dependencies
       end
       """
 
-    And a file named "beaker/big_beaker.rb" with:
+    And a file named "beakers/big_beaker.rb" with:
       """
       describe "Big", :depth => 'shallow' do
         let(:book) { Formulas::BigProject.new(@driver) }

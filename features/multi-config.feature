@@ -6,7 +6,7 @@ Feature: Support for multiple configuration files
   Background:
     Given I run `ckit new config-test`
     And I cd to "config-test"
-    And a file named "beaker/test_beaker.rb" with:
+    And a file named "beakers/test_beaker.rb" with:
     """
     describe "Cheese", :depth => 'shallow' do
       it "loads an external web page" do
