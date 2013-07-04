@@ -1,3 +1,32 @@
+#3.0.0 (2013-07-04)
+Now with concurrent tests
+
+- Bumped version to 3.0.0 to prepare for release.
+- included message into changelog update and added a test for specific concurrency feature
+- integrated config driven concurrency, cleaned up some tests
+- abstracted out config loading into brew
+- learning how to spell concurrency correctly
+- fixed a minor typo in a feature and added a todo comment
+- updated feature files to have correct directory, added a test for concurency
+- upgraded the global config into the shared context
+- updated all tests to match new configuration format
+- added back updated configuration object
+- removed local references to selenium server and updated tests accordingly
+- updated to latest build of selenium connect, fixed a small bug in a feature file, and updated the rakefile to handle find tags correctly
+- Code quality fixes
+- Wired up --processes to adjust number of processes when running --parallel, defaulting the number to 5
+- Updated comment
+- Updated sauce brew scenario to use our sauce account
+- Test group execution working
+- Renamed parallel to parallel_tests_mods for better explicitness. Got ckit brew running with parallel_tests (WOOT!). Now just need to figure out how to execute tests within a group for each thread rather than all tests in each thread.
+- removed branch restriction on travis so all feature branches would be tested
+- Fixed all code quality issues, added custom options file to tweek method length and line length cops, updated build system
+- added rubocop to the build process
+- Added a monkey patch for parallel_tests' RSpec runner to override its defaults with ours and wired it up in the parallel execution hook. It runs but gives an argument error from ckit. Also, took a first crack at setting the base_url via config.yaml and the shared_context
+- Added parallel_tests and parallel to repo. Wired up a command argument for ckit brew (--parallel) to execute the wip progess concurrency method.
+- Downgraded the required ruby version to just 1.9.3
+- one small edit because of a bug with git flow #62
+
 #2.1.0 (2013-06-28)
 - Updated documentation for #62 release process.
 - Bumped version to 2.1.0 to prepare for release.
