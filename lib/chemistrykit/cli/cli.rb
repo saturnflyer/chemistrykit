@@ -42,14 +42,14 @@ module ChemistryKit
       method_option :processes, default: '5'
 
       def brew
-        load_config
+        config = load_config options['config']
         # require 'chemistrykit/shared_context'
         pass_params if options['params']
         turn_stdout_stderr_on_off
         set_logs_dir
         load_page_objects
         setup_tags
-        rspec_config
+        rspec_config(config)
 
         if options['beaker']
           run_rspec([options['beaker']])
@@ -84,10 +84,9 @@ module ChemistryKit
         ENV['CI_CAPTURE'] = 'on'
       end
 
-      def load_config
-        # not wild about using an env variable here... but maybe it makes sense
-        # just not sure how to inject it into the shared context.
-        ENV['CONFIG_FILE'] = options['config']
+      def load_config(file_name)
+        config_file = File.join(Dir.getwd, file_name)
+        ChemistryKit::Configuration.initialize_with_yaml config_file
       end
 
       def setup_tags
@@ -105,15 +104,10 @@ module ChemistryKit
         end
       end
 
-      def rspec_config # Some of these bits work and others don't
-
-        config_file = File.join(Dir.getwd, ENV['CONFIG_FILE'])
-        config = ChemistryKit::Configuration.initialize_with_yaml config_file
-
+      def rspec_config(config) # Some of these bits work and others don't
         SeleniumConnect.configure do |c|
           c.populate_with_hash config.selenium_connect
         end
-
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
