@@ -90,7 +90,7 @@ task :release_finish, :update_message do |t, args|
   changelog_contents = File.read(changelog)
   date = Time.new.strftime('%Y-%m-%d')
   # create the new heading
-  updated_changelog = "##{version} (#{date})\n" + log + "\n" + changelog_contents
+  updated_changelog = "##{version} (#{date})\n" + message + "\n\n" + log + "\n" + changelog_contents
   # update the contents
   File.open(changelog, 'w') { |f| f.write(updated_changelog) }
   puts "Updated change log for version #{version}\n"
