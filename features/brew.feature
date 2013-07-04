@@ -77,6 +77,6 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --beaker=beaker/other_beaker.rb`
+    When I run `ckit brew --beaker=beakers/other_beaker.rb`
     Then the stdout should contain "1 example, 0 failures"
 
