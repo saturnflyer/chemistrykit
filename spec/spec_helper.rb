@@ -14,6 +14,7 @@ require 'fileutils'
 require_relative '../lib/chemistrykit/cli/helpers/formula_loader'
 require_relative '../lib/chemistrykit/formula/base'
 require_relative '../lib/chemistrykit/catalyst'
+require_relative '../lib/chemistrykit/configuration'
 
 TEST_TMP_PATH = File.join(Dir.pwd, 'build', 'tmp')
 
