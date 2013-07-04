@@ -1,7 +1,7 @@
 # Default Chemisty Kit Configuration File
 
 base_url: http://google.com
-concurency: 2
+concurrency: 2
 selenium_connect:
     log: 'evidence'
     host: 'localhost'

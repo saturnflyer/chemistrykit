@@ -6,13 +6,13 @@ module ChemistryKit
   # Default configuration class
   class Configuration
 
-    attr_accessor :concurency,
+    attr_accessor :concurrency,
                   :base_url,
                   :selenium_connect
 
     def initialize(hash)
       # set defaults
-      @concurency = 1
+      @concurrency = 1
 
       # overide with argument
       populate_with_hash hash

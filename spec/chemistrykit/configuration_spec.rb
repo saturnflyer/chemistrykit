@@ -5,27 +5,27 @@ require 'spec_helper'
 describe ChemistryKit::Configuration do
 
   VALID_BASE_URL = 'http://google.com'
-  VALID_CONCURENCY = 2
+  VALID_CONCURRENCY = 2
   VALID_CONFIG_FILE = 'config.yaml'
 
   before(:each) do
     @valid_selenium_connect_hash = { log: 'evidence', host: 'localhost' }
     @valid_config_hash = {
       base_url: VALID_BASE_URL,
-      concurency: VALID_CONCURENCY,
+      concurrency: VALID_CONCURRENCY,
       selenium_connect: @valid_selenium_connect_hash
     }
   end
 
   def validate_config(config)
-    config.concurency.should eq VALID_CONCURENCY
+    config.concurrency.should eq VALID_CONCURRENCY
     config.base_url.should eq VALID_BASE_URL
     config.selenium_connect.should eq @valid_selenium_connect_hash
   end
 
   it 'should initialize with sane defaults' do
     config = ChemistryKit::Configuration.new({})
-    config.concurency.should eq 1
+    config.concurrency.should eq 1
   end
 
   it 'should initialize with a hash of configurations' do
