@@ -2,6 +2,7 @@
 
 require 'rspec/core/shared_context'
 require 'selenium-connect'
+require 'chemistrykit/configuration'
 require 'yaml'
 
 module ChemistryKit
@@ -11,6 +12,8 @@ module ChemistryKit
 
       config_file = File.join(Dir.getwd, ENV['CONFIG_FILE'])
 
+      config = ChemistryKit::Configuration.initialize_with_yaml config_file
+
       config_options = YAML.load_file(config_file)
 
       if config_options['base_url']
@@ -18,7 +21,7 @@ module ChemistryKit
       end
 
       SeleniumConnect.configure do |c|
-        c.populate_with_yaml config_file
+        c.populate_with_hash config.selenium_connect
       end
 
       before(:each) do

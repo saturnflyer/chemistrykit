@@ -5,8 +5,9 @@ Feature: Exit Status
     And I cd to "cheese"
     And a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
 
   Scenario: Passing

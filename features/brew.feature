@@ -33,8 +33,9 @@ Feature: Brewing a ChemistryKit project
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -46,14 +47,15 @@ Feature: Brewing a ChemistryKit project
   Scenario: Saucelabs
     Given a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'saucelabs'
-      browser: 'iexplore'
-      os: 'windows 2003'
-      sauce_username: 'testing_arrgyle'
-      sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
-      browser_version: '8'
-      description: 'ckit feature check'
+      selenium_connect:
+          log: 'evidence'
+          host: 'saucelabs'
+          browser: 'iexplore'
+          os: 'windows 2003'
+          sauce_username: 'testing_arrgyle'
+          sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
+          browser_version: '8'
+          description: 'ckit feature check'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -61,8 +63,9 @@ Feature: Brewing a ChemistryKit project
   Scenario: Brew a single beaker
     Given a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     And a file named "beaker/other_beaker.rb" with:
       """

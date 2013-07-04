@@ -80,8 +80,9 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
 
     And a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"

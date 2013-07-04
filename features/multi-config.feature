@@ -19,8 +19,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_config"
     When I overwrite config.yaml with:
       """
-      log: 'evidence_config'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_config'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -31,8 +32,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      log: 'evidence_alternate'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_alternate'
+          host: 'localhost'
       """
       When I run `ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
@@ -43,8 +45,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      log: 'evidence_alternate'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_alternate'
+          host: 'localhost'
       """
       When I run `ckit brew -c alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
