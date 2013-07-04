@@ -80,7 +80,6 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
 
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
       host: 'localhost'
       """

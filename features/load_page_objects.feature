@@ -6,7 +6,6 @@ Formulas should be loaded in the correct order with thier dependencies
     And I cd to "big-project"
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
       host: 'localhost'
       """

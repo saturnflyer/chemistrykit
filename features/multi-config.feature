@@ -19,7 +19,6 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_config"
     When I overwrite config.yaml with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_config'
       host: 'localhost'
       """
@@ -32,7 +31,6 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_alternate'
       host: 'localhost'
       """
@@ -45,7 +43,6 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence_alternate'
       host: 'localhost'
       """

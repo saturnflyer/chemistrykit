@@ -18,7 +18,7 @@ module ChemistryKit
       end
 
       SeleniumConnect.configure do |c|
-        c.config_file = config_file
+        c.populate_with_yaml config_file
       end
 
       before(:each) do

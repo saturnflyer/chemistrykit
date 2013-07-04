@@ -33,7 +33,6 @@ Feature: Brewing a ChemistryKit project
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
       host: 'localhost'
       """
@@ -62,7 +61,6 @@ Feature: Brewing a ChemistryKit project
   Scenario: Brew a single beaker
     Given a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
       host: 'localhost'
       """

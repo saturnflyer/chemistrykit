@@ -5,7 +5,6 @@ Feature: Exit Status
     And I cd to "cheese"
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
       log: 'evidence'
       host: 'localhost'
       """
