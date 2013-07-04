@@ -78,7 +78,10 @@ task :release_finish, :update_message do |t, args|
 
   ### Changelog
   # get the latest tag
+  system 'git checkout master'
   last_tag = `git describe --abbrev=0`
+  system "git checkout release/#{version}"
+
   # get the commit hash since the last that version was merged to develop
   hash = `git log --grep="Merge branch 'release/#{last_tag.chomp}' into develop" --format="%H"`
   # get all the commits since them less merges

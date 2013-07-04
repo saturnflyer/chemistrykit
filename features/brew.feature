@@ -49,7 +49,7 @@ Feature: Brewing a ChemistryKit project
       """
       log: 'evidence'
       host: 'saucelabs'
-      brower: 'iexplore'
+      browser: 'iexplore'
       os: 'windows 2003'
       sauce_username: 'testing_arrgyle'
       sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
