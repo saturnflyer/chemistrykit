@@ -5,7 +5,7 @@ require 'spec_helper'
 describe ChemistryKit::Configuration do
 
   VALID_BASE_URL = 'http://google.com'
-  VALID_CONCURRENCY = 2
+  VALID_CONCURRENCY = 1
   VALID_CONFIG_FILE = 'config.yaml'
 
   before(:each) do
@@ -43,4 +43,14 @@ describe ChemistryKit::Configuration do
     end.to raise_error ArgumentError, 'The config key: "bad" is unknown!'
   end
 
+  it 'should throw an error if concurrency is configured and the host is not saucelabs' do
+    expect do
+      config_hash = {
+      base_url: VALID_BASE_URL,
+      concurrency: 2,
+      selenium_connect: @valid_selenium_connect_hash
+      }
+      ChemistryKit::Configuration.new(config_hash)
+    end.to raise_error ArgumentError, 'Concurrency is only supported for the host: "saucelabs"!'
+  end
 end

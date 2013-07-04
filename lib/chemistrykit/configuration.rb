@@ -16,6 +16,7 @@ module ChemistryKit
 
       # overide with argument
       populate_with_hash hash
+      validate_config
     end
 
     def self.initialize_with_yaml(file)
@@ -31,6 +32,12 @@ module ChemistryKit
           rescue NoMethodError
             raise ArgumentError.new "The config key: \"#{key}\" is unknown!"
           end
+        end
+      end
+
+      def validate_config
+        if @selenium_connect && @selenium_connect[:host] != 'saucelabs' && @concurrency > 1
+          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
         end
       end
 

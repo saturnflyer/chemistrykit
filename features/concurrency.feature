@@ -31,7 +31,7 @@ Feature: Support for concurency
   Scenario: I can run the tests in parallel with a command line flag
     When I overwrite config.yaml with:
       """
-      concurrency: 2
+      concurrency: 4
       selenium_connect:
           log: 'evidence'
           host: 'saucelabs'
@@ -41,5 +41,5 @@ Feature: Support for concurency
           description: 'concurrency check'
       """
     When I run `ckit brew`
-    Then the stdout should contain "2 processes for 2 beakers, ~ 0 beakers per process"
+    Then the stdout should contain "4 processes for 2 beakers"
     And the stdout should contain "3 examples, 0 failures"

@@ -36,30 +36,28 @@ module ChemistryKit
       method_option :tag, default: ['depth:shallow'], type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
-      method_option :beaker, type: :string
       method_option :beakers, type: :array
+      # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
-      method_option :processes, default: '5'
 
       def brew
         config = load_config options['config']
-        # require 'chemistrykit/shared_context'
+        # TODO perhaps the params should be rolled into the available
+        # config object injected into the system?
         pass_params if options['params']
         turn_stdout_stderr_on_off
         set_logs_dir
         load_page_objects
         setup_tags
+        # configure rspec
         rspec_config(config)
-
-        if options['beaker']
-          run_rspec([options['beaker']])
-        elsif options['beakers']
-          run_rspec([options['beakers']])
-        elsif options['parallel']
-          run_in_parallel
+        # get those beakers that should be executed
+        beakers = options['beakers'] ? options['beakers'] : Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+        # based on concurrency parameter run tests
+        if config.concurrency > 1 && ! options['parallel']
+          run_in_parallel beakers, config.concurrency
         else
-          ckit_lab_dir = Dir.glob(File.join(Dir.getwd))
-          run_rspec ckit_lab_dir
+          run_rspec beakers
         end
       end
 
@@ -128,12 +126,10 @@ module ChemistryKit
         end
       end
 
-      def run_in_parallel
-        beakers = Dir.glob('beakers/*')
-        puts beakers.inspect
+      def run_in_parallel(beakers, concurrency)
         require 'parallel_tests'
         require 'chemistrykit/parallel_tests_mods'
-        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', options['processes']] + %w(-o --beakers=) + beakers)
+        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', concurrency.to_s] + %w(-o --beakers=) + beakers)
       end
 
       def run_rspec(beakers)

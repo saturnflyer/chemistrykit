@@ -33,7 +33,7 @@ module ParallelTests
         end
 
         def determine_executable
-          'bundle exec ckit brew'
+          'bundle exec ckit brew --parallel'
         end
 
         def test_file_name
