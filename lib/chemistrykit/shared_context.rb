@@ -11,14 +11,7 @@ module ChemistryKit
     extend RSpec::Core::SharedContext
 
       config_file = File.join(Dir.getwd, ENV['CONFIG_FILE'])
-
       config = ChemistryKit::Configuration.initialize_with_yaml config_file
-
-      config_options = YAML.load_file(config_file)
-
-      if config_options['base_url']
-        ENV['BASE_URL'] = config_options['base_url']
-      end
 
       SeleniumConnect.configure do |c|
         c.populate_with_hash config.selenium_connect
@@ -26,6 +19,7 @@ module ChemistryKit
 
       before(:each) do
         @driver = SeleniumConnect.start
+        @config = config
       end
 
       after(:each) do
