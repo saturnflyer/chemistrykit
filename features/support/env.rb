@@ -1,7 +1,9 @@
+# Encoding: utf-8
+
 require 'aruba/cucumber'
 
 Before do
-  FileUtils.rm_rf("build/tmp")
+  FileUtils.rm_rf('build/tmp')
   @aruba_timeout_seconds = 90
-  @dirs = ["build/tmp"]
+  @dirs = ['build/tmp']
 end

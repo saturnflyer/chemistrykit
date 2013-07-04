@@ -1,23 +1,28 @@
-#Setup & Debugging
-jar:
-log:
+# Default Chemisty Kit Configuration File
+
+base_url: http://google.com
+concurrency: 2
+selenium_connect:
+    #Setup & Debugging
+    jar:
+    log:
 
 
-#Where to run your tests
-host: 'localhost'
-port: #set to 4444 by default
+    #Where to run your tests
+    host: 'localhost'
+    port: #set to 4444 by default
 
 
-#Browser & Host
-browser:      'firefox'
-browser_path:
-profile_path:
-profile_name:
+    #Browser & Host
+    browser:      'firefox'
+    browser_path:
+    profile_path:
+    profile_name:
 
 
-#Saucelabs
-os:
-sauce_username:
-sauce_api_key:
-browser_version:
-description:
+    #Saucelabs
+    os:
+    sauce_username:
+    sauce_api_key:
+    browser_version:
+    description:

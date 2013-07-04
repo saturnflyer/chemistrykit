@@ -19,7 +19,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    And a file named "beaker/bookie_beaker.rb" with:
+    And a file named "beakers/bookie_beaker.rb" with:
       """
       describe "Bookie", :depth => 'shallow' do
         let(:book) { Formulas::Bookie.new(@driver) }
@@ -33,9 +33,9 @@ Feature: Brewing a ChemistryKit project
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -47,14 +47,15 @@ Feature: Brewing a ChemistryKit project
   Scenario: Saucelabs
     Given a file named "config.yaml" with:
       """
-      log: 'evidence'
-      host: 'saucelabs'
-      brower: 'iexplore'
-      os: 'windows 2003'
-      sauce_username: 'dave_arrgyle'
-      sauce_api_key: '58092e14-4e9c-4911-bfc4-a09ecc02db63'
-      browser_version: '8'
-      description: 'ckit feature check'
+      selenium_connect:
+          log: 'evidence'
+          host: 'saucelabs'
+          browser: 'iexplore'
+          os: 'windows 2003'
+          sauce_username: 'testing_arrgyle'
+          sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
+          browser_version: '8'
+          description: 'ckit feature check'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -62,11 +63,11 @@ Feature: Brewing a ChemistryKit project
   Scenario: Brew a single beaker
     Given a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
-    And a file named "beaker/other_beaker.rb" with:
+    And a file named "beakers/other_beaker.rb" with:
       """
       describe "Other", :depth => 'shallow' do
         let(:book) { Formulas::Bookie.new(@driver) }
@@ -76,6 +77,6 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --beaker=beaker/other_beaker.rb`
+    When I run `ckit brew --beakers=beakers/other_beaker.rb`
     Then the stdout should contain "1 example, 0 failures"
 

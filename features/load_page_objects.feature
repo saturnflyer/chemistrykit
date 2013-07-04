@@ -6,9 +6,9 @@ Formulas should be loaded in the correct order with thier dependencies
     And I cd to "big-project"
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     And a file named "formulas/big.rb" with:
       """
@@ -34,7 +34,7 @@ Formulas should be loaded in the correct order with thier dependencies
       end
       """
 
-    And a file named "beaker/big_beaker.rb" with:
+    And a file named "beakers/big_beaker.rb" with:
       """
       describe "Big", :depth => 'shallow' do
         let(:book) { Formulas::BigProject.new(@driver) }

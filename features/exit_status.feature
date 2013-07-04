@@ -5,13 +5,13 @@ Feature: Exit Status
     And I cd to "cheese"
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
 
   Scenario: Passing
-    And a file named "beaker/test_beaker.rb" with:
+    And a file named "beakers/test_beaker.rb" with:
     """
     describe "Cheese", :depth => 'shallow' do
       it "loads an external web page" do
@@ -24,7 +24,7 @@ Feature: Exit Status
     Then the exit code should be 0
 
   Scenario: Failing
-    And a file named "beaker/test_beaker.rb" with:
+    And a file named "beakers/test_beaker.rb" with:
     """
     describe "Cheese", :depth => 'shallow' do
       it "loads an external web page" do

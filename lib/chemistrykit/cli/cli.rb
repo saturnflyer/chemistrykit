@@ -1,3 +1,5 @@
+# Encoding: utf-8
+
 require 'thor'
 require 'rspec'
 require 'ci/reporter/rake/rspec_loader'
@@ -7,45 +9,55 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
+require 'selenium-connect'
+require 'chemistrykit/configuration'
 
 module ChemistryKit
   module CLI
 
+    # Registers the formula and beaker commands
     class Generate < Thor
       register(ChemistryKit::CLI::FormulaGenerator, 'formula', 'formula [NAME]', 'generates a page object')
       register(ChemistryKit::CLI::BeakerGenerator, 'beaker', 'beaker [NAME]', 'generates a beaker')
     end
 
+    # Main Chemistry Kit CLI Class
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
       check_unknown_options!
       default_task :help
 
-      desc "generate SUBCOMMAND", "generate <formula> or <beaker> [NAME]"
-      subcommand "generate", Generate
+      desc 'generate SUBCOMMAND', 'generate <formula> or <beaker> [NAME]'
+      subcommand 'generate', Generate
 
-      desc "brew", "Run ChemistryKit"
-      method_option :params, :type => :hash
-      method_option :tag, :default => ['depth:shallow'], :type => :array
-      method_option :config, :default => 'config.yaml', :aliases => "-c", :desc => "Supply alternative config file."
-      #TODO there should be a facility to simply pass a path to this command
-      method_option :beaker, :type => :string
+      desc 'brew', 'Run ChemistryKit'
+      method_option :params, type: :hash
+      method_option :tag, default: ['depth:shallow'], type: :array
+      method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
+      # TODO there should be a facility to simply pass a path to this command
+      method_option :beakers, type: :array
+      # This is set if the thread is being run in parallel so as not to trigger recursive concurency
+      method_option :parallel, default: false
 
       def brew
-        load_config
-        require 'chemistrykit/shared_context'
+        config = load_config options['config']
+        # TODO perhaps the params should be rolled into the available
+        # config object injected into the system?
         pass_params if options['params']
         turn_stdout_stderr_on_off
         set_logs_dir
         load_page_objects
         setup_tags
-        rspec_config
-
-        if options['beaker']
-          run_rspec([options['beaker']])
+        # configure rspec
+        rspec_config(config)
+        # get those beakers that should be executed
+        beakers = options['beakers'] ? options['beakers'] : Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+        # based on concurrency parameter run tests
+        if config.concurrency > 1 && ! options['parallel']
+          run_in_parallel beakers, config.concurrency
         else
-          run_rspec(Dir.glob(File.join(Dir.getwd)))
+          run_rspec beakers
         end
       end
 
@@ -59,7 +71,7 @@ module ChemistryKit
 
       def load_page_objects
         loader = ChemistryKit::CLI::Helpers::FormulaLoader.new
-        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each {|file| require file }
+        loader.get_formulas(File.join(Dir.getwd, 'formulas')).each { |file| require file }
       end
 
       def set_logs_dir
@@ -70,10 +82,9 @@ module ChemistryKit
         ENV['CI_CAPTURE'] = 'on'
       end
 
-      def load_config
-        #not wild about using an env variable here... but maybe it makes sense
-        #just not sure how to inject it into the shared context.
-        ENV['CONFIG_FILE'] = options['config']
+      def load_config(file_name)
+        config_file = File.join(Dir.getwd, file_name)
+        ChemistryKit::Configuration.initialize_with_yaml config_file
       end
 
       def setup_tags
@@ -91,25 +102,40 @@ module ChemistryKit
         end
       end
 
-      def rspec_config #Some of these bits work and others don't
+      def rspec_config(config) # Some of these bits work and others don't
+        SeleniumConnect.configure do |c|
+          c.populate_with_hash config.selenium_connect
+        end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
-          c.include ChemistryKit::SharedContext
+          c.before(:each) do
+            @driver = SeleniumConnect.start
+            @config = config
+          end
+          c.after(:each) do
+            @driver.quit
+          end
+          c.after(:all) do
+            SeleniumConnect.finish
+          end
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
         end
       end
 
+      def run_in_parallel(beakers, concurrency)
+        require 'parallel_tests'
+        require 'chemistrykit/parallel_tests_mods'
+        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', concurrency.to_s] + %w(-o --beakers=) + beakers)
+      end
+
       def run_rspec(beakers)
-
-        #puts single_beaker.inspect
-
         RSpec::Core::Runner.run(beakers)
       end
 
-    end
-  end
-end
+    end # CkitCLI
+  end # CLI
+end # ChemistryKit

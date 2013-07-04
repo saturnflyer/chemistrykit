@@ -6,7 +6,7 @@ Feature: Support for multiple configuration files
   Background:
     Given I run `ckit new config-test`
     And I cd to "config-test"
-    And a file named "beaker/test_beaker.rb" with:
+    And a file named "beakers/test_beaker.rb" with:
     """
     describe "Cheese", :depth => 'shallow' do
       it "loads an external web page" do
@@ -19,9 +19,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_config"
     When I overwrite config.yaml with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence_config'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_config'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
@@ -32,9 +32,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence_alternate'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_alternate'
+          host: 'localhost'
       """
       When I run `ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
@@ -45,9 +45,9 @@ Feature: Support for multiple configuration files
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence_alternate'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence_alternate'
+          host: 'localhost'
       """
       When I run `ckit brew -c alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"

@@ -64,7 +64,7 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
       end
       """
 
-    And a file named "beaker/google_beaker.rb" with:
+    And a file named "beakers/google_beaker.rb" with:
       """
       describe "Google", :depth => 'shallow' do
         let(:google) { Formulas::Google.new(@driver) }
@@ -80,9 +80,9 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
 
     And a file named "config.yaml" with:
       """
-      jar: '../../../vendor/selenium-server-standalone-2.33.0.jar'
-      log: 'evidence'
-      host: 'localhost'
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
