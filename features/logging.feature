@@ -60,3 +60,16 @@ Feature: Log handling
     And the following files should exist:
       | my_evidence/my_results.xml  |
 
+    Scenario: I can output html results
+      Given a file named "config.yaml" with:
+        """
+        log:
+            results_file: 'report.html'
+            format: 'html'
+        """
+      And I run `ckit brew`
+      Then the stdout should contain "2 examples, 0 failures"
+      And the following files should exist:
+        | evidence/report.html  |
+
+

@@ -16,6 +16,7 @@ module ChemistryKit
     def initialize(hash)
       # set defaults
       @concurrency = 1
+      @selenium_connect = {}
       @log = OpenStruct.new
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'
@@ -26,10 +27,9 @@ module ChemistryKit
     end
 
     def log=(log_hash)
+      puts log_hash.inspect
       log_hash.each do |key, value|
-        if key == :format
-          value = 'JUnit' if value =~ /junit/i
-        end
+        value = 'JUnit' if key == :format && value =~ /junit/i
         @log.send("#{key}=", value) unless value.nil?
       end
     end
