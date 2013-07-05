@@ -11,6 +11,8 @@ require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
 require 'selenium-connect'
 require 'chemistrykit/configuration'
+require 'parallel_tests'
+require 'chemistrykit/parallel_tests_mods'
 
 module ChemistryKit
   module CLI
@@ -39,12 +41,17 @@ module ChemistryKit
       method_option :beakers, type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
+      method_option :results_file, default: false
 
       def brew
         config = load_config options['config']
         # TODO perhaps the params should be rolled into the available
         # config object injected into the system?
         pass_params if options['params']
+
+        # replace certain config values with run time flags as needed
+        config = override_configs options, config
+
         load_page_objects
         setup_tags
         # configure rspec
@@ -60,6 +67,14 @@ module ChemistryKit
       end
 
       protected
+
+      def override_configs(options, config)
+        # TODO expand this to allow for more overrides as needed
+        if options['results_file']
+          config.log.results_file = options['results_file']
+        end
+        config
+      end
 
       def pass_params
         options['params'].each_pair do |key, value|
@@ -125,8 +140,7 @@ module ChemistryKit
       end
 
       def run_in_parallel(beakers, concurrency)
-        require 'parallel_tests'
-        require 'chemistrykit/parallel_tests_mods'
+
         ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', concurrency.to_s] + %w(-o --beakers=) + beakers)
       end
 

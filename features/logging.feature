@@ -73,17 +73,22 @@ Feature: Log handling
         | evidence/report.html  |
 
     Scenario: I define one log location to rule them all
-          Given a file named "config.yaml" with:
-            """
-              log:
-                  path: 'my_evidence'
-              selenium_connect:
-                  host: 'localhost'
-            """
-          When I run `ckit brew`
-            Then the stdout should contain "2 examples, 0 failures"
-            And the following files should exist:
-              | my_evidence/results_junit.xml |
-              | my_evidence/server.log        |
+      Given a file named "config.yaml" with:
+        """
+          log:
+              path: 'my_evidence'
+          selenium_connect:
+              host: 'localhost'
+        """
+      When I run `ckit brew`
+        Then the stdout should contain "2 examples, 0 failures"
+        And the following files should exist:
+          | my_evidence/results_junit.xml |
+          | my_evidence/server.log        |
 
+    Scenario: I can runtime override the results output file name
+      When I run `ckit brew --results_file results_junit_01.xml`
+      Then the stdout should contain "2 examples, 0 failures"
+      And the following files should exist:
+        | evidence/results_junit_01.xml  |
 

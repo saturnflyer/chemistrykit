@@ -7,8 +7,9 @@ module ParallelTests
   module RSpec
     # Monkey Patching the ParallelTest RSpec Runner class to work with CKit's config and binary
     class Runner < ParallelTests::Test::Runner
-
+@@runs = 1
       class << self
+
 
         def run_tests(test_files, process_number, num_processes, options)
           exe = executable # expensive, so we cache
@@ -33,7 +34,9 @@ module ParallelTests
         end
 
         def determine_executable
-          'bundle exec ckit brew --parallel'
+          file_name = "parallel_part_#{@@runs}.xml"
+          @@runs = @@runs + 1
+          "bundle exec ckit brew --parallel --results_file #{file_name}"
         end
 
         def test_file_name

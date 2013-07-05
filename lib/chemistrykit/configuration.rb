@@ -7,10 +7,12 @@ module ChemistryKit
   # Default configuration class
   class Configuration
 
-    attr_accessor :base_url
+    attr_accessor :base_url,
+                  :concurrency
 
-    attr_reader :concurrency,
-                :log
+    attr_reader   :log
+
+    attr_writer   :selenium_connect
 
     def initialize(hash)
       # set defaults
@@ -30,21 +32,6 @@ module ChemistryKit
         value = 'JUnit' if key == :format && value =~ /junit/i
         @log.send("#{key}=", value) unless value.nil?
       end
-    end
-
-    def concurrency=(value)
-      if @selenium_connect && @selenium_connect[:host] != 'saucelabs' && value > 1
-          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
-      end
-      @concurrency = value
-    end
-
-    def selenium_connect=(selenium_connect_hash)
-      # TODO this should also be switched over to an ostruct
-      if selenium_connect_hash[:host] != 'saucelabs' && @concurrency > 1
-          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
-      end
-      @selenium_connect = selenium_connect_hash
     end
 
     def selenium_connect

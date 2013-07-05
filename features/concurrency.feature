@@ -43,6 +43,9 @@ Feature: Support for concurency
     When I run `ckit brew`
     Then the stdout should contain "4 processes for 2 beakers"
     And the stdout should contain "3 examples, 0 failures"
+    And the following files should exist:
+      | evidence/parallel_part_1.xml  |
+      | evidence/parallel_part_2.xml  |
 
   Scenario: I can run a specific beaker in parallel
     When I overwrite config.yaml with:
