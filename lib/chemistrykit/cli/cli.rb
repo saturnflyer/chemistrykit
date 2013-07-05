@@ -111,6 +111,9 @@ module ChemistryKit
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
           c.before(:all) do
+            # set the config available globaly
+            @config = config
+            # assign base url to env variable for formulas
             ENV['BASE_URL'] = config.base_url
           end
           c.before(:each) do
