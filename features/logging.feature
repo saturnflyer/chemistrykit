@@ -38,7 +38,13 @@ Feature: Log handling
       end
       """
 
-  Scenario: I can output junit xml results
+  Scenario: I can output junit xml results by default
+    When I run `ckit brew`
+    Then the stdout should contain "2 examples, 0 failures"
+    And the following files should exist:
+      | evidence/results_junit.xml  |
+
+  Scenario: I can output custom junit xml results
     Given a file named "config.yaml" with:
       """
       log:
@@ -50,6 +56,7 @@ Feature: Log handling
           host: 'localhost'
       """
     When I run `ckit brew`
-    Then the following files should exist:
+    Then the stdout should contain "2 examples, 0 failures"
+    And the following files should exist:
       | my_evidence/my_results.xml  |
 

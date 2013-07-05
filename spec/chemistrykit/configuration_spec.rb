@@ -10,6 +10,7 @@ describe ChemistryKit::Configuration do
   VALID_LOG_PATH = 'evidence'
   VALID_JUNIT = 'results_junit.xml'
   VALID_FORMAT_JUNIT = 'junit'
+  VALID_JUNIT_FORMAT_OUT = 'JUnit'
 
   before(:each) do
     @valid_selenium_connect_hash = { log: 'evidence', host: 'localhost' }
@@ -27,7 +28,7 @@ describe ChemistryKit::Configuration do
     config.base_url.should eq VALID_BASE_URL
     config.log.path.should eq VALID_LOG_PATH
     config.log.results_file.should eq VALID_JUNIT
-    config.log.format.should eq VALID_FORMAT_JUNIT
+    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
     config.selenium_connect.should eq @valid_selenium_connect_hash
   end
 
@@ -36,7 +37,7 @@ describe ChemistryKit::Configuration do
     config.concurrency.should eq VALID_CONCURRENCY
     config.log.path.should eq VALID_LOG_PATH
     config.log.results_file.should eq VALID_JUNIT
-    config.log.format.should eq VALID_FORMAT_JUNIT
+    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
   end
 
   it 'should initialize with a hash of configurations' do
@@ -63,5 +64,10 @@ describe ChemistryKit::Configuration do
       }
       ChemistryKit::Configuration.new(config_hash)
     end.to raise_error ArgumentError, 'Concurrency is only supported for the host: "saucelabs"!'
+  end
+
+  it 'should correct the format to JUnit' do
+    config = ChemistryKit::Configuration.new(@valid_config_hash)
+    config.log.format.should eq 'JUnit'
   end
 end

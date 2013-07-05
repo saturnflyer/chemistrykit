@@ -2,7 +2,7 @@
 
 require 'thor'
 require 'rspec'
-require 'ci/reporter/rake/rspec_loader'
+require 'yarjuf'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
@@ -45,8 +45,8 @@ module ChemistryKit
         # TODO perhaps the params should be rolled into the available
         # config object injected into the system?
         pass_params if options['params']
-        turn_stdout_stderr_on_off
-        set_logs_dir
+        # turn_stdout_stderr_on_off
+        # set_logs_dir
         load_page_objects
         setup_tags
         # configure rspec
@@ -74,13 +74,13 @@ module ChemistryKit
         loader.get_formulas(File.join(Dir.getwd, 'formulas')).each { |file| require file }
       end
 
-      def set_logs_dir
-        ENV['CI_REPORTS'] = File.join(Dir.getwd, 'evidence')
-      end
+      # def set_logs_dir
+      #   ENV['CI_REPORTS'] = File.join(Dir.getwd, 'evidence')
+      # end
 
-      def turn_stdout_stderr_on_off
-        ENV['CI_CAPTURE'] = 'on'
-      end
+      # def turn_stdout_stderr_on_off
+      #   ENV['CI_CAPTURE'] = 'on'
+      # end
 
       def load_config(file_name)
         config_file = File.join(Dir.getwd, file_name)
@@ -128,6 +128,11 @@ module ChemistryKit
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
+          c.output_stream = $stdout
+          c.add_formatter 'progress'
+          puts config.log
+          puts config.log.path
+          c.add_formatter config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file)
         end
       end
 

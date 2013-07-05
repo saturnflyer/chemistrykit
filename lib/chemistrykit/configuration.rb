@@ -19,14 +19,19 @@ module ChemistryKit
       @log = OpenStruct.new
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'
-      @log.format = 'junit'
+      @log.format = 'JUnit'
 
       # overide with argument
       populate_with_hash hash
     end
 
     def log=(log_hash)
-      log_hash.each { |key, value| @log.send "#{key}=", value }
+      log_hash.each do |key, value|
+        if key == :format
+          value = 'JUnit' if value =~ /junit/i
+        end
+        @log.send("#{key}=", value) unless value.nil?
+      end
     end
 
     def concurrency=(value)
