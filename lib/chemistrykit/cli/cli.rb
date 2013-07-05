@@ -110,9 +110,11 @@ module ChemistryKit
           c.treat_symbols_as_metadata_keys_with_true_values = true
           c.filter_run @tags[:filter] unless @tags[:filter].nil?
           c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+          c.before(:all) do
+            ENV['BASE_URL'] = config.base_url
+          end
           c.before(:each) do
             @driver = SeleniumConnect.start
-            @config = config
           end
           c.after(:each) do
             @driver.quit
