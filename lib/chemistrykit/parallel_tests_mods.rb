@@ -7,9 +7,11 @@ module ParallelTests
   module RSpec
     # Monkey Patching the ParallelTest RSpec Runner class to work with CKit's config and binary
     class Runner < ParallelTests::Test::Runner
-@@runs = 1
+      # TODO Figure out how this can be avoided
+      # rubocop:disable AvoidClassVars
+      @@runs = 1
+      # rubocop:enable AvoidClassVars
       class << self
-
 
         def run_tests(test_files, process_number, num_processes, options)
           exe = executable # expensive, so we cache
@@ -35,7 +37,10 @@ module ParallelTests
 
         def determine_executable
           file_name = "parallel_part_#{@@runs}.xml"
+          # TODO Figure out how this can be avoided
+          # rubocop:disable AvoidClassVars
           @@runs = @@runs + 1
+          # rubocop:enable AvoidClassVars
           "bundle exec ckit brew --parallel --results_file #{file_name}"
         end
 

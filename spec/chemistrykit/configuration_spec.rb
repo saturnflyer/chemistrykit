@@ -63,11 +63,11 @@ describe ChemistryKit::Configuration do
 
   it 'selenium_connect log should default to the main log' do
     config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' } })
-    config.selenium_connect.should eq({ log: 'main-path'})
+    config.selenium_connect.should eq({ log: 'main-path' })
   end
 
   it 'mainlog should not overide selenium_connect log' do
     config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' }, selenium_connect: { log: 'sc-log' } })
-    config.selenium_connect.should eq({ log: 'sc-log'})
+    config.selenium_connect.should eq({ log: 'sc-log' })
   end
 end
