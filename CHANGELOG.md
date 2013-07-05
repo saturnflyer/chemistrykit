@@ -1,3 +1,10 @@
+#3.0.1 (2013-07-05)
+Made the base url available in the env for formula usage
+
+- Bumped version to 3.0.1 to prepare for release.
+- removed unused shared context file, and updated config parameter passing
+- Added an environment variable setter for base_url based on the config object in a before(:each) block
+
 #3.0.0 (2013-07-04)
 Now with concurrent tests
 
