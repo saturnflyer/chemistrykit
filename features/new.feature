@@ -15,5 +15,4 @@ Feature: ckit new
       | evidence                |
     And the following files should exist:
       | config.yaml             |
-      | .rspec                  |
       | formulas/lib/formula.rb |
