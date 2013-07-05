@@ -7,25 +7,36 @@ describe ChemistryKit::Configuration do
   VALID_BASE_URL = 'http://google.com'
   VALID_CONCURRENCY = 1
   VALID_CONFIG_FILE = 'config.yaml'
+  VALID_LOG_PATH = 'evidence'
+  VALID_JUNIT = 'results_junit.xml'
+  VALID_FORMAT_JUNIT = 'junit'
 
   before(:each) do
     @valid_selenium_connect_hash = { log: 'evidence', host: 'localhost' }
+    @valid_log_hash = { path: VALID_LOG_PATH, results_file: VALID_JUNIT, format: VALID_FORMAT_JUNIT }
     @valid_config_hash = {
       base_url: VALID_BASE_URL,
       concurrency: VALID_CONCURRENCY,
-      selenium_connect: @valid_selenium_connect_hash
+      selenium_connect: @valid_selenium_connect_hash,
+      log: @valid_log_hash
     }
   end
 
   def validate_config(config)
     config.concurrency.should eq VALID_CONCURRENCY
     config.base_url.should eq VALID_BASE_URL
+    config.log.path.should eq VALID_LOG_PATH
+    config.log.results_file.should eq VALID_JUNIT
+    config.log.format.should eq VALID_FORMAT_JUNIT
     config.selenium_connect.should eq @valid_selenium_connect_hash
   end
 
   it 'should initialize with sane defaults' do
     config = ChemistryKit::Configuration.new({})
-    config.concurrency.should eq 1
+    config.concurrency.should eq VALID_CONCURRENCY
+    config.log.path.should eq VALID_LOG_PATH
+    config.log.results_file.should eq VALID_JUNIT
+    config.log.format.should eq VALID_FORMAT_JUNIT
   end
 
   it 'should initialize with a hash of configurations' do

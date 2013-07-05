@@ -1,22 +1,46 @@
 # Encoding: utf-8
 
 require 'yaml'
+require 'ostruct'
 
 module ChemistryKit
   # Default configuration class
   class Configuration
 
-    attr_accessor :concurrency,
-                  :base_url,
-                  :selenium_connect
+    attr_accessor :base_url
+
+    attr_reader :concurrency,
+                :log,
+                :selenium_connect
 
     def initialize(hash)
       # set defaults
       @concurrency = 1
+      @log = OpenStruct.new
+      @log.path = 'evidence'
+      @log.results_file = 'results_junit.xml'
+      @log.format = 'junit'
 
       # overide with argument
       populate_with_hash hash
-      validate_config
+    end
+
+    def log=(log_hash)
+      log_hash.each { |key, value| @log.send "#{key}=", value }
+    end
+
+    def concurrency=(value)
+      if @selenium_connect && @selenium_connect[:host] != 'saucelabs' && value > 1
+          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
+      end
+      @concurrency = value
+    end
+
+    def selenium_connect=(selenium_connect_hash)
+      if selenium_connect_hash[:host] != 'saucelabs' && @concurrency > 1
+          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
+      end
+      @selenium_connect = selenium_connect_hash
     end
 
     def self.initialize_with_yaml(file)
@@ -32,12 +56,6 @@ module ChemistryKit
           rescue NoMethodError
             raise ArgumentError.new "The config key: \"#{key}\" is unknown!"
           end
-        end
-      end
-
-      def validate_config
-        if @selenium_connect && @selenium_connect[:host] != 'saucelabs' && @concurrency > 1
-          raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
         end
       end
 
