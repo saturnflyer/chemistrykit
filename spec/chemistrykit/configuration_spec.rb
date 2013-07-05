@@ -38,6 +38,7 @@ describe ChemistryKit::Configuration do
     config.log.path.should eq VALID_LOG_PATH
     config.log.results_file.should eq VALID_JUNIT
     config.log.format.should eq VALID_JUNIT_FORMAT_OUT
+    config.selenium_connect.should eq({ log: VALID_LOG_PATH })
   end
 
   it 'should initialize with a hash of configurations' do
@@ -69,5 +70,15 @@ describe ChemistryKit::Configuration do
   it 'should correct the format to JUnit' do
     config = ChemistryKit::Configuration.new(@valid_config_hash)
     config.log.format.should eq 'JUnit'
+  end
+
+  it 'selenium_connect log should default to the main log' do
+    config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' } })
+    config.selenium_connect.should eq({ log: 'main-path'})
+  end
+
+  it 'mainlog should not overide selenium_connect log' do
+    config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' }, selenium_connect: { log: 'sc-log' } })
+    config.selenium_connect.should eq({ log: 'sc-log'})
   end
 end

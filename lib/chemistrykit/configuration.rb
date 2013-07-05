@@ -10,8 +10,7 @@ module ChemistryKit
     attr_accessor :base_url
 
     attr_reader :concurrency,
-                :log,
-                :selenium_connect
+                :log
 
     def initialize(hash)
       # set defaults
@@ -27,7 +26,6 @@ module ChemistryKit
     end
 
     def log=(log_hash)
-      puts log_hash.inspect
       log_hash.each do |key, value|
         value = 'JUnit' if key == :format && value =~ /junit/i
         @log.send("#{key}=", value) unless value.nil?
@@ -42,10 +40,20 @@ module ChemistryKit
     end
 
     def selenium_connect=(selenium_connect_hash)
+      # TODO this should also be switched over to an ostruct
       if selenium_connect_hash[:host] != 'saucelabs' && @concurrency > 1
           raise ArgumentError.new 'Concurrency is only supported for the host: "saucelabs"!'
       end
       @selenium_connect = selenium_connect_hash
+    end
+
+    def selenium_connect
+      # return the default log unless the sc log is set
+      if @selenium_connect[:log].nil?
+        @selenium_connect[:log] = @log.path
+        return @selenium_connect
+      end
+      @selenium_connect
     end
 
     def self.initialize_with_yaml(file)
