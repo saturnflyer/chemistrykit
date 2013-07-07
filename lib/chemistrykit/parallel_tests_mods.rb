@@ -20,7 +20,6 @@ module ParallelTests
 
           cmd = [exe, options[:test_options]].compact.join(' ')
           cmd << test_files.join(' ')
-          puts cmd
 
         # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3 etc`
         # Which enables each test group to be run in its own command

@@ -29,7 +29,6 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
