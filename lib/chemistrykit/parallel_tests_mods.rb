@@ -2,15 +2,12 @@
 
 require 'parallel_tests/rspec/runner'
 require 'parallel_tests/test/runner'
+require 'securerandom'
 
 module ParallelTests
   module RSpec
     # Monkey Patching the ParallelTest RSpec Runner class to work with CKit's config and binary
     class Runner < ParallelTests::Test::Runner
-      # TODO Figure out how this can be avoided
-      # rubocop:disable AvoidClassVars
-      @@runs = 1
-      # rubocop:enable AvoidClassVars
       class << self
 
         def run_tests(test_files, process_number, num_processes, options)
@@ -36,11 +33,8 @@ module ParallelTests
         end
 
         def determine_executable
-          file_name = "parallel_part_#{@@runs}.xml"
-          # TODO Figure out how this can be avoided
-          # rubocop:disable AvoidClassVars
-          @@runs = @@runs + 1
-          # rubocop:enable AvoidClassVars
+          uuid = SecureRandom.uuid
+          file_name = "parallel_part_#{uuid}.xml"
           "bundle exec ckit brew --parallel --results_file #{file_name}"
         end
 
