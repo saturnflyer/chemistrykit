@@ -136,10 +136,6 @@ module ChemistryKit
           c.pattern = '**/*_beaker.rb'
           c.output_stream = $stdout
           c.add_formatter 'progress'
-
-          puts config.inspect
-          puts options.inspect
-
           if config.concurrency == 1 || options['parallel']
             c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))
           end
