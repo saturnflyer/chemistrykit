@@ -1,3 +1,9 @@
+#3.2.0 (2013-07-08)
+Updated Selenium Connect
+
+- Bumped version to 3.2.0 to prepare for release.
+- updated selenium connect to latest version
+
 #3.1.0 (2013-07-07)
 Updated logging mechanism for concurrent tests and to output junit xml.
 
