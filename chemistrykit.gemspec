@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name          = "chemistrykit"
-  s.version       = "3.1.0"
+  s.version       = "3.2.0"
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Dave Haeffner", "Jason Fox"]
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
-  s.description   = "Updated logging mechanism for concurrent tests and to output junit xml."
+  s.description   = "Updated Selenium Connect"
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "yarjuf", "~> 1.0.5"
   s.add_dependency "selenium-webdriver", "~> 2.29.0"
   s.add_dependency "rest-client", "~> 1.6.7"
-  s.add_dependency "selenium-connect", "~> 2.1.1"
+  s.add_dependency "selenium-connect", "~> 2.2.0"
   s.add_dependency "parallel_tests", "~> 0.15.0"
   s.add_dependency "parallel", "~> 0.7.0"
 
