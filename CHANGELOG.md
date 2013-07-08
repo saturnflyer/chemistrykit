@@ -1,3 +1,18 @@
+#3.1.0 (2013-07-07)
+Updated logging mechanism for concurrent tests and to output junit xml.
+
+- Bumped version to 3.1.0 to prepare for release.
+- cleaned out some random debug code
+- fixed code quality issues and removed some debugging information
+- updated concurency to use uuid for partial logs, cleaned up tests
+- fixed other features so they would pass
+- fixed more code quality issues
+- added facility that would create partial test output for concurrent tests
+- ensured all log files could be directed to the same directory
+- fixed code quality issue and added test to ensure html report output would work
+- added in configurable junit export with stdout
+- added logging feature and tests, and expanded the configuration for logging
+
 #3.0.1 (2013-07-05)
 Made the base url available in the env for formula usage
 
