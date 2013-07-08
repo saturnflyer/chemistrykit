@@ -28,6 +28,7 @@ Feature: Support for concurency
       end
     end
     """
+
   Scenario: I can run the tests in parallel
     When I overwrite config.yaml with:
       """
@@ -43,6 +44,8 @@ Feature: Support for concurency
     When I run `ckit brew`
     Then the stdout should contain "4 processes for 2 beakers"
     And the stdout should contain "3 examples, 0 failures"
+    And the file "evidence/results_junit.xml" should not exist
+    And there should be "2" unique results files in the "evidence" directory
 
   Scenario: I can run a specific beaker in parallel
     When I overwrite config.yaml with:

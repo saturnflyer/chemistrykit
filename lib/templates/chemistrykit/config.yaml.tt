@@ -1,7 +1,11 @@
 # Default Chemisty Kit Configuration File
 
 base_url: http://google.com
-concurrency: 2
+concurrency: 1
+log:
+    path: #you may override the default log path 'evidence'
+    results_file: #you may override the default file name 'results_junit.xml'
+    format: #you may override the default format 'junit'
 selenium_connect:
     #Setup & Debugging
     jar:
