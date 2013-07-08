@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email         = ["dave@arrgyle.com", "jason@arrgyle.com"]
   s.homepage      = "https://github.com/arrgyle/chemistrykit"
   s.summary       = "A simple and opinionated web testing framework for Selenium that follows convention over configuration."
-  s.description   = "Made the base url available in the env for formula usage"
+  s.description   = "Updated logging mechanism for concurrent tests and to output junit xml."
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
