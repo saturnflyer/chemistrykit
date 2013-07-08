@@ -10,3 +10,12 @@ end
 Then(/^the exit code should be (\d+)$/) do |exit_status|
   @last_exit_status.should == exit_status.to_i
 end
+
+Then(/^there should be "(.*?)" unique results files in the "(.*?)" directory$/) do |number_files, logs_path|
+  files = Dir.glob(File.join(current_dir, logs_path, '*.xml'))
+  count = 0
+  files.each do |file|
+    count += 1 if file =~ /parallel_part_\w{8}-(\w{4}-){3}\w{12}\.xml/
+  end
+  count.should == number_files.to_i
+end

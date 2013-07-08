@@ -29,7 +29,6 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
@@ -40,7 +39,7 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
-      | evidence/SPEC-Bookie.xml  |
+      | evidence/results_junit.xml  |
       | evidence/server.log       |
 
 

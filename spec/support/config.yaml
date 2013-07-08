@@ -2,6 +2,10 @@
 
 base_url: http://google.com
 concurrency: 1
+log:
+    path: 'evidence'
+    results_file: 'results_junit.xml'
+    format: 'junit'
 selenium_connect:
     log: 'evidence'
     host: 'localhost'
