@@ -52,7 +52,6 @@ Feature: Support for concurency
     Then the stdout should contain "4 processes for 1 beakers"
     And the stdout should contain "2 examples, 0 failures"
 
-  @announce
   Scenario: I can run specific beakers by tag in parallel
     Given a file named "beakers/tagged_beaker_1.rb" with:
       """
@@ -74,3 +73,25 @@ Feature: Support for concurency
       """
     When I run `ckit brew --tag item:test`
     And the stdout should contain "2 examples, 0 failures"
+
+    Scenario: I can all beakers in parallel
+    Given a file named "beakers/tagged_beaker_1.rb" with:
+      """
+      describe "Cheese 3", :item => 'test' do
+        it "loads an external web page" do
+          @driver.get "http://www.google.com"
+          @driver.title.should include("Google")
+        end
+      end
+      """
+    And a file named "beakers/tagged_beaker_2.rb" with:
+      """
+      describe "Cheese 4", :item => 'test' do
+        it "loads an external web page" do
+          @driver.get "http://www.google.com"
+          @driver.title.should include("Google")
+        end
+      end
+      """
+    When I run `ckit brew --all`
+    And there should be "4" unique results files in the "evidence" directory

@@ -5,14 +5,21 @@ Master branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?b
 
 Develop branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
 
-ChemistryKit
-============================================================
+#ChemistryKit
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
 This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration.
 
 ChemistryKit's inspiration comes from the Saunter Selenium framework which is available in Python and PHP. You can find more about it [here](http://element34.ca/products/saunter).
+
+All the documentation for ChemistryKit can be found in this README, organized as follows:
+
+- [Getting Started]
+- [Configuration]
+- [Command Line Usage]
+- [Contribution Guidelines]
+- [Deployment]
 
 ## Getting Started
 

@@ -38,10 +38,11 @@ module ChemistryKit
       method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
-      method_option :beakers, type: :array
+      method_option :beakers, aliases: '-a', type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
-      method_option :results_file, default: false
+      method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
+      method_option :all, default: false, aliases: '-a', desc: 'Run every beaker.', type: :boolean
 
       def brew
         config = load_config options['config']
@@ -135,8 +136,10 @@ module ChemistryKit
         end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
-          c.filter_run @tags[:filter] unless @tags[:filter].nil?
-          c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+          unless options[:all] then
+            c.filter_run @tags[:filter] unless @tags[:filter].nil?
+            c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+          end
           c.before(:all) do
             # set the config available globaly
             @config = config

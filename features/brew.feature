@@ -29,6 +29,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
+
   Scenario: Localhost
     Given a file named "config.yaml" with:
       """
@@ -78,4 +79,24 @@ Feature: Brewing a ChemistryKit project
       """
     When I run `ckit brew --beakers=beakers/other_beaker.rb`
     Then the stdout should contain "1 example, 0 failures"
+
+  Scenario: Run all the tests regardless of tag
+    Given a file named "config.yaml" with:
+      """
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/other_beaker.rb" with:
+      """
+      describe "Other" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+        end
+      end
+      """
+    When I run `ckit brew --all`
+    Then the stdout should contain "2 examples, 0 failures"
 
