@@ -35,7 +35,7 @@ module ChemistryKit
 
       desc 'brew', 'Run ChemistryKit'
       method_option :params, type: :hash
-      method_option :tag, default: ['depth:shallow'], type: :array
+      method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
       method_option :beakers, type: :array
@@ -53,15 +53,41 @@ module ChemistryKit
         config = override_configs options, config
 
         load_page_objects
-        setup_tags
-        # configure rspec
-        rspec_config(config)
+
         # get those beakers that should be executed
         beakers = options['beakers'] ? options['beakers'] : Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+
+        if options['beakers']
+          # if a beaker(s) defined use them
+          beakers = options['beakers']
+          # if tags are explicity defined, apply them to the selected beakers
+          setup_tags(options['tag'])
+        else
+          # beakers default to everything
+          beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+
+          puts beakers
+
+          if options['tag']
+
+            puts options['tag']
+            # if tags are explicity defined, apply them to all beakers
+            setup_tags(options['tag'])
+          else
+            # else choose the default tag
+            setup_tags(['depth:shallow'])
+          end
+        end
+
+        # configure rspec
+        rspec_config(config)
+
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
+          puts "run in parallel"
           run_in_parallel beakers, config.concurrency
         else
+          puts "run rspec"
           run_rspec beakers
         end
 
@@ -93,9 +119,9 @@ module ChemistryKit
         ChemistryKit::Configuration.initialize_with_yaml config_file
       end
 
-      def setup_tags
+      def setup_tags(selected_tags)
         @tags = {}
-        options['tag'].each do |tag|
+        selected_tags.each do |tag|
           filter_type = tag.start_with?('~') ? :exclusion_filter : :filter
 
           name, value = tag.gsub(/^(~@|~|@)/, '').split(':')
@@ -105,7 +131,7 @@ module ChemistryKit
 
           @tags[filter_type] ||= {}
           @tags[filter_type][name] = value
-        end
+        end unless selected_tags.nil?
       end
 
       def rspec_config(config) # Some of these bits work and others don't

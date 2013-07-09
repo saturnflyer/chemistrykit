@@ -68,7 +68,7 @@ Feature: Brewing a ChemistryKit project
       """
     And a file named "beakers/other_beaker.rb" with:
       """
-      describe "Other", :depth => 'shallow' do
+      describe "Other" do
         let(:book) { Formulas::Bookie.new(@driver) }
 
         it "loads an external web page" do
