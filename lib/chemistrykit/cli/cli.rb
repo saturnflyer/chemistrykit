@@ -66,8 +66,6 @@ module ChemistryKit
           # beakers default to everything
           beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
 
-          puts beakers
-
           if options['tag']
 
             puts options['tag']
@@ -81,13 +79,10 @@ module ChemistryKit
 
         # configure rspec
         rspec_config(config)
-
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          puts "run in parallel"
           run_in_parallel beakers, config.concurrency
         else
-          puts "run rspec"
           run_rspec beakers
         end
 
