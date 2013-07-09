@@ -136,25 +136,17 @@ module ChemistryKit
         end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
-          unless options[:all] then
+          unless options[:all]
             c.filter_run @tags[:filter] unless @tags[:filter].nil?
             c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
           end
           c.before(:all) do
-            # set the config available globaly
-            @config = config
-            # assign base url to env variable for formulas
-            ENV['BASE_URL'] = config.base_url
+            @config = config # set the config available globaly
+            ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
           end
-          c.before(:each) do
-            @driver = SeleniumConnect.start
-          end
-          c.after(:each) do
-            @driver.quit
-          end
-          c.after(:all) do
-            SeleniumConnect.finish
-          end
+          c.before(:each) { @driver = SeleniumConnect.start }
+          c.after(:each) { @driver.quit }
+          c.after(:all) { SeleniumConnect.finish }
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
@@ -167,7 +159,7 @@ module ChemistryKit
       end
 
       def run_in_parallel(beakers, concurrency, tags)
-        tag_string = tags.nil? ? '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ') : nil
+        tag_string = tags.empty? ? nil : '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ')
         args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{tag_string} --beakers="] + beakers
         ParallelTests::CLI.new.run(args)
       end
