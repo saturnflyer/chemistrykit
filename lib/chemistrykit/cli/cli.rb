@@ -27,21 +27,44 @@ module ChemistryKit
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
+
       check_unknown_options!
       default_task :help
 
       desc 'generate SUBCOMMAND', 'generate <formula> or <beaker> [NAME]'
       subcommand 'generate', Generate
 
+      desc 'tags', 'Lists all tags in use in the test harness.'
+      def tags
+        beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+        RSpec.configure do |c|
+          c.add_setting :used_tags
+          c.before(:suite) { RSpec.configuration.used_tags = [] }
+          c.around(:each) do |example|
+            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
+            example.metadata.each do |key, value|
+              tag = "#{key}:#{value}" unless standard_keys.include?(key)
+              RSpec.configuration.used_tags.push tag unless RSpec.configuration.used_tags.include?(tag) || tag.nil?
+            end
+          end
+          c.after(:suite) do
+            puts "\nTags used in harness:\n\n"
+            puts RSpec.configuration.used_tags.sort
+          end
+        end
+        RSpec::Core::Runner.run(beakers)
+      end
+
       desc 'brew', 'Run ChemistryKit'
       method_option :params, type: :hash
-      method_option :tag, default: ['depth:shallow'], type: :array
+      method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
-      method_option :beakers, type: :array
+      method_option :beakers, aliases: '-a', type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
-      method_option :results_file, default: false
+      method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
+      method_option :all, default: false, aliases: '-a', desc: 'Run every beaker.', type: :boolean
 
       def brew
         config = load_config options['config']
@@ -53,14 +76,35 @@ module ChemistryKit
         config = override_configs options, config
 
         load_page_objects
-        setup_tags
-        # configure rspec
-        rspec_config(config)
+
         # get those beakers that should be executed
         beakers = options['beakers'] ? options['beakers'] : Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+
+        if options['beakers']
+          # if a beaker(s) defined use them
+          beakers = options['beakers']
+          # if tags are explicity defined, apply them to the selected beakers
+          setup_tags(options['tag'])
+        else
+          # beakers default to everything
+          beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+
+          if options['tag']
+
+            # if tags are explicity defined, apply them to all beakers
+            setup_tags(options['tag'])
+          else
+            # else choose the default tag
+            setup_tags(['depth:shallow'])
+          end
+        end
+
+        # configure rspec
+        rspec_config(config)
+
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          run_in_parallel beakers, config.concurrency
+          run_in_parallel beakers, config.concurrency, @tags
         else
           run_rspec beakers
         end
@@ -93,9 +137,9 @@ module ChemistryKit
         ChemistryKit::Configuration.initialize_with_yaml config_file
       end
 
-      def setup_tags
+      def setup_tags(selected_tags)
         @tags = {}
-        options['tag'].each do |tag|
+        selected_tags.each do |tag|
           filter_type = tag.start_with?('~') ? :exclusion_filter : :filter
 
           name, value = tag.gsub(/^(~@|~|@)/, '').split(':')
@@ -105,7 +149,7 @@ module ChemistryKit
 
           @tags[filter_type] ||= {}
           @tags[filter_type][name] = value
-        end
+        end unless selected_tags.nil?
       end
 
       def rspec_config(config) # Some of these bits work and others don't
@@ -114,23 +158,17 @@ module ChemistryKit
         end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
-          c.filter_run @tags[:filter] unless @tags[:filter].nil?
-          c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+          unless options[:all]
+            c.filter_run @tags[:filter] unless @tags[:filter].nil?
+            c.filter_run_excluding @tags[:exclusion_filter] unless @tags[:exclusion_filter].nil?
+          end
           c.before(:all) do
-            # set the config available globaly
-            @config = config
-            # assign base url to env variable for formulas
-            ENV['BASE_URL'] = config.base_url
+            @config = config # set the config available globaly
+            ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
           end
-          c.before(:each) do
-            @driver = SeleniumConnect.start
-          end
-          c.after(:each) do
-            @driver.quit
-          end
-          c.after(:all) do
-            SeleniumConnect.finish
-          end
+          c.before(:each) { @driver = SeleniumConnect.start }
+          c.after(:each) { @driver.quit }
+          c.after(:all) { SeleniumConnect.finish }
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
@@ -142,9 +180,10 @@ module ChemistryKit
         end
       end
 
-      def run_in_parallel(beakers, concurrency)
-
-        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', concurrency.to_s] + %w(-o --beakers=) + beakers)
+      def run_in_parallel(beakers, concurrency, tags)
+        tag_string = tags.empty? ? nil : '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ')
+        args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{tag_string} --beakers="] + beakers
+        ParallelTests::CLI.new.run(args)
       end
 
       def run_rspec(beakers)
