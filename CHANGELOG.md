@@ -1,3 +1,15 @@
+#3.3.0 (2013-07-09)
+Fixed bugs with tagging and concurrency
+
+- Bumped version to 3.3.0 to prepare for release.
+- added the ckit tags command to list all tags in the harnes
+- consolidated documentation into the readme file
+- fixed code quality issues and a bug with the tag filtering
+- added the --all flag and tests to run all beakers
+- fixed tagging issues for concurrent runs, now a beaker specification will override the default tag unless it is explicitly specified.
+- removed debug info
+- initial cut on tagging updates
+
 #3.2.0 (2013-07-08)
 Updated Selenium Connect
 
