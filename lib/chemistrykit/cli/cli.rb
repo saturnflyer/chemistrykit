@@ -27,11 +27,33 @@ module ChemistryKit
     class CKitCLI < Thor
 
       register(ChemistryKit::CLI::New, 'new', 'new [NAME]', 'Creates a new ChemistryKit project')
+
       check_unknown_options!
       default_task :help
 
       desc 'generate SUBCOMMAND', 'generate <formula> or <beaker> [NAME]'
       subcommand 'generate', Generate
+
+      desc 'tags', 'Lists all tags in use in the test harness.'
+      def tags
+        beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
+        RSpec.configure do |c|
+          c.add_setting :used_tags
+          c.before(:suite) { RSpec.configuration.used_tags = [] }
+          c.around(:each) do |example|
+            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
+            example.metadata.each do |key, value|
+              tag = "#{key}:#{value}" unless standard_keys.include?(key)
+              RSpec.configuration.used_tags.push tag unless RSpec.configuration.used_tags.include?(tag) || tag.nil?
+            end
+          end
+          c.after(:suite) do
+            puts "\nTags used in harness:\n\n"
+            puts RSpec.configuration.used_tags.sort
+          end
+        end
+        RSpec::Core::Runner.run(beakers)
+      end
 
       desc 'brew', 'Run ChemistryKit'
       method_option :params, type: :hash

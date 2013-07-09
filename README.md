@@ -42,7 +42,7 @@ This will run ckit and execute your beakers. By default it will run the tests lo
 
 ###Spec Discovery
 
-ChemistryKit is built on top of RSpec. All specs are in the _beaker_ directory and end in _beaker.rb. Rather than being discovered via class or file name as some systems they are by identified by tag. 
+ChemistryKit is built on top of RSpec. All specs are in the _beaker_ directory and end in _beaker.rb. Rather than being discovered via class or file name as some systems they are by identified by tag.
 
 ```ruby
 it 'with invalid credentials', :depth => 'shallow' do
@@ -132,7 +132,7 @@ Usage:
 Executes your test cases.
 
 Usage:
-    
+
     ckit brew [OPTIONS]
 
 Available options for the `brew` command:
@@ -150,7 +150,7 @@ Available options for the `brew` command:
 Creates a new boilerplate formula object.
 
 Usage:
-    
+
     ckit generate formula [NAME]
 
 
@@ -158,8 +158,15 @@ Usage:
 Creates a new boilerplate beaker object.
 
 Usage:
-    
+
     ckit generate beaker [NAME]
+
+###tags
+Lists all the tags you have used in your beakers.
+
+Usage:
+
+    ckit tags
 
 ##Contribution Guidelines
 This project conforms to the [neverstopbuilding/craftsmanship](https://github.com/neverstopbuilding/craftsmanship) guidelines. Please see them for details on:
