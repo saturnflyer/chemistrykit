@@ -72,6 +72,5 @@ Feature: Support for concurency
         end
       end
       """
-    When I run `ckit brew --tag item`
-    Then the stdout should contain "4 processes for 2 beakers"
+    When I run `ckit brew --tag item:test`
     And the stdout should contain "2 examples, 0 failures"

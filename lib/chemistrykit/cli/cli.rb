@@ -68,7 +68,6 @@ module ChemistryKit
 
           if options['tag']
 
-            puts options['tag']
             # if tags are explicity defined, apply them to all beakers
             setup_tags(options['tag'])
           else
@@ -79,9 +78,10 @@ module ChemistryKit
 
         # configure rspec
         rspec_config(config)
+
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          run_in_parallel beakers, config.concurrency
+          run_in_parallel beakers, config.concurrency, @tags
         else
           run_rspec beakers
         end
@@ -163,9 +163,10 @@ module ChemistryKit
         end
       end
 
-      def run_in_parallel(beakers, concurrency)
-
-        ParallelTests::CLI.new.run(%w(--type rspec) + ['-n', concurrency.to_s] + %w(-o --beakers=) + beakers)
+      def run_in_parallel(beakers, concurrency, tags)
+        tag_string = tags.nil? ? '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ') : nil
+        args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{tag_string} --beakers="] + beakers
+        ParallelTests::CLI.new.run(args)
       end
 
       def run_rspec(beakers)
