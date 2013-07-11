@@ -60,7 +60,7 @@ module ChemistryKit
       method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
-      method_option :beakers, aliases: '-a', type: :array
+      method_option :beakers, aliases: '-b', type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
       method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
