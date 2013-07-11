@@ -60,7 +60,7 @@ module ChemistryKit
       method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
       # TODO there should be a facility to simply pass a path to this command
-      method_option :beakers, aliases: '-a', type: :array
+      method_option :beakers, aliases: '-b', type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
       method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
@@ -104,7 +104,7 @@ module ChemistryKit
 
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          run_in_parallel beakers, config.concurrency, @tags
+          run_in_parallel beakers, config.concurrency, @tags, options
         else
           run_rspec beakers
         end
@@ -180,9 +180,12 @@ module ChemistryKit
         end
       end
 
-      def run_in_parallel(beakers, concurrency, tags)
-        tag_string = tags.empty? ? nil : '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ')
-        args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{tag_string} --beakers="] + beakers
+      def run_in_parallel(beakers, concurrency, tags, options)
+        unless options[:all]
+          tag_string = tags.empty? ? nil : '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ')
+        end
+        config_string = '--config=' + options['config']
+        args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{config_string} #{tag_string} --beakers="] + beakers
         ParallelTests::CLI.new.run(args)
       end
 
