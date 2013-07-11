@@ -94,4 +94,6 @@ Feature: Support for concurency
       end
       """
     When I run `ckit brew --all`
+    Then the stdout should not contain "All examples were filtered out"
+    And the stdout should not contain "0 examples, 0 failures"
     And there should be "4" unique results files in the "evidence" directory
