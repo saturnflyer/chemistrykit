@@ -54,7 +54,6 @@ Feature: Support for multiple configuration files
       And the following files should exist:
         | evidence_alternate/server.log       |
 
-  @announce
   Scenario: I can specifiy an alternative configuration with --config with concurrency
     Given a directory named "evidence_alternate"
     And a file named "alternate.yaml" with:

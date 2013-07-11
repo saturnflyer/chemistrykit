@@ -184,12 +184,7 @@ module ChemistryKit
         unless options[:all]
           tag_string = tags.empty? ? nil : '--tag=' + tags[:filter].map { |k, v| "#{k}:#{v}" }.join(' ')
         end
-
-        config_string = '--config='+options['config']
-
-        puts config_string
-
-        puts tag_string
+        config_string = '--config=' + options['config']
         args = %w(--type rspec) + ['-n', concurrency.to_s] + ['-o', "#{config_string} #{tag_string} --beakers="] + beakers
         ParallelTests::CLI.new.run(args)
       end
