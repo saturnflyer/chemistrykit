@@ -1,3 +1,11 @@
+#3.3.1 (2013-07-11)
+Fixed bugs related to tagging and alternate configuration files in concurrent runs
+
+- Bumped version to 3.3.1 to prepare for release.
+- final code quality check
+- fixed issue where --all was not getting passed forward in parallel tests and the same with an alternative config file, added tests for those as well
+- fixed duplicatealias for brew option
+
 #3.3.0 (2013-07-09)
 Fixed bugs with tagging and concurrency
 
