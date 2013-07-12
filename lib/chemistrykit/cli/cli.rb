@@ -152,10 +152,8 @@ module ChemistryKit
         end unless selected_tags.nil?
       end
 
+      # rubocop:disable MethodLength
       def rspec_config(config) # Some of these bits work and others don't
-        SeleniumConnect.configure do |c|
-          c.populate_with_hash config.selenium_connect
-        end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           unless options[:all]
@@ -166,8 +164,24 @@ module ChemistryKit
             @config = config # set the config available globaly
             ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
           end
-          c.before(:each) { @driver = SeleniumConnect.start }
-          c.after(:each) { @driver.quit }
+          c.around(:each) do |example|
+            beaker_name =  example.metadata[:full_description]
+            SeleniumConnect.configure do |scc|
+              scc.populate_with_hash config.selenium_connect
+              scc.description = beaker_name
+            end
+            @driver = SeleniumConnect.start
+            example.run
+            @driver.quit
+          end
+          c.after(:each) do
+            if example.exception != nil
+              # TODO less than ideal, it will only happen for sauce jobs, throws an api error
+              # it seems due to the life cycle, which should be reworked a little...
+              data = SeleniumConnect.finish
+              puts "An error occured, a video is available here: #{data[:sauce_job].video_url}" if data[:sauce_job]
+            end
+          end
           c.after(:all) { SeleniumConnect.finish }
           c.order = 'random'
           c.default_path = 'beakers'
@@ -179,6 +193,7 @@ module ChemistryKit
           end
         end
       end
+      # rubocop:enable MethodLength
 
       def run_in_parallel(beakers, concurrency, tags, options)
         unless options[:all]
