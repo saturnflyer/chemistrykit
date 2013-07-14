@@ -1,11 +1,6 @@
-[![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit)
-[![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit)
+#ChemistryKit 3.3.1 (July 14, 2013)
 
-Master branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=master)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
-
-Develop branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
-
-#ChemistryKit
+[![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 

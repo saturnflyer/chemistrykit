@@ -118,8 +118,8 @@ task :release_finish, :update_message do |t, args|
 
   ### Update the readme heading
   updated = File.read(readme).gsub(
-    /^#selenium-connect \d+\.\d+.\d+ \(.+\)/,
-    "#selenium-connect #{version} (#{date})"
+    /^#ChemistryKit \d+\.\d+.\d+ \(.+\)/,
+    "#ChemistryKit #{version} (#{date})"
   )
   File.open(readme, 'w') { |f| f.write(updated) }
 
