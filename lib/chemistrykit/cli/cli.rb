@@ -9,7 +9,7 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
-require 'selenium-connect'
+require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
 require 'chemistrykit/parallel_tests_mods'
@@ -163,26 +163,34 @@ module ChemistryKit
           c.before(:all) do
             @config = config # set the config available globaly
             ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
+            sc_config = SeleniumConnect::Configuration.new
+            sc_config.populate_with_hash config.selenium_connect
+            @sc = SeleniumConnect.start sc_config # fire up a connection to SC
           end
           c.around(:each) do |example|
-            beaker_name =  example.metadata[:full_description]
-            SeleniumConnect.configure do |scc|
-              scc.populate_with_hash config.selenium_connect
-              scc.description = beaker_name
-            end
-            @driver = SeleniumConnect.start
+            @job = @sc.create_job # create a new job
+            @driver = @job.start name: example.metadata[:full_description]
             example.run
-            @driver.quit
           end
           c.after(:each) do
             if example.exception != nil
-              # TODO less than ideal, it will only happen for sauce jobs, throws an api error
-              # it seems due to the life cycle, which should be reworked a little...
-              data = SeleniumConnect.finish
-              puts "An error occured, a video is available here: #{data[:sauce_job].video_url}" if data[:sauce_job]
+              report = @job.finish failed: true, failshot: true
+            else
+              report = @job.finish passed: true
             end
+            @sc.finish
+
+            # TODO absctract this out into some report handler class
+            data = report.data
+            unless data.empty?
+              report_file = File.join(Dir.getwd, config.log.path, "report_#{data[:sauce_data][:id]}.log")
+              File.open(report_file, 'w') { |file| file.write(data.to_s) }
+              puts "\n[[ATTACHEMENT|#{report_file}]]\n"
+            end
+            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:failshot])}]]\n" if data[:failshot]
+            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:server_log])}]]\n" if data[:server_log]
+            ###
           end
-          c.after(:all) { SeleniumConnect.finish }
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
@@ -207,7 +215,6 @@ module ChemistryKit
       def run_rspec(beakers)
         RSpec::Core::Runner.run(beakers)
       end
-
     end # CkitCLI
   end # CLI
 end # ChemistryKit

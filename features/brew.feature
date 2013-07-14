@@ -99,6 +99,7 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew --all`
     Then the stdout should contain "2 examples, 0 failures"
 
+  @announce
   Scenario: Saucelabs
     Given a file named "config.yaml" with:
       """
@@ -123,5 +124,7 @@ Feature: Brewing a ChemistryKit project
     """
     When I run `ckit brew --beakers=beakers/failure.rb`
     Then the stdout should contain "1 example, 1 failure"
-    And the stdout should contain "An error occured, a video is available here"
-    And the stdout should contain "http://"
+    And the stdout should contain "[[ATTACHEMENT|/Users/jfox/development/arrgyle/chemistrykit/build/tmp/booker/evidence/"
+    And there should be "1" "failed image" log files in "evidence"
+    And there should be "1" "report" log files in "evidence"
+    And there should be "1" "sauce log" log files in "evidence"
