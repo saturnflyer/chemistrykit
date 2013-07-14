@@ -1,3 +1,17 @@
+#3.4.0 (2013-07-14)
+upgrade to use new selenium connect and integrated sauce lab job failures screenshots and ci reporting
+
+- small patch to the rake file
+- Bumped version to 3.4.0 to prepare for release.
+- updated sc to fix bug
+- updated tests to look for job assets on concurency
+- updated cli to use the new sc with test pass or fail and screenshot grab
+- updated selenium connect to latest version
+- updated rake file for ckit readme update and standard title format on readme
+- updated build process to use standard rspec convention and added coverage and spec reporting
+- turned off travis email notifications
+- added dynamic naming for sauce runs, and a dump of the video url on failure
+
 #3.3.1 (2013-07-11)
 Fixed bugs related to tagging and alternate configuration files in concurrent runs
 
