@@ -24,7 +24,7 @@ Gem::Specification.new do |s|
   s.add_dependency "yarjuf", "~> 1.0.5"
   s.add_dependency "selenium-webdriver", "~> 2.29.0"
   s.add_dependency "rest-client", "~> 1.6.7"
-  s.add_dependency "selenium-connect", "~> 2.2.0"
+  s.add_dependency "selenium-connect", "~> 2.3.0"
   s.add_dependency "parallel_tests", "~> 0.15.0"
   s.add_dependency "parallel", "~> 0.7.0"
 
