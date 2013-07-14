@@ -185,10 +185,10 @@ module ChemistryKit
             unless data.empty?
               report_file = File.join(Dir.getwd, config.log.path, "report_#{data[:sauce_data][:id]}.log")
               File.open(report_file, 'w') { |file| file.write(data.to_s) }
-              puts "\n[[ATTACHEMENT|#{report_file}]]\n"
+              puts "\n[[ATTACHMENT|#{report_file}]]\n"
             end
-            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:failshot])}]]\n" if data[:failshot]
-            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:server_log])}]]\n" if data[:server_log]
+            puts "\n[[ATTACHMENT|#{File.join(Dir.getwd, config.log.path, data[:failshot])}]]\n" if data[:failshot]
+            puts "\n[[ATTACHMENT|#{File.join(Dir.getwd, config.log.path, data[:server_log])}]]\n" if data[:server_log]
             ###
           end
           c.order = 'random'
