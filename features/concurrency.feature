@@ -97,3 +97,5 @@ Feature: Support for concurency
     Then the stdout should not contain "All examples were filtered out"
     And the stdout should not contain "0 examples, 0 failures"
     And there should be "4" unique results files in the "evidence" directory
+    And there should be "5" "report" log files in "evidence"
+    And there should be "5" "sauce log" log files in "evidence"

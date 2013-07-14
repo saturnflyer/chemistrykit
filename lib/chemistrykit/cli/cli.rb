@@ -9,7 +9,7 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
-require 'selenium-connect'
+require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
 require 'chemistrykit/parallel_tests_mods'
@@ -152,10 +152,8 @@ module ChemistryKit
         end unless selected_tags.nil?
       end
 
+      # rubocop:disable MethodLength
       def rspec_config(config) # Some of these bits work and others don't
-        SeleniumConnect.configure do |c|
-          c.populate_with_hash config.selenium_connect
-        end
         RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           unless options[:all]
@@ -165,10 +163,34 @@ module ChemistryKit
           c.before(:all) do
             @config = config # set the config available globaly
             ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
+            sc_config = SeleniumConnect::Configuration.new
+            sc_config.populate_with_hash config.selenium_connect
+            @sc = SeleniumConnect.start sc_config # fire up a connection to SC
           end
-          c.before(:each) { @driver = SeleniumConnect.start }
-          c.after(:each) { @driver.quit }
-          c.after(:all) { SeleniumConnect.finish }
+          c.around(:each) do |example|
+            @job = @sc.create_job # create a new job
+            @driver = @job.start name: example.metadata[:full_description]
+            example.run
+          end
+          c.after(:each) do
+            if example.exception != nil
+              report = @job.finish failed: true, failshot: true
+            else
+              report = @job.finish passed: true
+            end
+            @sc.finish
+
+            # TODO absctract this out into some report handler class
+            data = report.data
+            unless data.empty?
+              report_file = File.join(Dir.getwd, config.log.path, "report_#{data[:sauce_data][:id]}.log")
+              File.open(report_file, 'w') { |file| file.write(data.to_s) }
+              puts "\n[[ATTACHEMENT|#{report_file}]]\n"
+            end
+            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:failshot])}]]\n" if data[:failshot]
+            puts "\n[[ATTACHEMENT|#{File.join(Dir.getwd, config.log.path, data[:server_log])}]]\n" if data[:server_log]
+            ###
+          end
           c.order = 'random'
           c.default_path = 'beakers'
           c.pattern = '**/*_beaker.rb'
@@ -179,6 +201,7 @@ module ChemistryKit
           end
         end
       end
+      # rubocop:enable MethodLength
 
       def run_in_parallel(beakers, concurrency, tags, options)
         unless options[:all]
@@ -192,7 +215,6 @@ module ChemistryKit
       def run_rspec(beakers)
         RSpec::Core::Runner.run(beakers)
       end
-
     end # CkitCLI
   end # CLI
 end # ChemistryKit

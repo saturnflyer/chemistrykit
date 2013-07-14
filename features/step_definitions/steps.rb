@@ -19,3 +19,19 @@ Then(/^there should be "(.*?)" unique results files in the "(.*?)" directory$/) 
   end
   count.should == number_files.to_i
 end
+
+Then(/^there should be "(.*?)" "(.*?)" log files in "(.*?)"$/) do |number, type, logs_path|
+  files = Dir.glob(File.join(current_dir, logs_path, '*.*'))
+  count = 0
+  files.each do |file|
+    case type
+    when 'failed image'
+      count += 1 if file =~ /failed_.+\.png/
+    when 'report'
+      count += 1 if file =~ /report_.+\.log/
+    when 'sauce log'
+        count += 1 if file =~ /sauce_job_.+\.log/
+    end
+  end
+  count.should == number.to_i
+end

@@ -6,15 +6,26 @@
 # loaded once.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-#
+
+require 'simplecov'
+require 'coveralls'
 require 'rubygems'
 require 'bundler/setup'
 require 'fileutils'
+
 # not sure it this is the right way to include all the files under test.
 require_relative '../lib/chemistrykit/cli/helpers/formula_loader'
 require_relative '../lib/chemistrykit/formula/base'
 require_relative '../lib/chemistrykit/catalyst'
 require_relative '../lib/chemistrykit/configuration'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+  coverage_dir 'build/coverage'
+end
 
 TEST_TMP_PATH = File.join(Dir.pwd, 'build', 'tmp')
 

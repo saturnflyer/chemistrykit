@@ -1,11 +1,6 @@
-[![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit)
-[![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit)
+#ChemistryKit 3.4.0 (2013-07-14)
 
-Master branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=master)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
-
-Develop branch: [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter)
-
-#ChemistryKit
+[![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
@@ -104,6 +99,8 @@ You can even nest them inside different describe/context blocks and they will ge
 
 ###Logs and CI Integration
 Each run of Chemistry Kit saves logging and test output to the _evidence_ directory by default. And in there will be the full set of JUnit Ant XML files that may be consumed by your CI.
+
+We also output an attachment message to stdout allowing you to use [this plugin](https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin) for integrating the files with jenkins!
 
 ##Configuration
 ChemistryKit is configured by default with a `config.yaml` file that is created for you when you scaffold out a test harness. Relevant configuration options are detailed below:

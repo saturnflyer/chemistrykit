@@ -5,26 +5,40 @@ require 'cucumber'
 require 'cucumber/rake/task'
 require 'rspec/core/rake_task'
 
-task default: :build_ci
+task default: :build
 
 desc 'Runs standard build activities.'
-task build: [:clean, :prepare, :rubocop, :spec, :cucumber]
+task build: [:clean, :prepare, :rubocop, :unit, :integration]
 
 desc 'Runs standard build activities for ci server.'
-task build_ci: [:clean, :prepare, :rubocop, :spec]
+task build_full: [:clean, :prepare, :rubocop, :unit, :integration, :system]
 
 desc 'Removes the build directory.'
 task :clean do
   FileUtils.rm_rf('build')
 end
+
 desc 'Adds the build tmp directory for test kit creation.'
 task :prepare do
   FileUtils.mkdir_p('build/tmp')
+  FileUtils.mkdir_p('build/spec')
 end
 
-RSpec::Core::RakeTask.new(:spec)
+def get_rspec_flags(log_name, others = nil)
+  "--format documentation --out build/spec/#{log_name}.log --format html --out build/spec/#{log_name}.html --format progress #{others}"
+end
 
-Cucumber::Rake::Task.new(:cucumber)
+RSpec::Core::RakeTask.new(:unit) do |t|
+  t.pattern = FileList['spec/unit/**/*_spec.rb']
+  t.rspec_opts = get_rspec_flags('unit')
+end
+
+RSpec::Core::RakeTask.new(:integration) do |t|
+  t.pattern = FileList['spec/integration/**/*_spec.rb']
+  t.rspec_opts = get_rspec_flags('integration')
+end
+
+Cucumber::Rake::Task.new(:system)
 
 desc 'Runs code quality check'
 task :rubocop do
@@ -48,7 +62,7 @@ task :release_start, :version do |t, args|
   system 'git pull --no-edit origin develop'
 
   # next assure all the tests run
-  task(:build).invoke
+  task(:build_full).invoke
 
   # start the release process
   system "git flow release start #{version}"
@@ -75,6 +89,8 @@ task :release_finish, :update_message do |t, args|
   gemspec   = File.join(Dir.getwd, 'chemistrykit.gemspec')
   changelog = File.join(Dir.getwd, 'CHANGELOG.md')
   version   = File.read(gemspec).match(/s.version\s+=\s?["|'](.+)["|']/)[1]
+  readme = File.join(Dir.getwd, 'README.md')
+  date = Time.new.strftime('%Y-%m-%d')
 
   ### Changelog
   # get the latest tag
@@ -88,7 +104,7 @@ task :release_finish, :update_message do |t, args|
   log = `git log --format="- %s" --no-merges #{hash.chomp}..HEAD`
 
   changelog_contents = File.read(changelog)
-  date = Time.new.strftime('%Y-%m-%d')
+
   # create the new heading
   updated_changelog = "##{version} (#{date})\n" + message + "\n\n" + log + "\n" + changelog_contents
   # update the contents
@@ -102,8 +118,15 @@ task :release_finish, :update_message do |t, args|
   )
   File.open(gemspec, 'w') { |f| f.write(updated_gemspec) }
 
-  # Commit the updated change log and gemspec
-  system "git commit -am 'Updated CHANGELOG.md and gemspec for #{version} release.'"
+  ### Update the readme heading
+  updated = File.read(readme).gsub(
+    /^#ChemistryKit \d+\.\d+.\d+ \(.+\)/,
+    "#ChemistryKit #{version} (#{date})"
+  )
+  File.open(readme, 'w') { |f| f.write(updated) }
+
+  # Commit the updated change log and gemspec and readme
+  system "git commit -am 'Updated CHANGELOG.md gemspec and readme heading for #{version} release.'"
 
   # build the gem
   system 'gem build chemistrykit.gemspec'
