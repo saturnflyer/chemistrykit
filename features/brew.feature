@@ -99,7 +99,6 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew --all`
     Then the stdout should contain "2 examples, 0 failures"
 
-  @announce
   Scenario: Saucelabs
     Given a file named "config.yaml" with:
       """
