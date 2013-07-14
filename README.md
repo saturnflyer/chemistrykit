@@ -100,6 +100,8 @@ You can even nest them inside different describe/context blocks and they will ge
 ###Logs and CI Integration
 Each run of Chemistry Kit saves logging and test output to the _evidence_ directory by default. And in there will be the full set of JUnit Ant XML files that may be consumed by your CI.
 
+We also output an attachment message to stdout allowing you to use [this plugin](https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Attachments+Plugin) for integrating the files with jenkins!
+
 ##Configuration
 ChemistryKit is configured by default with a `config.yaml` file that is created for you when you scaffold out a test harness. Relevant configuration options are detailed below:
 
