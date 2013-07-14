@@ -89,6 +89,8 @@ task :release_finish, :update_message do |t, args|
   gemspec   = File.join(Dir.getwd, 'chemistrykit.gemspec')
   changelog = File.join(Dir.getwd, 'CHANGELOG.md')
   version   = File.read(gemspec).match(/s.version\s+=\s?["|'](.+)["|']/)[1]
+  readme = File.join(Dir.getwd, 'README.md')
+  date = Time.new.strftime('%Y-%m-%d')
 
   ### Changelog
   # get the latest tag
@@ -102,7 +104,7 @@ task :release_finish, :update_message do |t, args|
   log = `git log --format="- %s" --no-merges #{hash.chomp}..HEAD`
 
   changelog_contents = File.read(changelog)
-  date = Time.new.strftime('%Y-%m-%d')
+
   # create the new heading
   updated_changelog = "##{version} (#{date})\n" + message + "\n\n" + log + "\n" + changelog_contents
   # update the contents
