@@ -1,3 +1,9 @@
+#3.4.2 (2013-07-14)
+fixed typo
+
+- Bumped version to 3.4.2 to prepare for release.
+- fixed dumb typo
+
 #3.4.1 (2013-07-14)
 minor update to sc
 
