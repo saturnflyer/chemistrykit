@@ -1,3 +1,9 @@
+#3.4.1 (2013-07-14)
+minor update to sc
+
+- Bumped version to 3.4.1 to prepare for release.
+- bumped sc version for bug fix
+
 #3.4.0 (2013-07-14)
 upgrade to use new selenium connect and integrated sauce lab job failures screenshots and ci reporting
 
