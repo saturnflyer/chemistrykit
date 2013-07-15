@@ -1,3 +1,10 @@
+#3.5.0 (2013-07-15)
+updated logging to store assets in a per beaker folder
+
+- Bumped version to 3.5.0 to prepare for release.
+- updated docs
+- updated ckit to use latest sc with cleaner log storage and added a flag for the screenshot download
+
 #3.4.2 (2013-07-14)
 fixed typo
 
