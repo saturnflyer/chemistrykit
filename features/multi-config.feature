@@ -26,7 +26,7 @@ Feature: Support for multiple configuration files
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
-      | evidence_config/server.log       |
+      | evidence_config/cheese/server.log       |
 
   Scenario: I can specifiy an alternative configuration with --config
     Given a directory named "evidence_alternate"
@@ -39,7 +39,7 @@ Feature: Support for multiple configuration files
       When I run `ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
       And the following files should exist:
-        | evidence_alternate/server.log       |
+        | evidence_alternate/cheese/server.log       |
 
   Scenario: I can specifiy an alternative configuration with -c
     Given a directory named "evidence_alternate"
@@ -52,7 +52,7 @@ Feature: Support for multiple configuration files
       When I run `ckit brew -c alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
       And the following files should exist:
-        | evidence_alternate/server.log       |
+        | evidence_alternate/cheese/server.log       |
 
   Scenario: I can specifiy an alternative configuration with --config with concurrency
     Given a directory named "evidence_alternate"
@@ -68,4 +68,4 @@ Feature: Support for multiple configuration files
       Then the stdout should contain "1 example, 0 failures"
       And there should be "1" unique results files in the "evidence_alternate" directory
       And the following files should exist:
-        | evidence_alternate/server.log       |
+        | evidence_alternate/cheese/server.log       |

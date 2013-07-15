@@ -8,7 +8,8 @@ module ChemistryKit
   class Configuration
 
     attr_accessor :base_url,
-                  :concurrency
+                  :concurrency,
+                  :screenshot_on_fail
 
     attr_reader   :log
 
@@ -18,6 +19,7 @@ module ChemistryKit
       # set defaults
       @concurrency = 1
       @selenium_connect = {}
+      @screenshot_on_fail = false
       @log = OpenStruct.new
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'

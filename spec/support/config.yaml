@@ -2,6 +2,7 @@
 
 base_url: http://google.com
 concurrency: 1
+screenshot_on_fail:
 log:
     path: 'evidence'
     results_file: 'results_junit.xml'
