@@ -26,11 +26,11 @@ Then(/^there should be "(.*?)" "(.*?)" log files in "(.*?)"$/) do |number, type,
   files.each do |file|
     case type
     when 'failed image'
-      count += 1 if file =~ /failed_.+\.png/
+      count += 1 if file =~ /.+_failshot_.+\.png/
     when 'report'
-      count += 1 if file =~ /report_.+\.log/
+      count += 1 if file =~ /.+_saucejob_.+\.log/
     when 'sauce log'
-        count += 1 if file =~ /sauce_job_.+\.log/
+        count += 1 if file =~ /.+_serverlog_.+\.log/
     end
   end
   count.should == number.to_i

@@ -24,6 +24,7 @@ describe ChemistryKit::Configuration do
   end
 
   def validate_config(config)
+    config.screenshot_on_fail.should eq false
     config.concurrency.should eq VALID_CONCURRENCY
     config.base_url.should eq VALID_BASE_URL
     config.log.path.should eq VALID_LOG_PATH

@@ -163,33 +163,30 @@ module ChemistryKit
           c.before(:all) do
             @config = config # set the config available globaly
             ENV['BASE_URL'] = config.base_url # assign base url to env variable for formulas
-            sc_config = SeleniumConnect::Configuration.new
-            sc_config.populate_with_hash config.selenium_connect
-            @sc = SeleniumConnect.start sc_config # fire up a connection to SC
           end
           c.around(:each) do |example|
+            # create the beaker name from the example data
+            beaker_name = example.metadata[:example_group][:description_args].first.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+            # override log path with be beaker sub path
+            sc_config = @config.selenium_connect.dup
+            sc_config[:log] += "/#{beaker_name}"
+            sub_evidence_path = File.join(Dir.getwd, sc_config[:log])
+            Dir.mkdir sub_evidence_path unless File.exists?(sub_evidence_path)
+
+            # configure and start sc
+            configuration = SeleniumConnect::Configuration.new sc_config
+            @sc = SeleniumConnect.start configuration
             @job = @sc.create_job # create a new job
             @driver = @job.start name: example.metadata[:full_description]
             example.run
           end
           c.after(:each) do
             if example.exception != nil
-              report = @job.finish failed: true, failshot: true
+              @job.finish failed: true, failshot: @config.screenshot_on_fail
             else
-              report = @job.finish passed: true
+              @job.finish passed: true
             end
             @sc.finish
-
-            # TODO absctract this out into some report handler class
-            data = report.data
-            unless data.empty?
-              report_file = File.join(Dir.getwd, config.log.path, "report_#{data[:sauce_data][:id]}.log")
-              File.open(report_file, 'w') { |file| file.write(data.to_s) }
-              puts "\n[[ATTACHMENT|#{report_file}]]\n"
-            end
-            puts "\n[[ATTACHMENT|#{File.join(Dir.getwd, config.log.path, data[:failshot])}]]\n" if data[:failshot]
-            puts "\n[[ATTACHMENT|#{File.join(Dir.getwd, config.log.path, data[:server_log])}]]\n" if data[:server_log]
-            ###
           end
           c.order = 'random'
           c.default_path = 'beakers'

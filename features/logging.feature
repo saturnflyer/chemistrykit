@@ -84,7 +84,8 @@ Feature: Log handling
         Then the stdout should contain "2 examples, 0 failures"
         And the following files should exist:
           | my_evidence/results_junit.xml |
-          | my_evidence/server.log        |
+          | my_evidence/first/server.log  |
+          | my_evidence/second/server.log  |
 
     Scenario: I can runtime override the results output file name
       When I run `ckit brew --results_file results_junit_01.xml`
