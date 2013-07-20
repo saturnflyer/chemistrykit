@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email         = ['dave@arrgyle.com', 'jason@arrgyle.com']
   s.homepage      = 'https://github.com/arrgyle/chemistrykit'
   s.summary       = 'A simple and opinionated web testing framework for Selenium that follows convention over configuration.'
-  s.description   = 'updated logging to store assets in a per beaker folder'
+  s.description   = 'Added the ability for tests to be retried on failure. A single retry will be attempted by default and the output will be verbose.'
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)

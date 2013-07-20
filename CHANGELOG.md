@@ -1,3 +1,14 @@
+#3.6.0 (2013-07-20)
+Added the ability for tests to be retried on failure. A single retry will be attempted by default and the output will be verbose.
+
+- Bumped version to 3.6.0 to prepare for release.
+- Bumped version to  to prepare for release.
+- Updated the brew test to remove a redundant sauce test and to update the asset check to account for the retried test runs on failure
+- Fixing rubocop message
+- Added a default retry count, so it will retry a failed test once.
+- Added a config attribute to brew for verbose retry
+- Added rspec-retry
+
 #3.5.0 (2013-07-15)
 updated logging to store assets in a per beaker folder
 
