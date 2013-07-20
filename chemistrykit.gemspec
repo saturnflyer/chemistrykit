@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name          = 'chemistrykit'
-  s.version       = '3.5.0'
+  s.version       = '3.6.0'
   s.platform      = Gem::Platform::RUBY
   s.authors       = ['Dave Haeffner', 'Jason Fox']
   s.email         = ['dave@arrgyle.com', 'jason@arrgyle.com']
   s.homepage      = 'https://github.com/arrgyle/chemistrykit'
   s.summary       = 'A simple and opinionated web testing framework for Selenium that follows convention over configuration.'
-  s.description   = 'updated logging to store assets in a per beaker folder'
+  s.description   = 'Added the ability for tests to be retried on failure. A single retry will be attempted by default and the output will be verbose.'
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'selenium-connect', '~> 3.2.0'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
+  s.add_dependency 'rspec-retry', '~> 0.2.1'
 
   s.add_development_dependency 'rspec', '~> 2.14.1'
   s.add_development_dependency 'aruba', '~> 0.5.1'

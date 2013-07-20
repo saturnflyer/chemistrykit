@@ -2,6 +2,7 @@
 
 require 'thor'
 require 'rspec'
+require 'rspec/retry'
 require 'yarjuf'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
@@ -193,6 +194,11 @@ module ChemistryKit
           c.pattern = '**/*_beaker.rb'
           c.output_stream = $stdout
           c.add_formatter 'progress'
+
+          # for rspec-retry
+          c.verbose_retry = true # for rspec-retry
+          c.default_retry_count = 2
+
           if config.concurrency == 1 || options['parallel']
             c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))
           end
