@@ -1,4 +1,4 @@
-#ChemistryKit 3.5.0 (2013-07-15)
+#ChemistryKit 3.6.0 (2013-07-20)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
