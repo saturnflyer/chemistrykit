@@ -195,7 +195,7 @@ module ChemistryKit
           c.output_stream = $stdout
           c.add_formatter 'progress'
 
-          #for rspec-retry
+          # for rspec-retry
           c.verbose_retry = true # for rspec-retry
           c.default_retry_count = 2
 
