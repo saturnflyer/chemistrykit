@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'selenium-connect', '~> 3.2.0'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
+  s.add_dependency 'rspec-retry', '~> 0.2.1'
 
   s.add_development_dependency 'rspec', '~> 2.14.1'
   s.add_development_dependency 'aruba', '~> 0.5.1'
