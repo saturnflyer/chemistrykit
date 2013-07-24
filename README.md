@@ -107,6 +107,8 @@ ChemistryKit is configured by default with a `config.yaml` file that is created 
 
 `base_url:` The base url of your app, stored to the ENV for access in your beakers and formulas.
 
+`retries_on_failure:` Defaults to 1, set the number of times a test should be retried on failure
+
 `concurrency:` You may override the default concurrency of 1 to run the tests in parallel
 
 `log: path:` You may override the default log path 'evidence'
@@ -143,6 +145,7 @@ Available options for the `brew` command:
 -r, --results_file [NAME]   Specify the name of your results file.
 --tag [TAGS]                Specify a list of tags to run or exclude.
 --params [HASH]             Send a list of "key:value" parameters to the ENV.
+-x, --retry [INT]           How many times should a failing test be retried.
 ```
 
 ###generate forumla

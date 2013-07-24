@@ -111,3 +111,51 @@ Feature: Brewing a ChemistryKit project
     And there should be "2" "failed image" log files in "evidence/failing_beaker"
     And there should be "2" "report" log files in "evidence/failing_beaker"
     And there should be "2" "sauce log" log files in "evidence/failing_beaker"
+
+  Scenario: Retry a test on failure based on config file
+    Given a file named "config.yaml" with:
+      """
+      retries_on_failure: 3
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/other_beaker.rb" with:
+      """
+      describe "Other" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+          @driver.title.should_not include("Google")
+        end
+      end
+      """
+    When I run `ckit brew --beakers=beakers/other_beaker.rb`
+    Then the stdout should contain "RSpec::Retry: 2nd try"
+    Then the stdout should contain "RSpec::Retry: 3rd try"
+
+  Scenario: Retry a test on failure based on run time parameter
+    Given a file named "config.yaml" with:
+      """
+      retries_on_failure: 2
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/other_beaker.rb" with:
+      """
+      describe "Other" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+          @driver.title.should_not include("Google")
+        end
+      end
+      """
+    When I run `ckit brew --beakers=beakers/other_beaker.rb --retry=3`
+    Then the stdout should contain "RSpec::Retry: 2nd try"
+    Then the stdout should contain "RSpec::Retry: 3rd try"
+
+

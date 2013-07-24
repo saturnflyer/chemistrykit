@@ -66,6 +66,7 @@ module ChemistryKit
       method_option :parallel, default: false
       method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
       method_option :all, default: false, aliases: '-a', desc: 'Run every beaker.', type: :boolean
+      method_option :retry, default: false, aliases: '-x', desc: 'How many times should a failing test be retried.'
 
       def brew
         config = load_config options['config']
@@ -118,6 +119,9 @@ module ChemistryKit
         # TODO expand this to allow for more overrides as needed
         if options['results_file']
           config.log.results_file = options['results_file']
+        end
+        if options['retry']
+          config.retries_on_failure = options['retry'].to_i
         end
         config
       end
@@ -197,7 +201,7 @@ module ChemistryKit
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
-          c.default_retry_count = 2
+          c.default_retry_count = config.retries_on_failure
 
           if config.concurrency == 1 || options['parallel']
             c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))

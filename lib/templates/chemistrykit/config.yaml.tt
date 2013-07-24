@@ -1,6 +1,7 @@
 # Default Chemisty Kit Configuration File
 
 base_url: http://google.com
+retries_on_failure: 1 #defaults to 1, set the number of times a test should be retried on failure
 concurrency: 1
 log:
     path: #you may override the default log path 'evidence'
@@ -30,3 +31,4 @@ selenium_connect:
     sauce_api_key:
     browser_version:
     description:
+    sauce_opts:
