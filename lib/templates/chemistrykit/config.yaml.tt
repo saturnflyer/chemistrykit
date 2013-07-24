@@ -10,13 +10,10 @@ log:
 selenium_connect:
     #Setup & Debugging
     jar:
-    log:
-
 
     #Where to run your tests
     host: 'localhost'
     port: #set to 4444 by default
-
 
     #Browser & Host
     browser:      'firefox'
@@ -24,11 +21,11 @@ selenium_connect:
     profile_path:
     profile_name:
 
-
     #Saucelabs
-    os:
     sauce_username:
     sauce_api_key:
-    browser_version:
-    description:
+    api_timeout:
     sauce_opts:
+        os:
+        browser_version:
+        job_name:
