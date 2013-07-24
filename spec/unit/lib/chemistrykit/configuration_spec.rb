@@ -77,7 +77,7 @@ describe ChemistryKit::Configuration do
   end
 
   it 'should allow pass through of sauce options' do
-    config =  ChemistryKit::Configuration.new selenium_connect: { log: 'sc-log', sauce_opts: { job_name: 'test' }}
+    config =  ChemistryKit::Configuration.new selenium_connect: { log: 'sc-log', sauce_opts: { job_name: 'test' } }
     config.selenium_connect.should eq log: 'sc-log', sauce_opts: { job_name: 'test' }
   end
 end

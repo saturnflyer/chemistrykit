@@ -3,7 +3,6 @@
 require 'thor'
 require 'rspec'
 require 'rspec/retry'
-require 'yarjuf'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
@@ -14,6 +13,7 @@ require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
 require 'chemistrykit/parallel_tests_mods'
+require 'chemistrykit/j_unit'
 
 module ChemistryKit
   module CLI

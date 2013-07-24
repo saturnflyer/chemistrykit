@@ -21,10 +21,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'thor', '~> 0.17.0'
   s.add_dependency 'rspec', '~> 2.14.1'
-  s.add_dependency 'yarjuf', '~> 1.0.5'
+  s.add_dependency 'builder', '~> 3.2.2'
   s.add_dependency 'selenium-webdriver', '~> 2.29.0'
   s.add_dependency 'rest-client', '~> 1.6.7'
-  s.add_dependency 'selenium-connect', '~> 3.3.0'
+  s.add_dependency 'selenium-connect', '~> 3.3.1'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'
