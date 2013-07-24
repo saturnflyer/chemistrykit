@@ -1,6 +1,7 @@
 # Default Chemisty Kit Configuration File
 
 base_url: http://google.com
+retries_on_failure: 1 #defaults to 1, set the number of times a test should be retried on failure
 concurrency: 1
 log:
     path: #you may override the default log path 'evidence'
@@ -9,13 +10,10 @@ log:
 selenium_connect:
     #Setup & Debugging
     jar:
-    log:
-
 
     #Where to run your tests
     host: 'localhost'
     port: #set to 4444 by default
-
 
     #Browser & Host
     browser:      'firefox'
@@ -23,10 +21,11 @@ selenium_connect:
     profile_path:
     profile_name:
 
-
     #Saucelabs
-    os:
     sauce_username:
     sauce_api_key:
-    browser_version:
-    description:
+    api_timeout:
+    sauce_opts:
+        os:
+        browser_version:
+        job_name:

@@ -1,3 +1,15 @@
+#3.7.0 (2013-07-24)
+updated evidence to put in test based folders and added configuration for the retry functionality
+
+- Bumped version to 3.7.0 to prepare for release.
+- updated integration tests for new evidence directory format
+- updated config template and made some tests pass
+- updated readme to add usergroup link
+- added folder hierachy for evidence and slug formatter, fixed code quality issues
+- added slugification to junit formatter to support attachment plugin
+- added retry to configuration file and run time parameters updated docs and tests
+- updated sc version
+
 #3.6.0 (2013-07-20)
 Added the ability for tests to be retried on failure. A single retry will be attempted by default and the output will be verbose.
 

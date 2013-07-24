@@ -9,7 +9,8 @@ module ChemistryKit
 
     attr_accessor :base_url,
                   :concurrency,
-                  :screenshot_on_fail
+                  :screenshot_on_fail,
+                  :retries_on_failure
 
     attr_reader   :log
 
@@ -18,6 +19,7 @@ module ChemistryKit
     def initialize(hash)
       # set defaults
       @concurrency = 1
+      @retries_on_failure = 1
       @selenium_connect = {}
       @screenshot_on_fail = false
       @log = OpenStruct.new

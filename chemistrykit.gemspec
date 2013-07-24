@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name          = 'chemistrykit'
-  s.version       = '3.6.0'
+  s.version       = '3.7.0'
   s.platform      = Gem::Platform::RUBY
   s.authors       = ['Dave Haeffner', 'Jason Fox']
   s.email         = ['dave@arrgyle.com', 'jason@arrgyle.com']
   s.homepage      = 'https://github.com/arrgyle/chemistrykit'
   s.summary       = 'A simple and opinionated web testing framework for Selenium that follows convention over configuration.'
-  s.description   = 'Added the ability for tests to be retried on failure. A single retry will be attempted by default and the output will be verbose.'
+  s.description   = 'updated evidence to put in test based folders and added configuration for the retry functionality'
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -21,10 +21,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'thor', '~> 0.17.0'
   s.add_dependency 'rspec', '~> 2.14.1'
-  s.add_dependency 'yarjuf', '~> 1.0.5'
+  s.add_dependency 'builder', '~> 3.2.2'
   s.add_dependency 'selenium-webdriver', '~> 2.29.0'
   s.add_dependency 'rest-client', '~> 1.6.7'
-  s.add_dependency 'selenium-connect', '~> 3.2.0'
+  s.add_dependency 'selenium-connect', '~> 3.3.1'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'

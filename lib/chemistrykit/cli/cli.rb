@@ -3,7 +3,6 @@
 require 'thor'
 require 'rspec'
 require 'rspec/retry'
-require 'yarjuf'
 require 'chemistrykit/cli/new'
 require 'chemistrykit/cli/formula'
 require 'chemistrykit/cli/beaker'
@@ -14,6 +13,7 @@ require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
 require 'chemistrykit/parallel_tests_mods'
+require 'chemistrykit/j_unit'
 
 module ChemistryKit
   module CLI
@@ -66,6 +66,7 @@ module ChemistryKit
       method_option :parallel, default: false
       method_option :results_file, aliases: '-r', default: false, desc: 'Specifiy the name of your results file.'
       method_option :all, default: false, aliases: '-a', desc: 'Run every beaker.', type: :boolean
+      method_option :retry, default: false, aliases: '-x', desc: 'How many times should a failing test be retried.'
 
       def brew
         config = load_config options['config']
@@ -119,6 +120,9 @@ module ChemistryKit
         if options['results_file']
           config.log.results_file = options['results_file']
         end
+        if options['retry']
+          config.retries_on_failure = options['retry'].to_i
+        end
         config
       end
 
@@ -168,17 +172,22 @@ module ChemistryKit
           c.around(:each) do |example|
             # create the beaker name from the example data
             beaker_name = example.metadata[:example_group][:description_args].first.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+            test_name = example.metadata[:full_description].downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+
             # override log path with be beaker sub path
             sc_config = @config.selenium_connect.dup
             sc_config[:log] += "/#{beaker_name}"
-            sub_evidence_path = File.join(Dir.getwd, sc_config[:log])
-            Dir.mkdir sub_evidence_path unless File.exists?(sub_evidence_path)
+            beaker_path = File.join(Dir.getwd, sc_config[:log])
+            Dir.mkdir beaker_path unless File.exists?(beaker_path)
+            sc_config[:log] += "/#{test_name}"
+            test_path = File.join(Dir.getwd, sc_config[:log])
+            Dir.mkdir test_path unless File.exists?(test_path)
 
             # configure and start sc
             configuration = SeleniumConnect::Configuration.new sc_config
             @sc = SeleniumConnect.start configuration
             @job = @sc.create_job # create a new job
-            @driver = @job.start name: example.metadata[:full_description]
+            @driver = @job.start name: test_name
             example.run
           end
           c.after(:each) do
@@ -197,7 +206,7 @@ module ChemistryKit
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
-          c.default_retry_count = 2
+          c.default_retry_count = config.retries_on_failure
 
           if config.concurrency == 1 || options['parallel']
             c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))

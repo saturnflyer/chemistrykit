@@ -1,10 +1,11 @@
-#ChemistryKit 3.6.0 (2013-07-20)
+#ChemistryKit 3.7.0 (2013-07-24)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
-This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration.
+This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users).
+
 
 ChemistryKit's inspiration comes from the Saunter Selenium framework which is available in Python and PHP. You can find more about it [here](http://element34.ca/products/saunter).
 
@@ -107,6 +108,8 @@ ChemistryKit is configured by default with a `config.yaml` file that is created 
 
 `base_url:` The base url of your app, stored to the ENV for access in your beakers and formulas.
 
+`retries_on_failure:` Defaults to 1, set the number of times a test should be retried on failure
+
 `concurrency:` You may override the default concurrency of 1 to run the tests in parallel
 
 `log: path:` You may override the default log path 'evidence'
@@ -143,6 +146,7 @@ Available options for the `brew` command:
 -r, --results_file [NAME]   Specify the name of your results file.
 --tag [TAGS]                Specify a list of tags to run or exclude.
 --params [HASH]             Send a list of "key:value" parameters to the ENV.
+-x, --retry [INT]           How many times should a failing test be retried.
 ```
 
 ###generate forumla
@@ -168,10 +172,14 @@ Usage:
     ckit tags
 
 ##Contribution Guidelines
+
 This project conforms to the [neverstopbuilding/craftsmanship](https://github.com/neverstopbuilding/craftsmanship) guidelines. Please see them for details on:
 - Branching theory
 - Documentation expectations
 - Release process
+
+###Check out the user group!
+[https://groups.google.com/forum/#!forum/chemistrykit-users](https://groups.google.com/forum/#!forum/chemistrykit-users)
 
 ###It's simple
 

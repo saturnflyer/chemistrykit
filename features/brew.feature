@@ -40,8 +40,8 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
-      | evidence/results_junit.xml       |
-      | evidence/bookie/server.log       |
+      | evidence/results_junit.xml |
+      | evidence/bookie/bookie_loads_an_external_web_page/server.log        |
 
   Scenario: Brew a single beaker
     Given a file named "config.yaml" with:
@@ -108,6 +108,54 @@ Feature: Brewing a ChemistryKit project
     """
     When I run `ckit brew --beakers=beakers/failure.rb`
     Then the stdout should contain "1 example, 1 failure"
-    And there should be "2" "failed image" log files in "evidence/failing_beaker"
-    And there should be "2" "report" log files in "evidence/failing_beaker"
-    And there should be "2" "sauce log" log files in "evidence/failing_beaker"
+    And there should be "1" "failed image" log files in "evidence/failing_beaker/failing_beaker_loads_an_external_web_page"
+    And there should be "1" "report" log files in "evidence/failing_beaker/failing_beaker_loads_an_external_web_page"
+    And there should be "1" "sauce log" log files in "evidence/failing_beaker/failing_beaker_loads_an_external_web_page"
+
+  Scenario: Retry a test on failure based on config file
+    Given a file named "config.yaml" with:
+      """
+      retries_on_failure: 3
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/other_beaker.rb" with:
+      """
+      describe "Other" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+          @driver.title.should_not include("Google")
+        end
+      end
+      """
+    When I run `ckit brew --beakers=beakers/other_beaker.rb`
+    Then the stdout should contain "RSpec::Retry: 2nd try"
+    Then the stdout should contain "RSpec::Retry: 3rd try"
+
+  Scenario: Retry a test on failure based on run time parameter
+    Given a file named "config.yaml" with:
+      """
+      retries_on_failure: 2
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/other_beaker.rb" with:
+      """
+      describe "Other" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+          @driver.title.should_not include("Google")
+        end
+      end
+      """
+    When I run `ckit brew --beakers=beakers/other_beaker.rb --retry=3`
+    Then the stdout should contain "RSpec::Retry: 2nd try"
+    Then the stdout should contain "RSpec::Retry: 3rd try"
+
+
