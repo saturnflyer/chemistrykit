@@ -4,7 +4,8 @@
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
-This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration.
+This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users).
+
 
 ChemistryKit's inspiration comes from the Saunter Selenium framework which is available in Python and PHP. You can find more about it [here](http://element34.ca/products/saunter).
 
@@ -171,10 +172,14 @@ Usage:
     ckit tags
 
 ##Contribution Guidelines
+
 This project conforms to the [neverstopbuilding/craftsmanship](https://github.com/neverstopbuilding/craftsmanship) guidelines. Please see them for details on:
 - Branching theory
 - Documentation expectations
 - Release process
+
+###Check out the user group!
+[https://groups.google.com/forum/#!forum/chemistrykit-users](https://groups.google.com/forum/#!forum/chemistrykit-users)
 
 ###It's simple
 
