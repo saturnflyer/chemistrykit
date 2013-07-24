@@ -108,9 +108,9 @@ Feature: Brewing a ChemistryKit project
     """
     When I run `ckit brew --beakers=beakers/failure.rb`
     Then the stdout should contain "1 example, 1 failure"
-    And there should be "2" "failed image" log files in "evidence/failing_beaker"
+    And there should be "2" "failed image" log files in "evidence/failing_beaker/failing_beaker_loads_an_esternal_web_page"
     And there should be "2" "report" log files in "evidence/failing_beaker"
-    And there should be "2" "sauce log" log files in "evidence/failing_beaker"
+    And there should be "2" "sauce log" log files in "evidence/failing_beaker/failing_beaker_loads_an_esternal_web_page"
 
   Scenario: Retry a test on failure based on config file
     Given a file named "config.yaml" with:

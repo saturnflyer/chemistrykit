@@ -40,6 +40,7 @@ Feature: Support for concurency
           description: 'concurrency check'
       """
 
+  @announce
   Scenario: I can run the tests in parallel
     When I run `ckit brew`
     Then the stdout should contain "4 processes for 2 beakers"

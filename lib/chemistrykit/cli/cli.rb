@@ -172,17 +172,22 @@ module ChemistryKit
           c.around(:each) do |example|
             # create the beaker name from the example data
             beaker_name = example.metadata[:example_group][:description_args].first.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+            test_name = example.metadata[:full_description].downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+
             # override log path with be beaker sub path
             sc_config = @config.selenium_connect.dup
             sc_config[:log] += "/#{beaker_name}"
-            sub_evidence_path = File.join(Dir.getwd, sc_config[:log])
-            Dir.mkdir sub_evidence_path unless File.exists?(sub_evidence_path)
+            beaker_path = File.join(Dir.getwd, sc_config[:log])
+            Dir.mkdir beaker_path unless File.exists?(beaker_path)
+            sc_config[:log] += "/#{test_name}"
+            test_path = File.join(Dir.getwd, sc_config[:log])
+            Dir.mkdir test_path unless File.exists?(test_path)
 
             # configure and start sc
             configuration = SeleniumConnect::Configuration.new sc_config
             @sc = SeleniumConnect.start configuration
             @job = @sc.create_job # create a new job
-            @driver = @job.start name: example.metadata[:full_description]
+            @driver = @job.start name: test_name
             example.run
           end
           c.after(:each) do
