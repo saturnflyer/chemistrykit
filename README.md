@@ -4,7 +4,7 @@
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
-This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users).
+This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users). For more usage examples check out our [Friends](#friends) section!
 
 
 ChemistryKit's inspiration comes from the Saunter Selenium framework which is available in Python and PHP. You can find more about it [here](http://element34.ca/products/saunter).
@@ -17,6 +17,7 @@ All the documentation for ChemistryKit can be found in this README, organized as
 - [Command Line Usage](#command-line-usage)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Deployment](#deployment)
+- [Friends](#friends)
 
 ##Getting Started
 
@@ -211,3 +212,11 @@ And another to finish the release:
     rake release_finish['A helpful tag message that will be included in the gemspec.']
 
 This handles updating the change log, committing, and tagging the release.
+
+## Friends
+
+Below you can find some honorable mentions of those friends that are using ChemistryKit:
+
+![image](http://d14f1fnryngsxt.cloudfront.net/images/logo/animotologotext_f78c60cbbd36837c7aad596e3b3bb019.svg)
+
+We are proud that [Animoto](http://animoto.com/) uses ChemistryKit to help them test their awesome web app.
