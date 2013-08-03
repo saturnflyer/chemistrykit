@@ -28,12 +28,4 @@ Gem::Specification.new do |s|
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'
-
-  s.add_development_dependency 'rspec', '~> 2.14.1'
-  s.add_development_dependency 'aruba', '~> 0.5.1'
-  s.add_development_dependency 'cucumber', '~> 1.2.1'
-  s.add_development_dependency 'rake', '~> 10.0.3'
-  s.add_development_dependency 'rubocop', '~> 0.9.0'
-  s.add_development_dependency 'guard-rspec', '~> 3.0.2'
-  s.add_development_dependency 'coveralls', '~> 0.6.7'
 end
