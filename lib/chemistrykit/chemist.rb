@@ -15,6 +15,7 @@ module ChemistryKit
       data.each do |key, value|
         send("#{key}=", value)
       end
+      self
     end
 
     # allow this object to be set with arbitrary key value data

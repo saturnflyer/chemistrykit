@@ -38,5 +38,4 @@ describe ChemistryKit::Chemist do
     @chemist.name.should eq 'cool dude'
     @chemist.email.should eq 'fun@gmail.com'
   end
-
 end
