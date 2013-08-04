@@ -85,6 +85,54 @@ Code in the `formula` directory can be used to build out page objects and helper
 
 So for example if you have a `alpha_page.rb` file in your formulas directory that depends on a `helpers.rb` file, then you best put the `helpers.rb` file in the `lib` directory so it is loaded before the file that depends on it.
 
+###Chemists! The Users of your System Under Test
+With ChemistryKit we made it simple to encapsulate data about a particular user that is "using" your application that you are testing. We call them chemists. When you create a new test harness there will be a `chemists` folder that contains an empty `chemists.csv` file with only the words `key` and `type` at the top. In this folder you can create any number of files with arbitrary user data, **just make sure to include the `key` and`type` headings!** such as:
+
+    /chemists/my_valid_users.csv
+    /chemists/my_bad_users.csv
+    
+An example file might look like this:
+
+    Key,Type,Email,Name,Password
+    admin1,admin,admin@email.com,Mr. Admin,abc123$
+    normal1,normal,normal@email.com,Ms. Normal,test123%
+    normal2,normal,normal2@email.com,Ms. Normals,test123%
+    
+The `key` should be unique so you can pick a specific user, the type, allows you to group users to aid in their selection ad detailed below.
+
+Chemists are made available to your formulas simply by including the `ChemistAware` module in your formula, and loading the formula with the instance of `FormulaLab` provided to your beakers:
+
+```Ruby
+# my_formula.rb
+module Formulas
+  class MyFormula < Formula
+    include ChemistryKit::Formula::ChemistAware
+    ...
+    if chemist.email ...
+    ...
+  end
+end
+
+
+# my_beaker.rb
+describe "my beaker", :depth => 'shallow' do
+
+  let(:my_formula) { @formula_lab.mix('my_formula').with('admin1') }
+  
+  ...
+end
+```
+
+Here is a summary of the methods available:
+
+`.with(key)` - Load a specific chemist by the key.
+`.withRandom(type)` - Load a chemist at random from all those matching `type`
+`.withFirst(type)` - Load whatever chemist is first matched by `type`
+
+The FormulaLab will handle the heavy lifting of assembling your formal with a driver and correct user (if the formula needs one).
+
+
+
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.
 
