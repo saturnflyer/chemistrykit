@@ -50,19 +50,19 @@ Cucumber::Rake::Task.new(:system)
 Rubocop::RakeTask.new
 
 # TODO: lower the quality score and improve the code!
-FlogTask.new :flog_total, 1250 do |t|
+FlogTask.new :flog_total, 2000 do |t|
   t.method = :total_score
   t.verbose = true
 end
 
 # TODO: lower the quality score and improve the code!
-FlogTask.new :flog_average, 12 do |t|
+FlogTask.new :flog_average, 20 do |t|
   t.method = :average
   t.verbose = true
 end
 
 # TODO: lower the quality score and improve the code!
-FlayTask.new :flay, 200 do |t|
+FlayTask.new :flay, 2000 do |t|
   t.verbose = true
 end
 
