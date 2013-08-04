@@ -52,4 +52,17 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     end.to raise_error ArgumentError, 'You must define a type field!'
   end
 
+  it 'can search more than one csv file' do
+    files = []
+    files.push File.join(Dir.pwd, 'spec', 'support', VALID_CHEMIST_CSV)
+    files.push File.join(Dir.pwd, 'spec', 'support', 'other_chemists.csv')
+    repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new(files)
+
+    chemist = repo.load_chemist 'cowboy'
+    chemist.passion.should eq 'Wrasslin'
+
+    chemist = repo.load_chemist 'normal'
+    chemist.email = 'normal@email.com'
+  end
+
 end
