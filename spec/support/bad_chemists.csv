@@ -1,3 +1,3 @@
-Email,Name,Password
-admin@email.com,Mr. Admin,abc123$
-normal@email.com,Ms. Normal,test123%
+Key,Email,Name,Password
+admin1,admin@email.com,Mr. Admin,abc123$
+normal1,normal@email.com,Ms. Normal,test123%

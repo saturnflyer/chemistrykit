@@ -5,14 +5,16 @@ require 'chemistrykit/chemist'
 
 describe ChemistryKit::Chemist do
 
+  VALID_KEY = 'specific_admin'
   VALID_TYPE = 'admin'
   VALID_VALUE = 'my value'
 
   before(:each) do
-    @chemist = ChemistryKit::Chemist.new(VALID_TYPE)
+    @chemist = ChemistryKit::Chemist.new(VALID_KEY, VALID_TYPE)
   end
 
-  it 'must have at least a type' do
+  it 'must have at least a key and type' do
+    @chemist.key.should eq VALID_KEY
     @chemist.type.should eq VALID_TYPE
   end
 

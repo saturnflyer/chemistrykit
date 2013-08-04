@@ -7,8 +7,10 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
 
   VALID_CHEMIST_CSV = 'chemists.csv'
   BAD_CHEMIST_CSV = 'bad_chemists.csv'
+  KEYLESS_CHEMIST_CSV = 'keyless_chemists.csv'
   INVALID_CHEMIST_CSV = 'file_does_not_exist.csv'
   VALID_USER_TYPE = 'admin'
+  VALID_USER_KEY = 'admin1'
   INVALID_USER_TYPE = 'no_type'
 
   before(:each) do
@@ -27,13 +29,23 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     end.to raise_error ArgumentError, 'Supplied file does not exist!'
   end
 
-  it 'should load a user by type identifier' do
-    chemist = @repo.load_chemist VALID_USER_TYPE
+  it 'should load a random by type identifier' do
+    chemist = @repo.load_first_chemist_of_type VALID_USER_TYPE
     chemist.type.should eq VALID_USER_TYPE
   end
 
+  it 'should load a random by specific key' do
+    chemist = @repo.load_chemist_by_key VALID_USER_KEY
+    chemist.key.should eq VALID_USER_KEY
+  end
+
+  it 'should load a random chemist by type' do
+    chemist = @repo.load_random_chemist_of_type 'random'
+    (chemist.key == 'ran1' || chemist.key == 'ran2').should be_true
+  end
+
   it 'should set all the parameters defined in the csv file' do
-    chemist = @repo.load_chemist VALID_USER_TYPE
+    chemist = @repo.load_first_chemist_of_type VALID_USER_TYPE
     chemist.name.should eq 'Mr. Admin'
     chemist.email.should eq 'admin@email.com'
     chemist.password.should eq 'abc123$'
@@ -41,7 +53,7 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
 
   it 'should rais and error if the chemist is not found' do
     expect do
-      @repo.load_chemist INVALID_USER_TYPE
+      @repo.load_first_chemist_of_type INVALID_USER_TYPE
     end.to raise_error ArgumentError, 'Chemist for type "no_type" not found!'
   end
 
@@ -52,16 +64,23 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     end.to raise_error ArgumentError, 'You must define a type field!'
   end
 
+  it 'should raise and error if there is no key heading in the csv file' do
+    csv_file = File.join(Dir.pwd, 'spec', 'support', KEYLESS_CHEMIST_CSV)
+    expect do
+      ChemistryKit::Chemist::Repository::CsvChemistRepository.new(csv_file)
+    end.to raise_error ArgumentError, 'You must define a key field!'
+  end
+
   it 'can search more than one csv file' do
     files = []
     files.push File.join(Dir.pwd, 'spec', 'support', VALID_CHEMIST_CSV)
     files.push File.join(Dir.pwd, 'spec', 'support', 'other_chemists.csv')
     repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new(files)
 
-    chemist = repo.load_chemist 'cowboy'
+    chemist = repo.load_first_chemist_of_type 'cowboy'
     chemist.passion.should eq 'Wrasslin'
 
-    chemist = repo.load_chemist 'normal'
+    chemist = repo.load_first_chemist_of_type 'normal'
     chemist.email = 'normal@email.com'
   end
 
