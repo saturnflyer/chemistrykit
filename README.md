@@ -116,18 +116,16 @@ end
 
 # my_beaker.rb
 describe "my beaker", :depth => 'shallow' do
-
   let(:my_formula) { @formula_lab.mix('my_formula').with('admin1') }
-  
   ...
 end
 ```
 
 Here is a summary of the methods available:
 
-`.with(key)` - Load a specific chemist by the key.
-`.withRandom(type)` - Load a chemist at random from all those matching `type`
-`.withFirst(type)` - Load whatever chemist is first matched by `type`
+- `.with(key)` - Load a specific chemist by the key.
+- `.withRandom(type)` - Load a chemist at random from all those matching `type`
+- `.withFirst(type)` - Load whatever chemist is first matched by `type`
 
 The FormulaLab will handle the heavy lifting of assembling your formal with a driver and correct user (if the formula needs one).
 
