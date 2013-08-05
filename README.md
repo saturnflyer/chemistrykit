@@ -116,20 +116,20 @@ end
 
 # my_beaker.rb
 describe "my beaker", :depth => 'shallow' do
-  let(:my_formula) { @formula_lab.mix('my_formula').with('admin1') }
+  let(:my_formula) { @formula_lab.using('my_formula').with('admin1').mix }
+  # or
+  let(:my_other_formula) { @formula_lab.formula.mix('my_other_formula') }
   ...
 end
 ```
 
-Here is a summary of the methods available:
+Here is a summary of the other methods available:
 
 - `.with(key)` - Load a specific chemist by the key.
-- `.withRandom(type)` - Load a chemist at random from all those matching `type`
-- `.withFirst(type)` - Load whatever chemist is first matched by `type`
+- `.with_random(type)` - Load a chemist at random from all those matching `type`
+- `.with_first(type)` - Load whatever chemist is first matched by `type`
 
 The FormulaLab will handle the heavy lifting of assembling your formal with a driver and correct user (if the formula needs one).
-
-
 
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.
