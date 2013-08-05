@@ -1,0 +1,3 @@
+FeatureEnvy:
+  exclude:
+    - method_missing # the very nature of handling the method name requires this

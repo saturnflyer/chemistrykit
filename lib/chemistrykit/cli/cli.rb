@@ -9,6 +9,8 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
+require 'chemistrykit/formula/formula_lab'
+require 'chemistrykit/chemist/repository/csv_chemist_repository'
 require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
@@ -60,7 +62,7 @@ module ChemistryKit
       method_option :params, type: :hash
       method_option :tag, type: :array
       method_option :config, default: 'config.yaml', aliases: '-c', desc: 'Supply alternative config file.'
-      # TODO there should be a facility to simply pass a path to this command
+      # TODO: there should be a facility to simply pass a path to this command
       method_option :beakers, aliases: '-b', type: :array
       # This is set if the thread is being run in parallel so as not to trigger recursive concurency
       method_option :parallel, default: false
@@ -70,7 +72,7 @@ module ChemistryKit
 
       def brew
         config = load_config options['config']
-        # TODO perhaps the params should be rolled into the available
+        # TODO: perhaps the params should be rolled into the available
         # config object injected into the system?
         pass_params if options['params']
 
@@ -116,13 +118,9 @@ module ChemistryKit
       protected
 
       def override_configs(options, config)
-        # TODO expand this to allow for more overrides as needed
-        if options['results_file']
-          config.log.results_file = options['results_file']
-        end
-        if options['retry']
-          config.retries_on_failure = options['retry'].to_i
-        end
+        # TODO: expand this to allow for more overrides as needed
+        config.log.results_file = options['results_file'] if options['results_file']
+        config.retries_on_failure = options['retry'].to_i if options['retry']
         config
       end
 
@@ -188,6 +186,13 @@ module ChemistryKit
             @sc = SeleniumConnect.start configuration
             @job = @sc.create_job # create a new job
             @driver = @job.start name: test_name
+
+            # TODO: this is messy, and could be refactored out into a static on the lab
+            chemist_data_paths = Dir.glob(File.join(Dir.getwd, 'chemists', '*.csv'))
+            repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new chemist_data_paths
+            # make the formula lab available
+            @formula_lab = ChemistryKit::Formula::FormulaLab.new @driver, repo, File.join(Dir.getwd, 'formulas')
+
             example.run
           end
           c.after(:each) do

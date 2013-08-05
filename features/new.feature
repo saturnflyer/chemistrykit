@@ -13,6 +13,8 @@ Feature: ckit new
       | formulas/lib            |
       | formulas/lib/catalysts  |
       | evidence                |
+      | chemists                |
     And the following files should exist:
       | config.yaml             |
       | formulas/lib/formula.rb |
+      | chemists/chemists.csv   |

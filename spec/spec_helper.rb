@@ -19,6 +19,9 @@ require_relative '../lib/chemistrykit/formula/base'
 require_relative '../lib/chemistrykit/catalyst'
 require_relative '../lib/chemistrykit/configuration'
 
+require_relative '../spec/support/formulas/sub_module/basic_formula'
+require_relative '../spec/support/formulas/sub_module/chemist_formula'
+
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter

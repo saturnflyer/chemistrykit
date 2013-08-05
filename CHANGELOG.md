@@ -1,3 +1,24 @@
+#3.8.0 (2013-08-05)
+Implemented the chemists feature to add user data management as well as a simplified strategy for loading formulas
+
+- Bumped version to 3.8.0 to prepare for release.
+- cleaned up docs a little and ensured the default chemists csv file wouldnt cause a failure if left unpopulated
+- added a uuid injector for a token in csv files
+- integrated the fomula lab into the suite runner and added basic cucumber tests
+- built out the rest of the formula lab and integration tests
+- updated templates to create the default chemists folder
+- upped the flog limits... still need to understand how that will help
+- updated chemist and chemist repository to include key, as well as selection by key, random, or first of type
+- updated documentation of new changes
+- built out the rest of the csv chemist repository
+- started building out the user data repository from a csv file.
+- built out a basic chemist class
+- added module to define chemist aware for the formulas to include
+- added reek and rubocop to the guard file
+- moved dev dependencies to gemfile, added in new code quality checks, fixed some code issues found by rubocop, updated rake tasks
+- updated selenium connect version
+- added animoto mention to friends section
+
 #3.7.0 (2013-07-24)
 updated evidence to put in test based folders and added configuration for the retry functionality
 

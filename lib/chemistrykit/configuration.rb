@@ -48,7 +48,7 @@ module ChemistryKit
     end
 
     def self.initialize_with_yaml(file)
-      self.new symbolize_keys YAML.load_file file
+      new symbolize_keys YAML.load_file file
     end
 
     private
@@ -56,7 +56,7 @@ module ChemistryKit
       def populate_with_hash(hash)
         hash.each do |key, value|
           begin
-            self.send "#{key}=", value unless value.nil?
+            send "#{key}=", value unless value.nil?
           rescue NoMethodError
             raise ArgumentError.new "The config key: \"#{key}\" is unknown!"
           end

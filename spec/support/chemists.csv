@@ -1,0 +1,6 @@
+Key,Type,Email,Name,Password
+admin1,admin,admin@email.com,Mr. Admin,abc123$
+normal1,normal,normal@email.com,Ms. Normal,test123%
+ran1,random,normal@email.com,Ms. Normal,test123%
+ran2,random,normal@email.com,Ms. Normal,test123%
+uuid_chemist,normal,normal{{UUID}}@email.com,Mr. uuid,test123#

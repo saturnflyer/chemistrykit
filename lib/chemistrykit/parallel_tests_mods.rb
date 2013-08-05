@@ -46,7 +46,7 @@ module ParallelTests
         end
 
         def runtime_log
-          # TODO This needs to do something.
+          # TODO: This needs to do something.
           File.join(Dir.getwd, 'evidence', 'parallel_runtime_rspec.log')
         end
 

@@ -1,10 +1,10 @@
-#ChemistryKit 3.7.0 (2013-07-24)
+#ChemistryKit 3.8.0 (2013-08-05)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
 ### A simple and opinionated web testing framework for Selenium WebDriver
 
-This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users).
+This framework was designed to help you get started with Selenium WebDriver quickly, to grow as needed, and to avoid common pitfalls by following convention over configuration. To checkout the user group go [here](https://groups.google.com/forum/#!forum/chemistrykit-users). For more usage examples check out our [Friends](#friends) section!
 
 
 ChemistryKit's inspiration comes from the Saunter Selenium framework which is available in Python and PHP. You can find more about it [here](http://element34.ca/products/saunter).
@@ -17,6 +17,7 @@ All the documentation for ChemistryKit can be found in this README, organized as
 - [Command Line Usage](#command-line-usage)
 - [Contribution Guidelines](#contribution-guidelines)
 - [Deployment](#deployment)
+- [Friends](#friends)
 
 ##Getting Started
 
@@ -83,6 +84,54 @@ Code in the `formula` directory can be used to build out page objects and helper
 - Files are loaded in alphabetical order.
 
 So for example if you have a `alpha_page.rb` file in your formulas directory that depends on a `helpers.rb` file, then you best put the `helpers.rb` file in the `lib` directory so it is loaded before the file that depends on it.
+
+###Chemists! The Users of your System Under Test
+With ChemistryKit we made it simple to encapsulate data about a particular user that is "using" your application that you are testing. We call them chemists. When you create a new test harness there will be a `chemists` folder that contains an empty `chemists.csv` file with only the words `key` and `type` at the top. In this folder you can create any number of files with arbitrary user data, **just make sure to include the `key` and`type` headings!** such as:
+
+    /chemists/my_valid_users.csv
+    /chemists/my_bad_users.csv
+
+An example file might look like this:
+
+    Key,Type,Email,Name,Password
+    admin1,admin,admin@email.com,Mr. Admin,abc123$
+    normal1,normal,normal@email.com,Ms. Normal,test123%
+    normal2,normal,normal2@email.com,Ms. Normals,test123%
+
+The `key` should be unique so you can pick a specific user, the type, allows you to group users to aid in their selection ad detailed below.
+
+You can also put a special token in your csv files: `{{UUID}}` which will be replaced on runtime with a unique identifier. This can be helpful for ensuring certain date is unique across your tests, especially with concurrent runs.
+
+Chemists are made available to your formulas simply by including the `ChemistAware` module in your formula, and loading the formula with the instance of `FormulaLab` provided to your beakers:
+
+```Ruby
+# my_formula.rb
+module Formulas
+  class MyFormula < Formula
+    include ChemistryKit::Formula::ChemistAware
+    ...
+    if chemist.email ...
+    ...
+  end
+end
+
+
+# my_beaker.rb
+describe "my beaker", :depth => 'shallow' do
+  let(:my_formula) { @formula_lab.using('my_formula').with('admin1').mix }
+  # or
+  let(:my_other_formula) { @formula_lab.formula.mix('my_other_formula') }
+  ...
+end
+```
+
+Here is a summary of the other methods available:
+
+- `.with(key)` - Load a specific chemist by the key.
+- `.with_random(type)` - Load a chemist at random from all those matching `type`
+- `.with_first(type)` - Load whatever chemist is first matched by `type`
+
+The FormulaLab will handle the heavy lifting of assembling your formal with a driver and correct user (if the formula needs one).
 
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.
@@ -211,3 +260,11 @@ And another to finish the release:
     rake release_finish['A helpful tag message that will be included in the gemspec.']
 
 This handles updating the change log, committing, and tagging the release.
+
+## Friends
+
+Below you can find some honorable mentions of those friends that are using ChemistryKit:
+
+![image](http://d14f1fnryngsxt.cloudfront.net/images/logo/animotologotext_f78c60cbbd36837c7aad596e3b3bb019.svg)
+
+We are proud that [Animoto](http://animoto.com/) uses ChemistryKit to help them test their awesome web app.
