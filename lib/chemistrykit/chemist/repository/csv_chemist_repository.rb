@@ -19,7 +19,9 @@ module ChemistryKit
             raise ArgumentError, 'Supplied file does not exist!' unless File.exist? file
             table = CSV.read(file, { headers: true, converters: :all, header_converters: :symbol })
             [:key, :type].each do |header|
-              raise ArgumentError, "You must define a #{header.to_s} field!" unless table.headers.include? header
+              unless table.headers.include?(header) || table.headers.length == 0
+                raise ArgumentError, "You must define a #{header.to_s} field!"
+              end
             end
             @tables.push table
           end

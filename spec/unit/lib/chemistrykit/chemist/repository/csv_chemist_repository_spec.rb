@@ -6,6 +6,7 @@ require 'chemistrykit/chemist/repository/csv_chemist_repository'
 describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
 
   VALID_CHEMIST_CSV = 'chemists.csv'
+  VALID_DEFAULT_CSV = 'default_chemists.csv'
   BAD_CHEMIST_CSV = 'bad_chemists.csv'
   KEYLESS_CHEMIST_CSV = 'keyless_chemists.csv'
   INVALID_CHEMIST_CSV = 'file_does_not_exist.csv'
@@ -90,4 +91,9 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     expect(chemist.email).to match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
   end
 
+  it 'should not raise any error if there were no modifications to the default chemists file' do
+    csv_file = File.join(Dir.pwd, 'spec', 'support', VALID_DEFAULT_CSV)
+    repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new(csv_file)
+    repo.should be_an_instance_of ChemistryKit::Chemist::Repository::CsvChemistRepository
+  end
 end

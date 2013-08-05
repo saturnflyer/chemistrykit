@@ -100,7 +100,7 @@ An example file might look like this:
 
 The `key` should be unique so you can pick a specific user, the type, allows you to group users to aid in their selection ad detailed below.
 
-You can also put a special token in your csv files: `{{UUID}}` which will be replaced on runtime with a unique identifier. This can be helpful for ensureing certain date is unique accross your tests, especilly with concurrent runs.
+You can also put a special token in your csv files: `{{UUID}}` which will be replaced on runtime with a unique identifier. This can be helpful for ensuring certain date is unique across your tests, especially with concurrent runs.
 
 Chemists are made available to your formulas simply by including the `ChemistAware` module in your formula, and loading the formula with the instance of `FormulaLab` provided to your beakers:
 

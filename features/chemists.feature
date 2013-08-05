@@ -74,7 +74,6 @@ Feature: Brewing a ChemistryKit project
       end
       """
 
-  @announce
   Scenario: Simple formula loading with formula_lab
     Given a file named "beakers/chemist_beaker.rb" with:
       """
@@ -89,19 +88,36 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
 
-  @announce
   Scenario: Chemist formula loading with formula_lab
     Given a file named "beakers/chemist_beaker.rb" with:
       """
       describe "Chemist Beaker", :depth => 'shallow' do
-        let(:basic) { @formula_lab.using('chemist_formula').with('admin1').mix }
+        let(:chem) { @formula_lab.using('chemist_formula').with('admin1').mix }
 
         it "loads an external web page" do
-          basic.open "http://www.google.com"
-          basic.search
-          basic.search_results_found?.should eq true
+          chem.open "http://www.google.com"
+          chem.search
+          chem.search_results_found?.should eq true
         end
       end
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
+
+  Scenario: Loading multiple formulas in a beaker
+    Given a file named "beakers/chemist_beaker.rb" with:
+      """
+      describe "Chemist Beaker", :depth => 'shallow' do
+        let(:basic) { @formula_lab.mix('basic_formula') }
+        let(:chem) { @formula_lab.using('chemist_formula').with('admin1').mix }
+
+        it "loads an external web page" do
+          basic.open "http://www.google.com"
+          chem.search
+          chem.search_results_found?.should eq true
+        end
+      end
+      """
+    When I run `ckit brew`
+    Then the stdout should contain "1 example, 0 failures"
+
