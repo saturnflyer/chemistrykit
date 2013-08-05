@@ -84,4 +84,10 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     chemist.email = 'normal@email.com'
   end
 
+  it 'should replace the {{UUID}} token with a uuid on runtime if found in a parameter' do
+    chemist = @repo.load_chemist_by_key 'uuid_chemist'
+    # the {{UUID}} token was placed in the email parameter
+    expect(chemist.email).to match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+  end
+
 end

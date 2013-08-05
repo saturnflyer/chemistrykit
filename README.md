@@ -90,15 +90,17 @@ With ChemistryKit we made it simple to encapsulate data about a particular user 
 
     /chemists/my_valid_users.csv
     /chemists/my_bad_users.csv
-    
+
 An example file might look like this:
 
     Key,Type,Email,Name,Password
     admin1,admin,admin@email.com,Mr. Admin,abc123$
     normal1,normal,normal@email.com,Ms. Normal,test123%
     normal2,normal,normal2@email.com,Ms. Normals,test123%
-    
+
 The `key` should be unique so you can pick a specific user, the type, allows you to group users to aid in their selection ad detailed below.
+
+You can also put a special token in your csv files: `{{UUID}}` which will be replaced on runtime with a unique identifier. This can be helpful for ensureing certain date is unique accross your tests, especilly with concurrent runs.
 
 Chemists are made available to your formulas simply by including the `ChemistAware` module in your formula, and loading the formula with the instance of `FormulaLab` provided to your beakers:
 

@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'csv'
+require 'securerandom'
 require 'chemistrykit/chemist'
 
 module ChemistryKit
@@ -64,7 +65,9 @@ module ChemistryKit
 
           def make_chemist(key, type, data)
             chemist = Chemist.new(key, type)
-            chemist.data = data.to_hash
+            data_hash = data.to_hash
+            data_hash.map { |index, value| value.gsub!(/{{UUID}}/, SecureRandom.uuid) }
+            chemist.data = data_hash
             chemist
           end
 
