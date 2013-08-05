@@ -9,6 +9,8 @@ require 'chemistrykit/cli/beaker'
 require 'chemistrykit/cli/helpers/formula_loader'
 require 'chemistrykit/catalyst'
 require 'chemistrykit/formula/base'
+require 'chemistrykit/formula/formula_lab'
+require 'chemistrykit/chemist/repository/csv_chemist_repository'
 require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
@@ -184,6 +186,13 @@ module ChemistryKit
             @sc = SeleniumConnect.start configuration
             @job = @sc.create_job # create a new job
             @driver = @job.start name: test_name
+
+            # TODO: this is messy, and could be refactored out into a static on the lab
+            chemist_data_paths = Dir.glob(File.join(Dir.getwd, 'chemists', '*.csv'))
+            repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new chemist_data_paths
+            # make the formula lab available
+            @formula_lab = ChemistryKit::Formula::FormulaLab.new @driver, repo, File.join(Dir.getwd, 'formulas')
+
             example.run
           end
           c.after(:each) do
