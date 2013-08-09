@@ -11,6 +11,7 @@ describe ChemistryKit::Formula::FormulaLab do
 
   VALID_BASIC_FORMULA_KEY = 'basic_formula'
   VALID_CHEMIST_FORMULA_KEY = 'chemist_formula'
+  VALID_ALTERNATE_CHEMIST_FORMULA = 'alt_chemist_formula'
 
   before(:each) do
     @stub_driver = double 'Selenium::WebDriver::Driver'
@@ -54,6 +55,18 @@ describe ChemistryKit::Formula::FormulaLab do
     formula.should be_an_instance_of Formulas::SubModule::ChemistFormula
     key = formula.chemist.key
     (key == 'ran1' || key == 'ran2').should be_true
+  end
+
+  it 'should deliver formulas with the same instance of chemist if indicated' do
+    formula1 = @lab.using(VALID_CHEMIST_FORMULA_KEY).with(VALID_CHEMIST_KEY).mix
+    formula2 = @lab.using(VALID_ALTERNATE_CHEMIST_FORMULA).with(VALID_CHEMIST_KEY).mix
+
+    expect(formula1.chemist).to be(formula2.chemist)
+    formula2.change_chemist_type 'other'
+    formula1.chemist.type.should eq 'other'
+
+    formula1.chemist.type = 'new'
+    formula2.chemist.type.should eq 'new'
   end
 
 end

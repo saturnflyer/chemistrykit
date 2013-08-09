@@ -1,5 +1,7 @@
 # Encoding: utf-8
 
+require 'chemistrykit/formula/chemist_aware'
+
 module ChemistryKit
   module Formula
     # Base functionality for the Formula class

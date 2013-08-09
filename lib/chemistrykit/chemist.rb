@@ -4,7 +4,8 @@ module ChemistryKit
   # representation of the user object for interacting with the system under test
   class Chemist
 
-    attr_reader :key, :type, :data
+    attr_accessor :type
+    attr_reader :data, :key
 
     def initialize(key, type)
       @key = key.to_s
@@ -14,7 +15,7 @@ module ChemistryKit
 
     def data=(data)
       data.each do |key, value|
-        send("#{key}=", value)
+        send("#{key}=", value) unless key == :key
       end
     end
 

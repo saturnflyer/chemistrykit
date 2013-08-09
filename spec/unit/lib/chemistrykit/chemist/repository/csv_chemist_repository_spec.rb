@@ -96,4 +96,17 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new(csv_file)
     repo.should be_an_instance_of ChemistryKit::Chemist::Repository::CsvChemistRepository
   end
+
+  it 'should always return the same instance of any chemist' do
+    chemist1 = @repo.load_chemist_by_key VALID_USER_KEY
+    chemist2 = @repo.load_chemist_by_key VALID_USER_KEY
+    expect(chemist2).to be(chemist1)
+  end
+
+  it 'should always return the same instance of any chemist by first type' do
+    chemist1 = @repo.load_first_chemist_of_type VALID_USER_TYPE
+    chemist2 = @repo.load_first_chemist_of_type VALID_USER_TYPE
+    expect(chemist2).to be(chemist1)
+  end
+
 end
