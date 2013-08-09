@@ -17,6 +17,7 @@ require 'parallel_tests'
 require 'chemistrykit/parallel_tests_mods'
 require 'chemistrykit/j_unit'
 
+require 'chemistrykit/rspec/html_formatter'
 module ChemistryKit
   module CLI
 
@@ -40,7 +41,7 @@ module ChemistryKit
       desc 'tags', 'Lists all tags in use in the test harness.'
       def tags
         beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
-        RSpec.configure do |c|
+        ::RSpec.configure do |c|
           c.add_setting :used_tags
           c.before(:suite) { RSpec.configuration.used_tags = [] }
           c.around(:each) do |example|
@@ -55,7 +56,7 @@ module ChemistryKit
             puts RSpec.configuration.used_tags.sort
           end
         end
-        RSpec::Core::Runner.run(beakers)
+        ::RSpec::Core::Runner.run(beakers)
       end
 
       desc 'brew', 'Run ChemistryKit'
@@ -157,7 +158,7 @@ module ChemistryKit
 
       # rubocop:disable MethodLength
       def rspec_config(config) # Some of these bits work and others don't
-        RSpec.configure do |c|
+        ::RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           unless options[:all]
             c.filter_run @tags[:filter] unless @tags[:filter].nil?
@@ -208,6 +209,7 @@ module ChemistryKit
           c.pattern = '**/*_beaker.rb'
           c.output_stream = $stdout
           c.add_formatter 'progress'
+          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, 'results.html'))
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
@@ -230,7 +232,7 @@ module ChemistryKit
       end
 
       def run_rspec(beakers)
-        RSpec::Core::Runner.run(beakers)
+        ::RSpec::Core::Runner.run(beakers)
       end
     end # CkitCLI
   end # CLI

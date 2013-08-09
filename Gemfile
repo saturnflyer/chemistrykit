@@ -15,3 +15,5 @@ gem 'ruby2ruby'
 gem 'reek', '1.3.1'
 gem 'guard-reek'
 gem 'guard-rubocop'
+
+gem "selenium-client", "~> 1.2.18"
