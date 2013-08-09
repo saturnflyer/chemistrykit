@@ -1,3 +1,11 @@
+#3.8.1 (2013-08-09)
+Cleaned up chemists to use same instance in the formulas and bug fixes
+
+- Bumped version to 3.8.1 to prepare for release.
+- updated docs and moved the chemist aware module require to the base class
+- updated tests and chemist to reflect the mutability of type but not key
+- improved chemists by ensuring the same chemist object is always in play so that different formulas that update it state work together, also fixed a small bug with the loading of formulas by name
+
 #3.8.0 (2013-08-05)
 Implemented the chemists feature to add user data management as well as a simplified strategy for loading formulas
 
