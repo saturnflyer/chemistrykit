@@ -1,4 +1,4 @@
-#ChemistryKit 3.8.0 (2013-08-05)
+#ChemistryKit 3.8.1 (2013-08-09)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
@@ -114,8 +114,11 @@ module Formulas
     ...
   end
 end
+```
 
+Note that because the `Chemist` is set after the instantiation of your formula by the `FormulaLab` you would *not be able* to do things in the constructor of your formula that depend on a chemist, unless you are explicitly passing in the `Chemist`. We suggest that you keep the instantiation of your page objects separate from the actions they take.
 
+```Ruby
 # my_beaker.rb
 describe "my beaker", :depth => 'shallow' do
   let(:my_formula) { @formula_lab.using('my_formula').with('admin1').mix }
@@ -131,7 +134,7 @@ Here is a summary of the other methods available:
 - `.with_random(type)` - Load a chemist at random from all those matching `type`
 - `.with_first(type)` - Load whatever chemist is first matched by `type`
 
-The FormulaLab will handle the heavy lifting of assembling your formal with a driver and correct user (if the formula needs one).
+The FormulaLab will handle the heavy lifting of assembling your formula with a driver and correct chemist (if the formula needs one). Also note that the specific instance of chemist is cached so that any changes your formula makes to the chemist is reflected in other formulas that use it.
 
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.

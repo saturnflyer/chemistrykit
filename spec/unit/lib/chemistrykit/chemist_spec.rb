@@ -28,10 +28,10 @@ describe ChemistryKit::Chemist do
     @chemist.data.should eq my_key: VALID_VALUE
   end
 
-  it 'should not be able to override the other instance variables' do
-    @chemist.type = 'other'
-    @chemist.type.should eq VALID_TYPE
-    @chemist.data.include?(:type).should be_false
+  it 'should not be able to override the key variable' do
+    @chemist.key = 'other'
+    @chemist.key.should eq VALID_KEY
+    @chemist.data.include?(:key).should be_false
   end
 
   it 'should be able to be populated with a hash of arbitrary data' do
