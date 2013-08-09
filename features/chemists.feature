@@ -23,8 +23,6 @@ Feature: Brewing a ChemistryKit project
       """
     And a file named "formulas/chemist_formula.rb" with:
       """
-      require 'chemistrykit/formula/chemist_aware'
-
       module Formulas
         class ChemistFormula < Formula
           include ChemistryKit::Formula::ChemistAware

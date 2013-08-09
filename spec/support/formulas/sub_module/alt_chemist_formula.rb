@@ -1,7 +1,6 @@
 # Encoding: utf-8
 
 require 'chemistrykit/formula/base'
-require 'chemistrykit/formula/chemist_aware'
 
 module Formulas
   module SubModule
