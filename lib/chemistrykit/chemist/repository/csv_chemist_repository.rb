@@ -13,6 +13,7 @@ module ChemistryKit
 
         def initialize(csv_path)
           @tables = []
+          @chemist_cache = {}
           files = csv_path.kind_of?(String) ? [csv_path] : csv_path
 
           files.each do |file|
@@ -32,7 +33,8 @@ module ChemistryKit
         def load_chemist_by_key(key)
           @tables.each do |table|
             chemist_data = table.find { |row| row[:key] == key }
-            return make_chemist(key, chemist_data[:type], chemist_data) if chemist_data
+            chemist = make_chemist(key, chemist_data[:type], chemist_data) if chemist_data
+            return fetch_from_cache chemist
           end
           raise ArgumentError, "Chemist for type \"#{key}\" not found!"
         end
@@ -40,13 +42,13 @@ module ChemistryKit
         # Required Method
         # Load the first chemist found for a given type
         def load_first_chemist_of_type(type)
-          load_chemists_of_type(type)[0]
+          fetch_from_cache(load_chemists_of_type(type)[0])
         end
 
         # Required Method
         # Loads a chemist at random from all those found with a given type
         def load_random_chemist_of_type(type)
-          load_chemists_of_type(type).sample
+          fetch_from_cache(load_chemists_of_type(type).sample)
         end
 
         protected
@@ -71,6 +73,12 @@ module ChemistryKit
             data_hash.map { |index, value| value.gsub!(/{{UUID}}/, SecureRandom.uuid) }
             chemist.data = data_hash
             chemist
+          end
+
+          def fetch_from_cache(chemist)
+            return @chemist_cache[chemist.key.to_sym] if @chemist_cache.include?(chemist.key.to_sym)
+            @chemist_cache[chemist.key.to_sym] = chemist
+            fetch_from_cache chemist
           end
 
       end

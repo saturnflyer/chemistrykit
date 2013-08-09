@@ -4,7 +4,8 @@ module ChemistryKit
   # representation of the user object for interacting with the system under test
   class Chemist
 
-    attr_reader :key, :type, :data
+    attr_accessor :key, :type
+    attr_reader :data
 
     def initialize(key, type)
       @key = key.to_s

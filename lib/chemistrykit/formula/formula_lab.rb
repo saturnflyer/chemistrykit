@@ -53,7 +53,7 @@ module ChemistryKit
 
         def find_formula_file
           Find.find(@formulas_dir) do |path|
-            return path if path =~ /.*#{@formula}\.rb$/
+            return path if path =~ /.*\/#{@formula}\.rb$/
           end
         end
 
