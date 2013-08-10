@@ -5,7 +5,7 @@ module ChemistryKit
   module RSpec
     class HtmlFormatter < ::RSpec::Core::Formatters::HtmlFormatter
       def extra_failure_content(exception)
-        "<h1>Ya'll know we be failing.</h1>"
+        super + "<h1>Ya'll know we be failing.</h1>"
       end
     end
   end

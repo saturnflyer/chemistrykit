@@ -209,14 +209,19 @@ module ChemistryKit
           c.pattern = '**/*_beaker.rb'
           c.output_stream = $stdout
           c.add_formatter 'progress'
-          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, 'results.html'))
+
+          html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results.html'
+
+
+          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
           c.default_retry_count = config.retries_on_failure
 
           if config.concurrency == 1 || options['parallel']
-            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, config.log.results_file))
+            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit.xml'
+            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, junit_log_name))
           end
         end
       end
