@@ -14,8 +14,8 @@ require 'chemistrykit/chemist/repository/csv_chemist_repository'
 require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
-require 'chemistrykit/parallel_tests_mods'
-require 'chemistrykit/j_unit'
+require 'chemistrykit/parallel_tests/rspec/runner'
+require 'chemistrykit/rspec/j_unit_formatter'
 
 require 'chemistrykit/rspec/html_formatter'
 module ChemistryKit
@@ -216,7 +216,7 @@ module ChemistryKit
           c.default_retry_count = config.retries_on_failure
 
           if config.concurrency == 1 || options['parallel']
-            c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))
+            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, config.log.results_file))
           end
         end
       end

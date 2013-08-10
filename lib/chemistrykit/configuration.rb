@@ -25,7 +25,7 @@ module ChemistryKit
       @log = OpenStruct.new
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'
-      @log.format = 'JUnit'
+      @log.format = 'ChemistryKit::RSpec::JUnitFormatter'
 
       # overide with argument
       populate_with_hash hash
@@ -33,7 +33,7 @@ module ChemistryKit
 
     def log=(log_hash)
       log_hash.each do |key, value|
-        value = 'JUnit' if key == :format && value =~ /junit/i
+        value = 'ChemistryKit::RSpec::JUnitFormatter' if key == :format && value =~ /junit/i
         @log.send("#{key}=", value) unless value.nil?
       end
     end

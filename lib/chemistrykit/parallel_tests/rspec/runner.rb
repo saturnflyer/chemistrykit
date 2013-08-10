@@ -2,7 +2,6 @@
 
 require 'parallel_tests/rspec/runner'
 require 'parallel_tests/test/runner'
-require 'securerandom'
 
 module ParallelTests
   module RSpec
@@ -18,7 +17,9 @@ module ParallelTests
         # cmd = [exe, options[:test_options], (rspec_2_color if version == 2), spec_opts, *test_files].compact.join(" ")
         # NOTE: The above line was modified to conform to ckit's command line constraints
 
-          cmd = [exe, options[:test_options]].compact.join(' ')
+        file_name = "parallel_part_#{process_number}.xml"
+
+          cmd = [exe, "--results_file #{file_name}", options[:test_options]].compact.join(' ')
           cmd << test_files.join(' ')
 
         # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3 etc`
@@ -32,9 +33,7 @@ module ParallelTests
         end
 
         def determine_executable
-          uuid = SecureRandom.uuid
-          file_name = "parallel_part_#{uuid}.xml"
-          "bundle exec ckit brew --parallel --results_file #{file_name}"
+          'bundle exec ckit brew --parallel'
         end
 
         def test_file_name
