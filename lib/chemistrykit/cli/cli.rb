@@ -114,9 +114,15 @@ module ChemistryKit
           run_rspec beakers
         end
 
+        process_html
+
       end
 
       protected
+
+      def process_html
+        # TODO: pull in the configurable evidence directory
+      end
 
       def override_configs(options, config)
         # TODO: expand this to allow for more overrides as needed
@@ -210,8 +216,7 @@ module ChemistryKit
           c.output_stream = $stdout
           c.add_formatter 'progress'
 
-          html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results.html'
-
+          html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results_0.html'
 
           c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
 

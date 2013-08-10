@@ -28,4 +28,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'
+  s.add_dependency 'nokogiri', '~> 1.6.0'
 end
