@@ -38,7 +38,10 @@ module ChemistryKit
 
         File.open(@output_file, 'w') do |file|
 
-          file.write '<html>'
+          file.write '<!DOCTYPE html>'
+          file.write '<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->'
+          file.write '<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->'
+
             file.write get_report_head 'passing'
           file.write '<body>'
             file.write get_report_header
@@ -50,6 +53,8 @@ module ChemistryKit
           end
 
           file.write '</div>' # closes .report
+
+          file.write get_report_endscripts
           file.write '</body>'
           file.write '</html>'
 
@@ -129,6 +134,21 @@ module ChemistryKit
               end
             end
           end
+        end
+      end
+
+      def get_report_endscripts
+        build_fragment do |doc|
+          doc.script {
+            doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'vendor', 'jquery.js'))
+          }
+          doc.script{
+            doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'foundation', 'foundation.js'))
+          }
+          doc.script{
+            doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'foundation', 'foundation.section.js'))
+          }
+          doc.script { doc.text '$(document).foundation();'}
         end
       end
 

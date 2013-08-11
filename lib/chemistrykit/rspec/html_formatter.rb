@@ -4,6 +4,7 @@ require 'rspec/core/formatters/base_text_formatter'
 require 'chemistrykit/rspec/core/formatters/html_printer'
 require 'nokogiri'
 require 'erb'
+require 'rspec/core/formatters/snippet_extractor'
 
 module ChemistryKit
   module RSpec
@@ -70,15 +71,90 @@ module ChemistryKit
 
       def example_failed(example)
         super(example)
+        exception = example.metadata[:execution_result][:exception]
         @example_group_status = 'failing'
         @example_group_html += render_example('failing', example) do |doc|
           doc.div(class: 'row exception') {
             doc.div(class: 'large-12 columns') {
               doc.pre {
-                exception = example.metadata[:execution_result][:exception]
                 message = exception.message if exception
                 doc.text message
               }
+            }
+          }
+          doc.div(class: 'row code-snippet') {
+            doc.div(class: 'large-12 columns') {
+              doc << render_code(exception)
+            }
+          }
+          doc.div(class: 'row extra-content') {
+            doc.div(class: 'large-12 columns') {
+              doc.div(class: 'section-container auto', 'data-section' => ''){
+                doc << render_stack_trace(example)
+                doc << render_log_if_found(example, 'server.log')
+                doc << render_log_if_found(example, 'chromedriver.log')
+                doc << render_log_if_found(example, 'firefox.log')
+                doc << render_log_if_found(example, 'sauce.log')
+                doc << render_failshot_if_found(example)
+              }
+            }
+          }
+        end
+      end
+
+      # TODO: replace the section id with a uuid or something....
+      def render_failshot_if_found(example)
+        beaker_folder = slugify(@example_group.description)
+        example_folder = slugify(@example_group.description + '_' + example.description)
+        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'failshot.png' )
+        if File.exist?(path)
+          render_section('Failure Screenshot', 3) do |doc|
+            doc.img(src: path)
+          end
+        end
+      end
+
+      def render_log_if_found(example, log)
+        beaker_folder = slugify(@example_group.description)
+        example_folder = slugify(@example_group.description + '_' + example.description)
+        log_path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, log )
+        if File.exist?(log_path)
+          render_section(log.capitalize, 2) do |doc|
+            doc.pre {
+              doc.text File.open(log_path, 'rb') { |file| file.read }
+            }
+          end
+        end
+      end
+
+      def slugify(string)
+        string.downcase.strip.gsub(' ', '_').gsub(/[^\w-]/, '')
+      end
+
+      def render_stack_trace(example)
+        exception = example.metadata[:execution_result][:exception]
+        render_section('Stack Trace', 1) do |doc|
+          doc.pre {
+            doc.text format_backtrace(exception.backtrace, example).join("\n")
+          }
+        end
+      end
+
+      def render_code(exception)
+        backtrace = exception.backtrace.map {|line| backtrace_line(line)}
+        backtrace.compact!
+        @snippet_extractor ||= ::RSpec::Core::Formatters::SnippetExtractor.new
+        "<pre class=\"ruby\"><code>#{@snippet_extractor.snippet(backtrace)}</code></pre>"
+      end
+
+      def render_section(title, panel_number)
+        build_fragment do |doc|
+          doc.section {
+            doc.p(class: 'title', 'data-section-title' => '') {
+              doc.a(href: "#panel#{panel_number}") { doc.text title }
+            }
+            doc.div(class: 'content', 'data-section-content' => '') {
+              yield doc
             }
           }
         end

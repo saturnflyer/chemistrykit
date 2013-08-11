@@ -52,3 +52,22 @@ Feature: Advanced HTML Reports
   Scenario: I can run the tests in parallel
     When I run `ckit brew`
     Then the stdout should contain "2 processes for 3 beakers"
+
+  @announce
+  Scenario: I run one failing beaker
+    Given I overwrite config.yaml with:
+      """
+      concurrency: 2
+      screenshot_on_fail: true
+      selenium_connect:
+          log: 'evidence'
+          host: 'saucelabs'
+          browser: 'firefox'
+          sauce_username: 'testing_arrgyle'
+          sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
+          description: 'concurrency check'
+      """
+    When I run `ckit brew --beakers=beakers/third_beaker.rb`
+    Then the stdout should contain "2 processes for 1 beakers"
+
+
