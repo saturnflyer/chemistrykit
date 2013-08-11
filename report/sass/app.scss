@@ -1,0 +1,206 @@
+// Global Foundation Settings
+@import "compass";
+@import "settings";
+
+// Comment out this import if you don't want to use normalize
+@import "normalize";
+
+// Comment out this import if you are customizing you imports below
+//@import "foundation";
+
+// Import specific parts of Foundation by commenting the import "foundation"
+// and uncommenting what you want below. You must uncomment the following if customizing
+
+@import "foundation/components/global"; // *always required
+@import "foundation/components/grid";
+
+//
+// Use this grid if you want to start using the new Foundation 5 grid early.
+// It will change breakpoints to min-width: 640px and 1024px.
+//
+// @import "foundation/components/grid-5";
+//
+
+// @import "foundation/components/visibility";
+@import "foundation/components/block-grid";
+@import "foundation/components/type";
+// @import "foundation/components/buttons";
+// @import "foundation/components/forms"; // *requires components/buttons
+// @import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
+// @import "foundation/components/button-groups"; // *requires components/buttons
+// @import "foundation/components/dropdown-buttons"; // *requires components/buttons
+// @import "foundation/components/split-buttons"; // *requires components/buttons
+// @import "foundation/components/flex-video";
+@import "foundation/components/section";
+// @import "foundation/components/top-bar";  // *requires components/grid
+// @import "foundation/components/orbit";
+// @import "foundation/components/reveal";
+// @import "foundation/components/joyride";
+// @import "foundation/components/clearing";
+// @import "foundation/components/alert-boxes";
+// @import "foundation/components/breadcrumbs";
+// @import "foundation/components/keystrokes";
+// @import "foundation/components/labels";
+// @import "foundation/components/inline-lists";
+// @import "foundation/components/pagination";
+// @import "foundation/components/panels";
+// @import "foundation/components/pricing-tables";
+// @import "foundation/components/progress-bars";
+// @import "foundation/components/side-nav";
+// @import "foundation/components/sub-nav";
+// @import "foundation/components/switch";
+// @import "foundation/components/magellan";
+// @import "foundation/components/tables";
+// @import "foundation/components/thumbs";
+// @import "foundation/components/tooltips";
+// @import "foundation/components/dropdown";
+
+$light-green: #c9f76f;
+$darker-green: #83ae2c;
+$darkest-green: #659700;
+$light-red: #fc9b71;
+
+/* Ruby code, style similar to vibrant ink */
+.ruby {
+
+  font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: #333;
+  padding: 0.2em 0 0.3em 0;
+
+}
+
+    code {
+        color: #eee;
+    }
+
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: $light-green; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
+
+.ruby .offending { background-color: #666; }
+.ruby .linenum {
+  width: 75px;
+  padding: 0.2em 1em 0.2em 1em;
+  color: #ccc;
+  background-color: #222;
+}
+
+.passing {
+    border: 2px solid $success-color;
+    h1, h2, h3 {
+        color: $success-color;
+    }
+    background-color: $light-green;
+}
+
+.passing-color {
+    color: $success-color;
+}
+
+.failing {
+    border: 2px solid $alert-color;
+    h1, h2, h3 {
+        color: $alert-color;
+    }
+    background-color: $light-red;
+}
+
+.failing-color {
+    color: $alert-color;
+}
+
+.pending {
+    border: 2px solid $secondary-color;
+    h1, h2, h3 {
+        color: $secondary-color;
+    }
+    background-color: #fcdf71;
+}
+
+.pending-color {
+    color: $secondary-color;
+}
+
+.reaction-color {
+    color: $primary-color;
+}
+
+.summary {
+    .row {
+        margin-bottom: 1em;
+    }
+    .status {
+        border-width: 10px;
+        @include border-radius(10px);
+        h1 {
+            font-size: 5em;
+            margin-bottom: 0.25em;
+            padding-left: .2em;
+        }
+    }
+    .details {
+        border: 2px solid #DDD;
+        @include border-radius(10px);
+        li {
+            text-align: center;
+            padding-top: 1.5em;
+            i {
+                font-size: 3em;
+            }
+            p {
+                font-weight: bold;
+                margin-bottom: 0em;
+            }
+        }
+    }
+}
+
+.example-group {
+    @include border-radius(10px);
+    margin-bottom: 1em;
+}
+
+.row {
+    .example{
+        @include border-radius(4px);
+        margin-bottom: .5em;
+    }
+}
+
+.examples {
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.example-heading {
+    p {
+    font-weight: bold;
+    margin-bottom: 0em;
+    }
+
+    font-size: 1.2em;
+}
+
+.example-body{
+    padding-top: 1em;
+    .row{
+        margin-bottom: 1em;
+    }
+}

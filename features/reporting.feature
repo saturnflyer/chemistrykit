@@ -13,6 +13,9 @@ Feature: Advanced HTML Reports
         @driver.get "http://www.google.com"
         @driver.title.should include("Yoogle")
       end
+      it 'something pending' do
+        pending 'this should be pending'
+      end
       it "loads an external web page, from 1, example 2" do
         @driver.get "http://www.google.com"
         @driver.title.should include("Google")

@@ -17,7 +17,10 @@ require 'parallel_tests'
 require 'chemistrykit/parallel_tests/rspec/runner'
 require 'chemistrykit/rspec/j_unit_formatter'
 
+require 'rspec/core/formatters/html_formatter'
 require 'chemistrykit/rspec/html_formatter'
+
+require 'chemistrykit/reporting/html_report_assembler'
 module ChemistryKit
   module CLI
 
@@ -114,14 +117,18 @@ module ChemistryKit
           run_rspec beakers
         end
 
-        process_html
+        process_html unless options['parallel']
 
       end
 
       protected
 
       def process_html
-        # TODO: pull in the configurable evidence directory
+        File.join(Dir.getwd, 'evidence')
+        results_folder = File.join(Dir.getwd, 'evidence')
+        output_file = File.join(Dir.getwd, 'evidence', 'final_results.html')
+        assembler = ChemistryKit::Reporting::HtmlReportAssembler.new(results_folder, output_file)
+        assembler.assemble
       end
 
       def override_configs(options, config)
@@ -219,6 +226,7 @@ module ChemistryKit
           html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results_0.html'
 
           c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
+          # c.add_formatter(::RSpec::Core::Formatters::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
