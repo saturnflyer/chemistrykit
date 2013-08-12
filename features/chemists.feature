@@ -44,6 +44,29 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
+    And a file named "formulas/advanced_chemist_formula.rb" with:
+      """
+      module Formulas
+        class ChemistFormula < Formula
+          include ChemistryKit::Formula::ChemistAware
+          def open(url)
+            @driver.get url
+          end
+
+          def search
+            search_box = find id: 'gbqfq'
+            search_box.send_keys chemist.some_sub_account.item
+            search_box.send_keys :enter
+          end
+
+          def search_results_found?
+            wait_for(5) { displayed? id: 'search' }
+            search_results = find id: 'search'
+            search_results.text.include?(chemist.some_sub_account.item)
+          end
+        end
+      end
+      """
     And a file named "formulas/lib/formula.rb" with:
       """
       module Formulas
@@ -102,7 +125,6 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
 
-  @announce
   Scenario: Loading multiple formulas in a beaker
     Given a file named "beakers/chemist_beaker.rb" with:
       """
@@ -132,3 +154,24 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "2 examples, 0 failures"
 
+  @announce
+  Scenario: Composing a chemist from multiple files
+    Given a file named "beakers/chemist_beaker.rb" with:
+      """
+      describe "Chemist Beaker", :depth => 'shallow' do
+        let(:basic) { @formula_lab.mix('basic_formula') }
+        let(:chem) { @formula_lab.using('advanced_chemist_formula').with('admin1').and_with('other1').mix }
+        it "loads an external web page" do
+          basic.open "http://www.google.com"
+          chem.search
+          chem.search_results_found?.should eq true
+        end
+      end
+      """
+    And a file named "chemists/others.csv" with:
+      """
+      Key,Type,Item
+      other1,some_sub_account,some_item
+      """
+    When I run `ckit brew`
+    Then the stdout should contain "1 example, 0 failures"
