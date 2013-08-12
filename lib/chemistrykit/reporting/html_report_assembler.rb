@@ -5,7 +5,8 @@ require 'nokogiri'
 module ChemistryKit
   module Reporting
     class HtmlReportAssembler
-
+      # TODO: Refactor to remove this cop exception
+      # rubocop:disable MethodLength, ParameterLists
       def initialize(results_path, output_file)
         @results_path = results_path
         @output_file = output_file
@@ -139,16 +140,16 @@ module ChemistryKit
 
       def get_report_endscripts
         build_fragment do |doc|
-          doc.script {
+          doc.script do
             doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'vendor', 'jquery.js'))
-          }
-          doc.script{
+          end
+          doc.script do
             doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'foundation', 'foundation.js'))
-          }
-          doc.script{
+          end
+          doc.script do
             doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'foundation', 'foundation.section.js'))
-          }
-          doc.script { doc.text '$(document).foundation();'}
+          end
+          doc.script { doc.text '$(document).foundation();' }
         end
       end
 
@@ -163,7 +164,7 @@ module ChemistryKit
       def load_from_file(path)
         File.open(path, 'rb') { |file| file.read }
       end
-
+      # rubocop:enable MethodLength, ParameterLists
     end
   end
 end

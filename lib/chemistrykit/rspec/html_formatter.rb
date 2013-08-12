@@ -35,17 +35,17 @@ module ChemistryKit
 
       def example_group_finished(example_group)
         @output_html << build_fragment do |doc|
-          doc.div(class: "row example-group #{@example_group_status}") {
-            doc.div(class: 'large-12 columns') {
-              doc.h3 {
+          doc.div(class: "row example-group #{@example_group_status}") do
+            doc.div(class: 'large-12 columns') do
+              doc.h3 do
                 doc.i(class: 'icon-beaker')
                 doc.text ' ' + example_group.description
-              }
-              doc.div(class: 'examples'){
+              end
+              doc.div(class: 'examples') do
                 doc << @example_group_html
-              }
-            }
-          }
+              end
+            end
+          end
         end
       end
 
@@ -61,13 +61,13 @@ module ChemistryKit
       def example_pending(example)
         super(example)
         @example_group_html += render_example('pending', example) do |doc|
-          doc.div(class: 'row exception') {
-            doc.div(class: 'large-12 columns') {
-              doc.pre {
+          doc.div(class: 'row exception') do
+            doc.div(class: 'large-12 columns') do
+              doc.pre do
                 doc.text "PENDING: #{example.metadata[:execution_result][:pending_message]}"
-              }
-            }
-          }
+              end
+            end
+          end
         end
       end
 
@@ -76,22 +76,30 @@ module ChemistryKit
         exception = example.metadata[:execution_result][:exception]
         @example_group_status = 'failing'
         @example_group_html += render_example('failing', example) do |doc|
-          doc.div(class: 'row exception') {
-            doc.div(class: 'large-12 columns') {
-              doc.pre {
+          doc.div(class: 'row exception') do
+            doc.div(class: 'large-12 columns') do
+              doc.pre do
                 message = exception.message if exception
                 doc.text message
-              }
-            }
-          }
-          doc.div(class: 'row code-snippet') {
-            doc.div(class: 'large-12 columns') {
+              end
+            end
+          end
+          doc.div(class: 'row code-snippet') do
+            doc.div(class: 'large-12 columns') do
               doc << render_code(exception)
-            }
-          }
-          doc.div(class: 'row extra-content') {
-            doc.div(class: 'large-12 columns') {
-              doc.div(class: 'section-container auto', 'data-section' => ''){
+            end
+          end
+          div << render_extra_content(example)
+        end
+      end
+
+      # TODO: put the right methods private, or better yet, pull this stuff out into its own
+      # set of classes
+      def render_extra_content(example)
+        build_fragment do |doc|
+          doc.div(class: 'row extra-content') do
+            doc.div(class: 'large-12 columns') do
+              doc.div(class: 'section-container auto', 'data-section' => '') do
                 doc << render_stack_trace(example)
                 doc << render_log_if_found(example, 'server.log')
                 doc << render_log_if_found(example, 'chromedriver.log')
@@ -99,9 +107,9 @@ module ChemistryKit
                 doc << render_log_if_found(example, 'sauce_job.log')
                 doc << render_dom_html_if_found(example)
                 doc << render_failshot_if_found(example)
-              }
-            }
-          }
+              end
+            end
+          end
         end
       end
 
@@ -109,10 +117,10 @@ module ChemistryKit
         # TODO: pull out the common code for checking if the log file exists
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
-        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom.html' )
+        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom.html')
         if File.exist?(path)
           render_section('Dom Html') do |doc|
-            doc << Pygments.highlight(File.read(path), :lexer => 'html')
+            doc << Pygments.highlight(File.read(path), lexer: 'html')
           end
         end
       end
@@ -121,7 +129,7 @@ module ChemistryKit
       def render_failshot_if_found(example)
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
-        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'failshot.png' )
+        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'failshot.png')
         if File.exist?(path)
           render_section('Failure Screenshot') do |doc|
             doc.img(src: path)
@@ -132,12 +140,12 @@ module ChemistryKit
       def render_log_if_found(example, log)
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
-        log_path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, log )
+        log_path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, log)
         if File.exist?(log_path)
           render_section(log.capitalize) do |doc|
-            doc.pre {
+            doc.pre do
               doc.text File.open(log_path, 'rb') { |file| file.read }
-            }
+            end
           end
         end
       end
@@ -149,14 +157,14 @@ module ChemistryKit
       def render_stack_trace(example)
         exception = example.metadata[:execution_result][:exception]
         render_section('Stack Trace') do |doc|
-          doc.pre {
+          doc.pre do
             doc.text format_backtrace(exception.backtrace, example).join("\n")
-          }
+          end
         end
       end
 
       def render_code(exception)
-        backtrace = exception.backtrace.map {|line| backtrace_line(line)}
+        backtrace = exception.backtrace.map { |line| backtrace_line(line) }
         backtrace.compact!
         @snippet_extractor ||= ::RSpec::Core::Formatters::SnippetExtractor.new
         "<pre class=\"ruby\"><code>#{@snippet_extractor.snippet(backtrace)}</code></pre>"
@@ -165,39 +173,36 @@ module ChemistryKit
       def render_section(title)
         panel_id = SecureRandom.uuid
         build_fragment do |doc|
-          doc.section {
-            doc.p(class: 'title', 'data-section-title' => '') {
+          doc.section do
+            doc.p(class: 'title', 'data-section-title' => '') do
               doc.a(href: "#panel#{panel_id}") { doc.text title }
-            }
-            doc.div(class: 'content', 'data-section-content' => '') {
+            end
+            doc.div(class: 'content', 'data-section-content' => '') do
               yield doc
-            }
-          }
+            end
+          end
         end
       end
 
       def render_example(status, example)
         build_fragment do |doc|
-          doc.div(class: "row example #{status}") {
-            doc.div(class: 'large-12 columns') {
-              doc.div(class: 'row example-heading') {
-                doc.div(class: 'large-9 columns') {
+          doc.div(class: "row example #{status}") do
+            doc.div(class: 'large-12 columns') do
+              doc.div(class: 'row example-heading') do
+                doc.div(class: 'large-9 columns') do
                   doc.p { doc.text example.description.capitalize }
-                }
-                doc.div(class: 'large-3 columns text-right') {
-                  doc.p { doc.text sprintf("%.0i", example.execution_result[:run_time]) + 's' }
-                }
-              }
-              doc.div(class: 'row example-body') {
-                doc.div(class: 'large-12 columns') {
-                  yield doc
-                }
-              }
-            }
-          }
+                end
+                doc.div(class: 'large-3 columns text-right') do
+                  doc.p { doc.text sprintf('%.0i', example.execution_result[:run_time]) + 's' }
+                end
+              end
+              doc.div(class: 'row example-body') do
+                doc.div(class: 'large-12 columns') { yield doc }
+              end
+            end
+          end
         end
       end
-
 
       def dump_failures
       end
@@ -213,9 +218,7 @@ module ChemistryKit
             'data-duration' => duration.to_s,
             'data-failures' => failure_count.to_s,
             'data-pendings' => pending_count.to_s
-            ) {
-            doc << @output_html
-          }
+            ) { doc << @output_html }
         end
         @output.puts output
       end
@@ -225,7 +228,7 @@ module ChemistryKit
       # end
       #
       def build_fragment
-        final = Nokogiri::HTML::DocumentFragment.parse ""
+        final = Nokogiri::HTML::DocumentFragment.parse ''
         Nokogiri::HTML::Builder.with(final) do |doc|
           yield doc
         end
