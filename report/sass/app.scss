@@ -1,0 +1,571 @@
+// Global Foundation Settings
+@import "compass";
+@import "settings";
+
+// Comment out this import if you don't want to use normalize
+@import "normalize";
+
+// Comment out this import if you are customizing you imports below
+//@import "foundation";
+
+// Import specific parts of Foundation by commenting the import "foundation"
+// and uncommenting what you want below. You must uncomment the following if customizing
+
+@import "foundation/components/global"; // *always required
+@import "foundation/components/grid";
+
+//
+// Use this grid if you want to start using the new Foundation 5 grid early.
+// It will change breakpoints to min-width: 640px and 1024px.
+//
+// @import "foundation/components/grid-5";
+//
+
+// @import "foundation/components/visibility";
+@import "foundation/components/block-grid";
+@import "foundation/components/type";
+// @import "foundation/components/buttons";
+// @import "foundation/components/forms"; // *requires components/buttons
+// @import "foundation/components/custom-forms"; // *requires components/buttons, components/forms
+// @import "foundation/components/button-groups"; // *requires components/buttons
+// @import "foundation/components/dropdown-buttons"; // *requires components/buttons
+// @import "foundation/components/split-buttons"; // *requires components/buttons
+// @import "foundation/components/flex-video";
+@import "foundation/components/section";
+// @import "foundation/components/top-bar";  // *requires components/grid
+// @import "foundation/components/orbit";
+// @import "foundation/components/reveal";
+// @import "foundation/components/joyride";
+// @import "foundation/components/clearing";
+// @import "foundation/components/alert-boxes";
+// @import "foundation/components/breadcrumbs";
+// @import "foundation/components/keystrokes";
+// @import "foundation/components/labels";
+// @import "foundation/components/inline-lists";
+// @import "foundation/components/pagination";
+// @import "foundation/components/panels";
+// @import "foundation/components/pricing-tables";
+// @import "foundation/components/progress-bars";
+// @import "foundation/components/side-nav";
+// @import "foundation/components/sub-nav";
+// @import "foundation/components/switch";
+// @import "foundation/components/magellan";
+// @import "foundation/components/tables";
+// @import "foundation/components/thumbs";
+// @import "foundation/components/tooltips";
+// @import "foundation/components/dropdown";
+
+$light-green: #c9f76f;
+$darker-green: #83ae2c;
+$darkest-green: #659700;
+$light-red: #fc9b71;
+
+/* Ruby code, style similar to vibrant ink */
+.ruby {
+
+  font-size: 12px;
+  font-family: monospace;
+  color: white;
+  background-color: #333;
+  padding: 0.2em 0 0.3em 0;
+
+}
+
+    code {
+        color: #eee;
+    }
+
+.ruby .keyword { color: #FF6600; }
+.ruby .constant { color: #339999; }
+.ruby .attribute { color: white; }
+.ruby .global { color: white; }
+.ruby .module { color: white; }
+.ruby .class { color: white; }
+.ruby .string { color: $light-green; }
+.ruby .ident { color: white; }
+.ruby .method { color: #FFCC00; }
+.ruby .number { color: white; }
+.ruby .char { color: white; }
+.ruby .comment { color: #9933CC; }
+.ruby .symbol { color: white; }
+.ruby .regex { color: #44B4CC; }
+.ruby .punct { color: white; }
+.ruby .escape { color: white; }
+.ruby .interp { color: white; }
+.ruby .expr { color: white; }
+
+.ruby .offending { background-color: #666; }
+.ruby .linenum {
+  width: 75px;
+  padding: 0.2em 1em 0.2em 1em;
+  color: #ccc;
+  background-color: #222;
+}
+
+.passing {
+    border: 2px solid $success-color;
+    h1, h2, h3 {
+        color: $success-color;
+    }
+    background-color: $light-green;
+}
+
+.passing-color {
+    color: $success-color;
+}
+
+.failing {
+    border: 2px solid $alert-color;
+    h1, h2, h3 {
+        color: $alert-color;
+    }
+    background-color: $light-red;
+}
+
+.failing-color {
+    color: $alert-color;
+}
+
+.pending {
+    border: 2px solid $secondary-color;
+    h1, h2, h3 {
+        color: $secondary-color;
+    }
+    background-color: #fcdf71;
+}
+
+.pending-color {
+    color: $secondary-color;
+}
+
+.reaction-color {
+    color: $primary-color;
+}
+
+.summary {
+    .row {
+        margin-bottom: 1em;
+    }
+    .status {
+        border-width: 10px;
+        @include border-radius(10px);
+        h1 {
+            font-size: 5em;
+            margin-bottom: 0.25em;
+            padding-left: .2em;
+        }
+    }
+    .details {
+        border: 2px solid #DDD;
+        @include border-radius(10px);
+        li {
+            text-align: center;
+            padding-top: 1.5em;
+            i {
+                font-size: 3em;
+            }
+            p {
+                font-weight: bold;
+                margin-bottom: 0em;
+            }
+        }
+    }
+}
+
+.example-group {
+    @include border-radius(10px);
+    margin-bottom: 1em;
+}
+
+.row {
+    .example{
+        @include border-radius(4px);
+        margin-bottom: .5em;
+    }
+}
+
+.examples {
+    padding-left: .5em;
+    padding-right: .5em;
+}
+
+.example-heading {
+    p {
+    font-weight: bold;
+    margin-bottom: 0em;
+    }
+
+    font-size: 1.2em;
+}
+
+.example-body{
+    padding-top: 1em;
+    .row{
+        margin-bottom: 1em;
+    }
+}
+
+
+.highlight
+{
+    background:#2B2B2B;
+    color:#E6E1DC;
+    border-radius:4px;
+    padding:1px 10px;
+    padding: 15px;
+    margin-bottom: 1em;
+}
+
+.highlight .hll
+{
+    background-color:#ffc;
+}
+
+.highlight .c
+{
+    color:#BC9458;
+    font-style:italic;
+}
+
+.highlight .err
+{
+    color:#E6E1DC;
+}
+
+.highlight .g
+{
+    color:#E6E1DC;
+}
+
+.highlight .k
+{
+    color:#CC7833;
+}
+
+.highlight .l
+{
+    color:#E6E1DC;
+}
+
+.highlight .n
+{
+    color:#E6E1DC;
+}
+
+.highlight .o
+{
+    color:#E6E1DC;
+}
+
+.highlight .x
+{
+    color:#E6E1DC;
+}
+
+.highlight .p
+{
+    color:#E6E1DC;
+}
+
+.highlight .cm
+{
+    color:#BC9458;
+    font-style:italic;
+}
+
+.highlight .cp
+{
+    color:#CC7833;
+}
+
+.highlight .c1
+{
+    color:#BC9458;
+    font-style:italic;
+}
+
+.highlight .cs
+{
+    color:#BC9458;
+    font-style:italic;
+}
+
+.highlight .gd
+{
+    color:#E6E1DC;
+    background-color:#600;
+}
+
+.highlight .ge
+{
+    color:#E6E1DC;
+}
+
+.highlight .gr
+{
+    color:#FFF;
+    background-color:#900;
+}
+
+.highlight .gh
+{
+    color:#FFF;
+}
+
+.highlight .gi
+{
+    color:#E6E1DC;
+    background-color:#144212;
+}
+
+.highlight .go
+{
+    color:#E6E1DC;
+}
+
+.highlight .gp
+{
+    color:#E6E1DC;
+}
+
+.highlight .gs
+{
+    color:#E6E1DC;
+}
+
+.highlight .gu
+{
+    color:#FFF;
+}
+
+.highlight .gt
+{
+    color:#E6E1DC;
+}
+
+.highlight .kc
+{
+    color:#CC7833;
+}
+
+.highlight .kd
+{
+    color:#CC7833;
+}
+
+.highlight .kn
+{
+    color:#CC7833;
+}
+
+.highlight .kp
+{
+    color:#CC7833;
+}
+
+.highlight .kr
+{
+    color:#CC7833;
+}
+
+.highlight .kt
+{
+    color:#DA4939;
+}
+
+.highlight .ld
+{
+    color:#E6E1DC;
+}
+
+.highlight .m
+{
+    color:#A5C261;
+}
+
+.highlight .s
+{
+    color:#A5C261;
+}
+
+.highlight .na
+{
+    color:#FFC66D;
+}
+
+.highlight .nb
+{
+    color:#E6E1DC;
+}
+
+.highlight .nc
+{
+    color:#E6E1DC;
+}
+
+.highlight .no
+{
+    color:#6D9CBE;
+}
+
+.highlight .nd
+{
+    color:#E6E1DC;
+}
+
+.highlight .ni
+{
+    color:#E6E1DC;
+}
+
+.highlight .ne
+{
+    color:#E6E1DC;
+}
+
+.highlight .nf
+{
+    color:#FFC66D;
+}
+
+.highlight .nl
+{
+    color:#E6E1DC;
+}
+
+.highlight .nn
+{
+    color:#E6E1DC;
+}
+
+.highlight .nx
+{
+    color:#E6E1DC;
+}
+
+.highlight .py
+{
+    color:#E6E1DC;
+}
+
+.highlight .nt
+{
+    color:#CC7833;
+}
+
+.highlight .nv
+{
+    color:#D0D0FF;
+}
+
+.highlight .ow
+{
+    color:#E6E1DC;
+}
+
+.highlight .w
+{
+    color:#E6E1DC;
+}
+
+.highlight .mf
+{
+    color:#A5C261;
+}
+
+.highlight .mh
+{
+    color:#A5C261;
+}
+
+.highlight .mi
+{
+    color:#A5C261;
+}
+
+.highlight .mo
+{
+    color:#A5C261;
+}
+
+.highlight .sb
+{
+    color:#A5C261;
+}
+
+.highlight .sc
+{
+    color:#A5C261;
+}
+
+.highlight .sd
+{
+    color:#A5C261;
+}
+
+.highlight .s2
+{
+    color:#A5C261;
+}
+
+.highlight .se
+{
+    color:#A5C261;
+}
+
+.highlight .sh
+{
+    color:#A5C261;
+}
+
+.highlight .si
+{
+    color:#A5C261;
+}
+
+.highlight .sx
+{
+    color:#A5C261;
+}
+
+.highlight .sr
+{
+    color:#A5C261;
+}
+
+.highlight .s1
+{
+    color:#A5C261;
+}
+
+.highlight .ss
+{
+    color:#A5C261;
+}
+
+.highlight .bp
+{
+    color:#E6E1DC;
+}
+
+.highlight .vc
+{
+    color:#D0D0FF;
+}
+
+.highlight .vg
+{
+    color:#D0D0FF;
+}
+
+.highlight .vi
+{
+    color:#D0D0FF;
+}
+
+.highlight .il
+{
+    color:#A5C261;
+}
+
+

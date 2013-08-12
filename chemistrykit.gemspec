@@ -24,8 +24,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'builder', '~> 3.2.2'
   s.add_dependency 'selenium-webdriver', '~> 2.29.0'
   s.add_dependency 'rest-client', '~> 1.6.7'
-  s.add_dependency 'selenium-connect', '~> 3.4.0'
+  s.add_dependency 'selenium-connect', '~> 3.5.0'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'
+  s.add_dependency 'nokogiri', '~> 1.6.0'
+
+  s.add_dependency 'syntax'
+  s.add_dependency "pygments.rb", "~> 0.5.2"
 end
