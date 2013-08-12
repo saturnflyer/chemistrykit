@@ -14,6 +14,7 @@ module ChemistryKit
         @chemist_repository = chemist_repository
         raise ArgumentError, "Formula directory \"#{formulas_dir}\" does not exist!" unless File.directory?(formulas_dir)
         @formulas_dir = formulas_dir
+        @sub_chemists = []
       end
 
       def using(formula_key)
@@ -23,6 +24,7 @@ module ChemistryKit
 
       def mix(formula_key = nil)
         @formula = formula_key ||= formula
+        compose_chemists unless @sub_chemists.empty?
         raise ArgumentError, 'A formula key must be defined!' unless @formula
         formula_file = find_formula_file
         class_name = get_class_name formula_file
@@ -49,7 +51,18 @@ module ChemistryKit
         self
       end
 
+      def and_with(key)
+        @sub_chemists << @chemist_repository.load_chemist_by_key(key)
+        self
+      end
+
       private
+
+        def compose_chemists
+          @sub_chemists.each do |sub_chemist|
+            @chemist.with sub_chemist
+          end
+        end
 
         def find_formula_file
           Find.find(@formulas_dir) do |path|

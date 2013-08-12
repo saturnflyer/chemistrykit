@@ -48,11 +48,9 @@ Feature: Advanced HTML Reports
           browser: 'firefox'
       """
 
-  @announce
   Scenario: I can run the tests
     When I run `ckit brew`
 
-  @announce
   Scenario: I can run the tests with concurrency
     Given I overwrite config.yaml with:
       """
@@ -69,7 +67,6 @@ Feature: Advanced HTML Reports
     When I run `ckit brew`
     Then the stdout should contain "2 processes for 3 beakers"
 
-  @announce
   Scenario: I can run a passing suite
   Given a file named "beakers/fourth_beaker.rb" with:
     """

@@ -47,7 +47,7 @@ Feature: Brewing a ChemistryKit project
     And a file named "formulas/advanced_chemist_formula.rb" with:
       """
       module Formulas
-        class ChemistFormula < Formula
+        class AdvancedChemistFormula < Formula
           include ChemistryKit::Formula::ChemistAware
           def open(url)
             @driver.get url
@@ -154,7 +154,6 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "2 examples, 0 failures"
 
-  @announce
   Scenario: Composing a chemist from multiple files
     Given a file named "beakers/chemist_beaker.rb" with:
       """

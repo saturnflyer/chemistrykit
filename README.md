@@ -133,6 +133,18 @@ Here is a summary of the other methods available:
 - `.with(key)` - Load a specific chemist by the key.
 - `.with_random(type)` - Load a chemist at random from all those matching `type`
 - `.with_first(type)` - Load whatever chemist is first matched by `type`
+- `.and_with(key)` - Adds the chemist found by `key` as a sub-chemist data set to the chemist.
+
+Using `.and_with` lets you mix up various sets of user data. For example:
+
+     @formula_lab.using('my_formula').with('admin1').and_with('sub_account1').mix
+     
+Would get you (assuming `sub_account1` has a type of `sub_account`, and a field `my_sub_field`) the ability to do something like this:
+
+    chemist.sub_account.my_sub_field
+    
+Inside your formula. COOL!
+
 
 The FormulaLab will handle the heavy lifting of assembling your formula with a driver and correct chemist (if the formula needs one). Also note that the specific instance of chemist is cached so that any changes your formula makes to the chemist is reflected in other formulas that use it.
 

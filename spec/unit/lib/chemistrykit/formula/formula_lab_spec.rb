@@ -8,6 +8,7 @@ describe ChemistryKit::Formula::FormulaLab do
   VALID_FORMULA_KEY = 'my_formula'
   VALID_CHEMIST_KEY = 'admin1'
   VALID_CHEMIST_TYPE = 'admin'
+  VALID_SUB_CHEMIST_KEY = 'sub1'
 
   before(:each) do
     @stub_driver = double 'Selenium::WebDriver::Driver'
@@ -32,6 +33,7 @@ describe ChemistryKit::Formula::FormulaLab do
     @lab.should respond_to :with
     @lab.should respond_to :with_random
     @lab.should respond_to :with_first
+    @lab.should respond_to :and_with
   end
 
   it 'should let the formula key be set' do
@@ -52,6 +54,11 @@ describe ChemistryKit::Formula::FormulaLab do
   it 'should set the require chemist using with_first' do
     @lab.with_first(VALID_CHEMIST_TYPE).should be @lab
     expect(@stub_repo).to have_received(:load_first_chemist_of_type).with(VALID_CHEMIST_TYPE)
+  end
+
+  it 'should add an additional chemist data set using and_with' do
+    @lab.and_with(VALID_SUB_CHEMIST_KEY).should be @lab
+    expect(@stub_repo).to have_received(:load_chemist_by_key).with(VALID_SUB_CHEMIST_KEY)
   end
 
   it 'should raise an error if mix is called and the formula is nil' do

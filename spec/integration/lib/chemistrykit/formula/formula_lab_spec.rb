@@ -72,10 +72,25 @@ describe ChemistryKit::Formula::FormulaLab do
   end
 
   it 'should get chemists from different files' do
-    formula1 = @lab.using(VALID_CHEMIST_FORMULA_KEY).with_first('cowboy').mix
+    formula1 = @lab.using(VALID_CHEMIST_FORMULA_KEY).with('cowboy1').mix
     formula1.chemist.passion.should eq 'Wrasslin'
     formula2 = @lab.using(VALID_ALTERNATE_CHEMIST_FORMULA).with_first('normal').mix
     formula2.chemist.email.should eq 'normal@email.com'
+  end
+
+  it 'should compose a chemist on formula creation' do
+    formula = @lab.using(VALID_ALTERNATE_CHEMIST_FORMULA).with('normal1').and_with('cowboy1').mix
+    formula.chemist.cowboy.passion.should eq 'Wrasslin'
+  end
+
+  it 'should compose the same object of chemist' do
+    formula1 = @lab.using(VALID_CHEMIST_FORMULA_KEY).with('normal1').and_with('cowboy1').mix
+    formula2 = @lab.using(VALID_ALTERNATE_CHEMIST_FORMULA).with('normal1').and_with('cowboy1').mix
+    expect(formula1.chemist).to be(formula2.chemist)
+    formula2.change_chemist_type 'other'
+    formula1.chemist.type.should eq 'other'
+    formula1.chemist.type = 'new'
+    formula2.chemist.type.should eq 'new'
   end
 
 end
