@@ -46,17 +46,17 @@ module ChemistryKit
         beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
         ::RSpec.configure do |c|
           c.add_setting :used_tags
-          c.before(:suite) { RSpec.configuration.used_tags = [] }
+          c.before(:suite) { ::RSpec.configuration.used_tags = [] }
           c.around(:each) do |example|
             standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
             example.metadata.each do |key, value|
               tag = "#{key}:#{value}" unless standard_keys.include?(key)
-              RSpec.configuration.used_tags.push tag unless RSpec.configuration.used_tags.include?(tag) || tag.nil?
+              ::RSpec.configuration.used_tags.push tag unless ::RSpec.configuration.used_tags.include?(tag) || tag.nil?
             end
           end
           c.after(:suite) do
             puts "\nTags used in harness:\n\n"
-            puts RSpec.configuration.used_tags.sort
+            puts ::RSpec.configuration.used_tags.sort
           end
         end
         ::RSpec::Core::Runner.run(beakers)
@@ -112,18 +112,19 @@ module ChemistryKit
 
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          run_in_parallel beakers, config.concurrency, @tags, options
+          exit_code = run_in_parallel beakers, config.concurrency, @tags, options
         else
-          run_rspec beakers
+          exit_code = run_rspec beakers
         end
 
         process_html unless options['parallel']
-
+        exit_code unless options['parallel']
       end
 
       protected
 
       def process_html
+        puts 'PROCESS HTML CALLED'
         File.join(Dir.getwd, 'evidence')
         results_folder = File.join(Dir.getwd, 'evidence')
         output_file = File.join(Dir.getwd, 'evidence', 'final_results.html')

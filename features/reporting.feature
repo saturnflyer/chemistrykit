@@ -48,9 +48,29 @@ Feature: Advanced HTML Reports
           browser: 'firefox'
       """
 
+  @announce
   Scenario: I can run the tests
     When I run `ckit brew`
+    Then the stdout should contain "5 examples, 3 failures, 1 pending"
+    And the following files should exist:
+      | evidence/final_results.html |
 
+  @announce
+  Scenario: I can run the tests local with  concurrency
+    Given I overwrite config.yaml with:
+      """
+      concurrency: 2
+      screenshot_on_fail: true
+      selenium_connect:
+          log: 'evidence'
+          browser: 'chrome'
+      """
+    When I run `ckit brew`
+    Then the stdout should contain "5 examples, 3 failures, 1 pending"
+    And the following files should exist:
+      | evidence/final_results.html |
+
+  @announce
   Scenario: I can run the tests with concurrency
     Given I overwrite config.yaml with:
       """
@@ -66,6 +86,8 @@ Feature: Advanced HTML Reports
       """
     When I run `ckit brew`
     Then the stdout should contain "2 processes for 3 beakers"
+    And the following files should exist:
+      | evidence/final_results.html |
 
   Scenario: I can run a passing suite
   Given a file named "beakers/fourth_beaker.rb" with:
@@ -78,4 +100,6 @@ Feature: Advanced HTML Reports
     end
     """
   When I run `ckit brew --beakers=beakers/fourth_beaker.rb`
+  And the following files should exist:
+      | evidence/final_results.html |
 

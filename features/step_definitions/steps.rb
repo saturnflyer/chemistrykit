@@ -15,7 +15,7 @@ Then(/^there should be "(.*?)" unique results files in the "(.*?)" directory$/) 
   files = Dir.glob(File.join(current_dir, logs_path, '*.xml'))
   count = 0
   files.each do |file|
-    count += 1 if file =~ /parallel_part_\w{8}-(\w{4}-){3}\w{12}\.xml/
+    count += 1 if file =~ /junit_\d+\.xml/
   end
   count.should == number_files.to_i
 end
@@ -26,11 +26,11 @@ Then(/^there should be "(.*?)" "(.*?)" log files in "(.*?)"$/) do |number, type,
   files.each do |file|
     case type
     when 'failed image'
-      count += 1 if file =~ /.+_failshot_.+\.png/
+      count += 1 if file =~ /failshot\.png/
     when 'report'
-      count += 1 if file =~ /.+_saucejob_.+\.log/
+      count += 1 if file =~ /sauce_job\.log/
     when 'sauce log'
-        count += 1 if file =~ /.+_serverlog_.+\.log/
+        count += 1 if file =~ /server\.log/
     end
   end
   count.should == number.to_i
