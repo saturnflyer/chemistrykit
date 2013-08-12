@@ -42,19 +42,18 @@ Feature: Advanced HTML Reports
     """
     And I overwrite config.yaml with:
       """
+      screenshot_on_fail: true
       selenium_connect:
           log: 'evidence'
-          browser: chrome
-      concurrency: 2
+          browser: 'firefox'
       """
 
   @announce
-  Scenario: I can run the tests in parallel
+  Scenario: I can run the tests
     When I run `ckit brew`
-    Then the stdout should contain "2 processes for 3 beakers"
 
   @announce
-  Scenario: I run one failing beaker
+  Scenario: I can run the tests with concurrency
     Given I overwrite config.yaml with:
       """
       concurrency: 2
@@ -67,7 +66,19 @@ Feature: Advanced HTML Reports
           sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
           description: 'concurrency check'
       """
-    When I run `ckit brew --beakers=beakers/third_beaker.rb`
-    Then the stdout should contain "2 processes for 1 beakers"
+    When I run `ckit brew`
+    Then the stdout should contain "2 processes for 3 beakers"
 
+  @announce
+  Scenario: I can run a passing suite
+  Given a file named "beakers/fourth_beaker.rb" with:
+    """
+    describe "Reporting Beaker 4", :depth => 'shallow' do
+      it "loads an external web page, from 4" do
+        @driver.get "http://www.google.com"
+        @driver.title.should include("Google")
+      end
+    end
+    """
+  When I run `ckit brew --beakers=beakers/fourth_beaker.rb`
 

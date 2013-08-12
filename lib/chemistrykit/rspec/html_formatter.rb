@@ -5,6 +5,8 @@ require 'chemistrykit/rspec/core/formatters/html_printer'
 require 'nokogiri'
 require 'erb'
 require 'rspec/core/formatters/snippet_extractor'
+require 'pygments'
+require 'securerandom'
 
 module ChemistryKit
   module RSpec
@@ -94,11 +96,24 @@ module ChemistryKit
                 doc << render_log_if_found(example, 'server.log')
                 doc << render_log_if_found(example, 'chromedriver.log')
                 doc << render_log_if_found(example, 'firefox.log')
-                doc << render_log_if_found(example, 'sauce.log')
+                doc << render_log_if_found(example, 'sauce_job.log')
+                doc << render_dom_html_if_found(example)
                 doc << render_failshot_if_found(example)
               }
             }
           }
+        end
+      end
+
+      def render_dom_html_if_found(example)
+        # TODO: pull out the common code for checking if the log file exists
+        beaker_folder = slugify(@example_group.description)
+        example_folder = slugify(@example_group.description + '_' + example.description)
+        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom.html' )
+        if File.exist?(path)
+          render_section('Dom Html') do |doc|
+            doc << Pygments.highlight(File.read(path), :lexer => 'html')
+          end
         end
       end
 
@@ -108,7 +123,7 @@ module ChemistryKit
         example_folder = slugify(@example_group.description + '_' + example.description)
         path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'failshot.png' )
         if File.exist?(path)
-          render_section('Failure Screenshot', 3) do |doc|
+          render_section('Failure Screenshot') do |doc|
             doc.img(src: path)
           end
         end
@@ -119,7 +134,7 @@ module ChemistryKit
         example_folder = slugify(@example_group.description + '_' + example.description)
         log_path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, log )
         if File.exist?(log_path)
-          render_section(log.capitalize, 2) do |doc|
+          render_section(log.capitalize) do |doc|
             doc.pre {
               doc.text File.open(log_path, 'rb') { |file| file.read }
             }
@@ -133,7 +148,7 @@ module ChemistryKit
 
       def render_stack_trace(example)
         exception = example.metadata[:execution_result][:exception]
-        render_section('Stack Trace', 1) do |doc|
+        render_section('Stack Trace') do |doc|
           doc.pre {
             doc.text format_backtrace(exception.backtrace, example).join("\n")
           }
@@ -147,11 +162,12 @@ module ChemistryKit
         "<pre class=\"ruby\"><code>#{@snippet_extractor.snippet(backtrace)}</code></pre>"
       end
 
-      def render_section(title, panel_number)
+      def render_section(title)
+        panel_id = SecureRandom.uuid
         build_fragment do |doc|
           doc.section {
             doc.p(class: 'title', 'data-section-title' => '') {
-              doc.a(href: "#panel#{panel_number}") { doc.text title }
+              doc.a(href: "#panel#{panel_id}") { doc.text title }
             }
             doc.div(class: 'content', 'data-section-content' => '') {
               yield doc

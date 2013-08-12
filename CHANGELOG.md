@@ -1,3 +1,12 @@
+#3.9.0-rc.1 (2013-08-12)
+Release candidate with new features including
+- Consolidated html report
+- Updates to chemists to support multiple chemists from being joined
+
+###Known Issues
+- When running chrome locally the chromedriver logs do not always get placed in the correct places, likely due to the current approach of moving them around
+
+
 #3.8.0 (2013-08-05)
 Implemented the chemists feature to add user data management as well as a simplified strategy for loading formulas
 

@@ -195,6 +195,8 @@ module ChemistryKit
             test_path = File.join(Dir.getwd, sc_config[:log])
             Dir.mkdir test_path unless File.exists?(test_path)
 
+            puts sc_config.inspect
+
             # configure and start sc
             configuration = SeleniumConnect::Configuration.new sc_config
             @sc = SeleniumConnect.start configuration
