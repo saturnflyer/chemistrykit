@@ -1,7 +1,6 @@
 # Encoding: utf-8
 
 require 'rspec/core/formatters/base_text_formatter'
-require 'chemistrykit/rspec/core/formatters/html_printer'
 require 'nokogiri'
 require 'erb'
 require 'rspec/core/formatters/snippet_extractor'
@@ -30,7 +29,7 @@ module ChemistryKit
         @example_group = example_group
         @example_group_html = ''
         @example_group_number += 1
-        @example_group_status = 'passed'
+        @example_group_status = 'passing'
       end
 
       def example_group_finished(example_group)
@@ -89,7 +88,7 @@ module ChemistryKit
               doc << render_code(exception)
             end
           end
-          div << render_extra_content(example)
+          doc.div << render_extra_content(example)
         end
       end
 

@@ -102,20 +102,33 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
 
+  @announce
   Scenario: Loading multiple formulas in a beaker
     Given a file named "beakers/chemist_beaker.rb" with:
       """
       describe "Chemist Beaker", :depth => 'shallow' do
         let(:basic) { @formula_lab.mix('basic_formula') }
         let(:chem) { @formula_lab.using('chemist_formula').with('admin1').mix }
+        let(:chem2) { @formula_lab.using('chemist_formula').with('other1').mix }
 
         it "loads an external web page" do
           basic.open "http://www.google.com"
           chem.search
           chem.search_results_found?.should eq true
         end
+
+        it "loads an external web page" do
+          basic.open "http://www.google.com"
+          chem2.search
+          chem2.search_results_found?.should eq true
+        end
       end
       """
+    And a file named "chemists/others.csv" with:
+      """
+      Key,Type,Email,Name,Password
+      other1,other,other@email.com,Mr. Other,abc123$
+      """
     When I run `ckit brew`
-    Then the stdout should contain "1 example, 0 failures"
+    Then the stdout should contain "2 examples, 0 failures"
 

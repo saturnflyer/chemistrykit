@@ -34,7 +34,7 @@ module ChemistryKit
           @tables.each do |table|
             chemist_data = table.find { |row| row[:key] == key }
             chemist = make_chemist(key, chemist_data[:type], chemist_data) if chemist_data
-            return fetch_from_cache chemist
+            return fetch_from_cache(chemist) if chemist
           end
           raise ArgumentError, "Chemist for type \"#{key}\" not found!"
         end
