@@ -82,7 +82,7 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     chemist.passion.should eq 'Wrasslin'
 
     chemist = repo.load_first_chemist_of_type 'normal'
-    chemist.email = 'normal@email.com'
+    chemist.email.should eq 'normal@email.com'
   end
 
   it 'should replace the {{UUID}} token with a uuid on runtime if found in a parameter' do

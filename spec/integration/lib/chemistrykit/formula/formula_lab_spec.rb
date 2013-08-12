@@ -15,8 +15,10 @@ describe ChemistryKit::Formula::FormulaLab do
 
   before(:each) do
     @stub_driver = double 'Selenium::WebDriver::Driver'
-    chemists_path = File.join(Dir.pwd, 'spec', 'support', 'chemists.csv')
-    @repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new chemists_path
+    files = []
+    files.push File.join(Dir.pwd, 'spec', 'support', 'chemists.csv')
+    files.push File.join(Dir.pwd, 'spec', 'support', 'other_chemists.csv')
+    @repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new files
     formulas_dir = File.join(Dir.pwd, 'spec', 'support', 'formulas')
     @lab = ChemistryKit::Formula::FormulaLab.new @stub_driver, @repo, formulas_dir
   end
@@ -67,6 +69,13 @@ describe ChemistryKit::Formula::FormulaLab do
 
     formula1.chemist.type = 'new'
     formula2.chemist.type.should eq 'new'
+  end
+
+  it 'should get chemists from different files' do
+    formula1 = @lab.using(VALID_CHEMIST_FORMULA_KEY).with_first('cowboy').mix
+    formula1.chemist.passion.should eq 'Wrasslin'
+    formula2 = @lab.using(VALID_ALTERNATE_CHEMIST_FORMULA).with_first('normal').mix
+    formula2.chemist.email.should eq 'normal@email.com'
   end
 
 end
