@@ -88,7 +88,7 @@ module ChemistryKit
               doc << render_code(exception)
             end
           end
-          doc.div << render_extra_content(example)
+          doc << render_extra_content(example)
         end
       end
 
