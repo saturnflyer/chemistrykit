@@ -2,11 +2,12 @@
 
 require 'parallel_tests/rspec/runner'
 require 'parallel_tests/test/runner'
-require 'securerandom'
 
 module ParallelTests
   module RSpec
     # Monkey Patching the ParallelTest RSpec Runner class to work with CKit's config and binary
+    # TODO: we could probably make this its own typed runner versus extinding the rspec
+    # one if this continues to get used
     class Runner < ParallelTests::Test::Runner
       class << self
 
@@ -18,7 +19,8 @@ module ParallelTests
         # cmd = [exe, options[:test_options], (rspec_2_color if version == 2), spec_opts, *test_files].compact.join(" ")
         # NOTE: The above line was modified to conform to ckit's command line constraints
 
-          cmd = [exe, options[:test_options]].compact.join(' ')
+          # Passes the process number into so that any generated assets can be identified.
+          cmd = [exe, "--parallel=#{process_number}", options[:test_options]].compact.join(' ')
           cmd << test_files.join(' ')
 
         # This concatenates the command into `bundle exec ckit brew --beakers=beaker1 beaker2 beaker3 etc`
@@ -32,9 +34,7 @@ module ParallelTests
         end
 
         def determine_executable
-          uuid = SecureRandom.uuid
-          file_name = "parallel_part_#{uuid}.xml"
-          "bundle exec ckit brew --parallel --results_file #{file_name}"
+          'bundle exec ckit brew'
         end
 
         def test_file_name

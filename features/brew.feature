@@ -40,7 +40,7 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
-      | evidence/results_junit.xml |
+      | evidence/junit.xml |
       | evidence/bookie/bookie_loads_an_external_web_page/server.log        |
 
   Scenario: Brew a single beaker

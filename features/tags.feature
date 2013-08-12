@@ -7,6 +7,7 @@ Feature: Listing all the tags
     Given I run `ckit new tags-test`
     And I cd to "tags-test"
 
+  @announce
   Scenario: Get the tag for a single beaker
     Given a file named "beakers/bookie_beaker.rb" with:
       """

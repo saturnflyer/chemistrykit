@@ -15,8 +15,13 @@ module ChemistryKit
 
     def data=(data)
       data.each do |key, value|
-        send("#{key}=", value) unless key == :key
+        send("#{key}=", value) unless key == :key || key == :with
       end
+    end
+
+    def with(chemist)
+      send("#{chemist.type}=", chemist)
+      self
     end
 
     # allow this object to be set with arbitrary key value data

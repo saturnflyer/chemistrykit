@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+	<meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Foundation 4</title>
+
+
+  <link rel="stylesheet" href="stylesheets/app.css">
+  <link href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+  <script src="javascripts/vendor/custom.modernizr.js"></script>
+
+</head>
+<body>
+
+  <header class="row">
+    <div class="large-12 columns">
+      <h2>ChemistryKit Brew Results</h2>
+    </div>
+  </header>
+
+  <div class="report">
+    <div class="summary">
+      <div class="row status failing">
+        <div class="large-12 columns">
+          <h1><i class="icon-ok-sign"></i> Brew Failing</h1>
+        </div>
+      </div>
+      <div class="row details">
+        <div class="large-12 columns">
+          <ul class="large-block-grid-5">
+          <li><i class="icon-beaker passing-color"></i><p>23 Beakers</p></li>
+          <li><i class="icon-tint reaction-color"></i><p>123 Reactions</p></li>
+          <li><i class="icon-warning-sign failing-color"></i><p>1 Failures</p></li>
+          <li><i class="icon-question-sign pending-color"></i><p>1 Pending</p></li>
+          <li><i class="icon-time"></i><p>125s Duration</p></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="results">
+      <div class="row example-group passing">
+        <div class="large-12 columns">
+          <h3><i class="icon-beaker"></i> This Part of the Site</h3>
+          <div class="examples">
+
+            <div class="row example passing">
+              <div class="large-12 columns">
+
+                <div class="row example-heading">
+
+                <div class="large-9 columns">
+                  <p>Should do this and do that.</p>
+                </div>
+                <div class="large-3 columns text-right">
+                  <p>0.00361s</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row example passing">
+              <div class="large-12 columns">
+
+                <div class="row example-heading">
+
+                <div class="large-9 columns">
+                  <p>Should do this and do that.</p>
+                </div>
+                <div class="large-3 columns text-right">
+                  <p>0.00361s</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row example pending">
+            <div class="large-12 columns">
+
+              <div class="row example-heading">
+                <div class="large-9 columns">
+                  <p>Should do this and do that.</p>
+                </div>
+                <div class="large-3 columns text-right">
+                  <p>0.00361s</p>
+                </div>
+              </div>
+
+              <div class="row example-body">
+                <div class="large-12 columns">
+                  <div class="row exception">
+                    <div class="large-12 columns">
+                      <pre>PENDING: this is some message!</pre>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+            </div>
+          </div>
+
+        </div>
+    </div>
+  </div>
+
+    <div class="row example-group failing">
+        <div class="large-12 columns">
+          <h3><i class="icon-beaker"></i> This Part of the Site</h3>
+          <div class="examples">
+
+          <div class="row example failing">
+            <div class="large-12 columns">
+
+            <div class="row example-heading">
+              <div class="large-9 columns">
+                <p>Should do this and do that.</p>
+              </div>
+              <div class="large-3 columns text-right">
+                <p>0.00361s</p>
+              </div>
+          </div>
+
+          <div class="row example-body">
+            <div class="large-12 columns">
+
+              <div class="row exception">
+                <div class="large-12 columns">
+                  <pre>Failure/Error: @driver.title.should include("Yoogle") expected "Google" to include "Yoogle"</pre>
+                </div>
+              </div>
+
+              <div class="row code-snippet">
+                <div class="large-12 columns">
+
+<pre class="ruby"><code><span class="linenum">2</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">loads an external web page, from 1, example 1</span><span class="punct">&quot;</span> <span class="keyword">do</span>
+<span class="linenum">3</span>    <span class="attribute">@driver</span><span class="punct">.</span><span class="ident">get</span> <span class="punct">&quot;</span><span class="string">http://www.google.com</span><span class="punct">&quot;</span>
+<span class="offending"><span class="linenum">4</span>    <span class="attribute">@driver</span><span class="punct">.</span><span class="ident">title</span><span class="punct">.</span><span class="ident">should</span> <span class="ident">include</span><span class="punct">(&quot;</span><span class="string">Yoogle</span><span class="punct">&quot;)</span></span>
+<span class="linenum">5</span>  <span class="keyword">end</span>
+<span class="linenum">6</span>  <span class="ident">it</span> <span class="punct">&quot;</span><span class="string">loads an external web page, from 1, example 2</span><span class="punct">&quot;</span> <span class="keyword">do</span></code></pre>
+
+
+                </div>
+              </div>
+
+              <div class="row extra-content">
+                <div class="large-12 columns">
+                  <div class="section-container auto" data-section="">
+                    <section>
+                      <p class="title" data-section-title><a href="#panel1">Backtrace</a></p>
+                      <div class="content" data-section-content>
+                        <pre># ./beakers/first_beaker.rb:4:in `block (2 levels) in <top (required)>'
+# /Users/jfox/development/arrgyle/chemistrykit/lib/chemistrykit/cli/cli.rb:199:in `block (2 levels) in rspec_config'
+# /Users/jfox/development/arrgyle/chemistrykit/lib/chemistrykit/cli/cli.rb:242:in `run_rspec'
+# /Users/jfox/development/arrgyle/chemistrykit/lib/chemistrykit/cli/cli.rb:114:in `brew'
+                        </pre>
+                      </div>
+                    </section>
+                    <section>
+                      <p class="title" data-section-title><a href="#panel2">Section 2</a></p>
+                      <div class="content" data-section-content>
+                        <p>Content of section 2.</p>
+                      </div>
+                    </section>
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <div class="row example passing">
+            <div class="large-12 columns">
+                <div class="row example-heading">
+                <div class="large-9 columns">
+                  <p>Should do this and do that.</p>
+                </div>
+                <div class="large-3 columns text-right">
+                  <p>0.00361s</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+
+  </div>
+
+  <script>
+  document.write('<script src=' +
+  ('__proto__' in {} ? 'javascripts/vendor/zepto' : 'javascripts/vendor/jquery') +
+  '.js><\/script>')
+  </script>
+  <script src="javascripts/foundation/foundation.js"></script>
+	<script src="javascripts/foundation/foundation.section.js"></script>
+  <script>
+    $(document).foundation();
+  </script>
+</body>
+</html>

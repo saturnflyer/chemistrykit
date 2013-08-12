@@ -11,7 +11,7 @@ describe ChemistryKit::Configuration do
   VALID_LOG_PATH = 'evidence'
   VALID_JUNIT = 'results_junit.xml'
   VALID_FORMAT_JUNIT = 'junit'
-  VALID_JUNIT_FORMAT_OUT = 'JUnit'
+  VALID_JUNIT_FORMAT_OUT = 'ChemistryKit::RSpec::JUnitFormatter'
 
   before(:each) do
     @valid_selenium_connect_hash = { log: 'evidence', host: 'localhost' }
@@ -63,7 +63,7 @@ describe ChemistryKit::Configuration do
 
   it 'should correct the format to JUnit' do
     config = ChemistryKit::Configuration.new(@valid_config_hash)
-    config.log.format.should eq 'JUnit'
+    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
   end
 
   it 'selenium_connect log should default to the main log' do

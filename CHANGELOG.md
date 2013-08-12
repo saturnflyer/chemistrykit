@@ -1,3 +1,13 @@
+#3.9.0-rc.1 (2013-08-12)
+Release candidate with new features including
+- Consolidated html report
+- Updates to chemists to support multiple chemists from being joined
+
+###Known Issues
+- When running chrome locally the chromedriver logs do not always get placed in the correct places, likely due to the current approach of moving them around
+- There is a lack of sufficient tests around the reporting functionality, so there could be some sporadic behavior when it comes to the consolidation and formatting of the main html report
+- Configuration of specific log_path locations and output names is not fully supported at this time. Both an html report and junit.xml are output by default.
+
 #3.8.1 (2013-08-09)
 Cleaned up chemists to use same instance in the formulas and bug fixes
 
@@ -10,7 +20,7 @@ Cleaned up chemists to use same instance in the formulas and bug fixes
 Implemented the chemists feature to add user data management as well as a simplified strategy for loading formulas
 
 - Bumped version to 3.8.0 to prepare for release.
-- cleaned up docs a little and ensured the default chemists csv file wouldnt cause a failure if left unpopulated
+- cleaned up docs a little and ensured the default chemists csv file wouldn't cause a failure if left unpopulated
 - added a uuid injector for a token in csv files
 - integrated the fomula lab into the suite runner and added basic cucumber tests
 - built out the rest of the formula lab and integration tests
@@ -89,13 +99,13 @@ Fixed bugs related to tagging and alternate configuration files in concurrent ru
 - Bumped version to 3.3.1 to prepare for release.
 - final code quality check
 - fixed issue where --all was not getting passed forward in parallel tests and the same with an alternative config file, added tests for those as well
-- fixed duplicatealias for brew option
+- fixed duplicate alias for brew option
 
 #3.3.0 (2013-07-09)
 Fixed bugs with tagging and concurrency
 
 - Bumped version to 3.3.0 to prepare for release.
-- added the ckit tags command to list all tags in the harnes
+- added the ckit tags command to list all tags in the harness
 - consolidated documentation into the readme file
 - fixed code quality issues and a bug with the tag filtering
 - added the --all flag and tests to run all beakers
@@ -140,7 +150,7 @@ Now with concurrent tests
 - abstracted out config loading into brew
 - learning how to spell concurrency correctly
 - fixed a minor typo in a feature and added a todo comment
-- updated feature files to have correct directory, added a test for concurency
+- updated feature files to have correct directory, added a test for concurrency
 - upgraded the global config into the shared context
 - updated all tests to match new configuration format
 - added back updated configuration object
@@ -156,7 +166,7 @@ Now with concurrent tests
 - Fixed all code quality issues, added custom options file to tweek method length and line length cops, updated build system
 - added rubocop to the build process
 - Added a monkey patch for parallel_tests' RSpec runner to override its defaults with ours and wired it up in the parallel execution hook. It runs but gives an argument error from ckit. Also, took a first crack at setting the base_url via config.yaml and the shared_context
-- Added parallel_tests and parallel to repo. Wired up a command argument for ckit brew (--parallel) to execute the wip progess concurrency method.
+- Added parallel_tests and parallel to repo. Wired up a command argument for ckit brew (--parallel) to execute the wip progress concurrency method.
 - Downgraded the required ruby version to just 1.9.3
 - one small edit because of a bug with git flow #62
 

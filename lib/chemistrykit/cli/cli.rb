@@ -14,9 +14,13 @@ require 'chemistrykit/chemist/repository/csv_chemist_repository'
 require 'selenium_connect'
 require 'chemistrykit/configuration'
 require 'parallel_tests'
-require 'chemistrykit/parallel_tests_mods'
-require 'chemistrykit/j_unit'
+require 'chemistrykit/parallel_tests/rspec/runner'
+require 'chemistrykit/rspec/j_unit_formatter'
 
+require 'rspec/core/formatters/html_formatter'
+require 'chemistrykit/rspec/html_formatter'
+
+require 'chemistrykit/reporting/html_report_assembler'
 module ChemistryKit
   module CLI
 
@@ -40,22 +44,22 @@ module ChemistryKit
       desc 'tags', 'Lists all tags in use in the test harness.'
       def tags
         beakers = Dir.glob(File.join(Dir.getwd, 'beakers/*'))
-        RSpec.configure do |c|
+        ::RSpec.configure do |c|
           c.add_setting :used_tags
-          c.before(:suite) { RSpec.configuration.used_tags = [] }
+          c.before(:suite) { ::RSpec.configuration.used_tags = [] }
           c.around(:each) do |example|
             standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
             example.metadata.each do |key, value|
               tag = "#{key}:#{value}" unless standard_keys.include?(key)
-              RSpec.configuration.used_tags.push tag unless RSpec.configuration.used_tags.include?(tag) || tag.nil?
+              ::RSpec.configuration.used_tags.push tag unless ::RSpec.configuration.used_tags.include?(tag) || tag.nil?
             end
           end
           c.after(:suite) do
             puts "\nTags used in harness:\n\n"
-            puts RSpec.configuration.used_tags.sort
+            puts ::RSpec.configuration.used_tags.sort
           end
         end
-        RSpec::Core::Runner.run(beakers)
+        ::RSpec::Core::Runner.run(beakers)
       end
 
       desc 'brew', 'Run ChemistryKit'
@@ -108,14 +112,25 @@ module ChemistryKit
 
         # based on concurrency parameter run tests
         if config.concurrency > 1 && ! options['parallel']
-          run_in_parallel beakers, config.concurrency, @tags, options
+          exit_code = run_in_parallel beakers, config.concurrency, @tags, options
         else
-          run_rspec beakers
+          exit_code = run_rspec beakers
         end
 
+        process_html unless options['parallel']
+        exit_code unless options['parallel']
       end
 
       protected
+
+      def process_html
+        puts 'PROCESS HTML CALLED'
+        File.join(Dir.getwd, 'evidence')
+        results_folder = File.join(Dir.getwd, 'evidence')
+        output_file = File.join(Dir.getwd, 'evidence', 'final_results.html')
+        assembler = ChemistryKit::Reporting::HtmlReportAssembler.new(results_folder, output_file)
+        assembler.assemble
+      end
 
       def override_configs(options, config)
         # TODO: expand this to allow for more overrides as needed
@@ -157,7 +172,7 @@ module ChemistryKit
 
       # rubocop:disable MethodLength
       def rspec_config(config) # Some of these bits work and others don't
-        RSpec.configure do |c|
+        ::RSpec.configure do |c|
           c.treat_symbols_as_metadata_keys_with_true_values = true
           unless options[:all]
             c.filter_run @tags[:filter] unless @tags[:filter].nil?
@@ -209,12 +224,18 @@ module ChemistryKit
           c.output_stream = $stdout
           c.add_formatter 'progress'
 
+          html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results_0.html'
+
+          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
+          # c.add_formatter(::RSpec::Core::Formatters::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
+
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
           c.default_retry_count = config.retries_on_failure
 
           if config.concurrency == 1 || options['parallel']
-            c.add_formatter(config.log.format, File.join(Dir.getwd, config.log.path, config.log.results_file))
+            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit.xml'
+            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, junit_log_name))
           end
         end
       end
@@ -230,7 +251,7 @@ module ChemistryKit
       end
 
       def run_rspec(beakers)
-        RSpec::Core::Runner.run(beakers)
+        ::RSpec::Core::Runner.run(beakers)
       end
     end # CkitCLI
   end # CLI

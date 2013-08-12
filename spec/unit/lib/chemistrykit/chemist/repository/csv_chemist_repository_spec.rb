@@ -72,7 +72,7 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     end.to raise_error ArgumentError, 'You must define a key field!'
   end
 
-  it 'can search more than one csv file' do
+  it 'can search more than one csv file by type' do
     files = []
     files.push File.join(Dir.pwd, 'spec', 'support', VALID_CHEMIST_CSV)
     files.push File.join(Dir.pwd, 'spec', 'support', 'other_chemists.csv')
@@ -82,8 +82,21 @@ describe ChemistryKit::Chemist::Repository::CsvChemistRepository do
     chemist.passion.should eq 'Wrasslin'
 
     chemist = repo.load_first_chemist_of_type 'normal'
-    chemist.email = 'normal@email.com'
+    chemist.email.should eq 'normal@email.com'
   end
+
+    it 'can search more than one csv file by key' do
+      files = []
+      files.push File.join(Dir.pwd, 'spec', 'support', VALID_CHEMIST_CSV)
+      files.push File.join(Dir.pwd, 'spec', 'support', 'other_chemists.csv')
+      repo = ChemistryKit::Chemist::Repository::CsvChemistRepository.new(files)
+
+      chemist = repo.load_chemist_by_key 'cowboy1'
+      chemist.passion.should eq 'Wrasslin'
+
+      chemist = repo.load_chemist_by_key 'normal1'
+      chemist.email.should eq 'normal@email.com'
+    end
 
   it 'should replace the {{UUID}} token with a uuid on runtime if found in a parameter' do
     chemist = @repo.load_chemist_by_key 'uuid_chemist'

@@ -2,13 +2,13 @@
 
 Gem::Specification.new do |s|
   s.name          = 'chemistrykit'
-  s.version       = '3.8.1'
+  s.version       = '3.9.0.rc1'
   s.platform      = Gem::Platform::RUBY
   s.authors       = ['Dave Haeffner', 'Jason Fox']
   s.email         = ['dave@arrgyle.com', 'jason@arrgyle.com']
   s.homepage      = 'https://github.com/arrgyle/chemistrykit'
   s.summary       = 'A simple and opinionated web testing framework for Selenium that follows convention over configuration.'
-  s.description   = 'Cleaned up chemists to use same instance in the formulas and bug fixes'
+  s.description   = 'Added chemist composition and consolidated html report building.'
   s.license       = 'MIT'
 
   s.files         = `git ls-files`.split($/)
@@ -24,8 +24,12 @@ Gem::Specification.new do |s|
   s.add_dependency 'builder', '~> 3.2.2'
   s.add_dependency 'selenium-webdriver', '~> 2.29.0'
   s.add_dependency 'rest-client', '~> 1.6.7'
-  s.add_dependency 'selenium-connect', '~> 3.4.0'
+  s.add_dependency 'selenium-connect', '~> 3.5.0'
   s.add_dependency 'parallel_tests', '~> 0.15.0'
   s.add_dependency 'parallel', '~> 0.7.0'
   s.add_dependency 'rspec-retry', '~> 0.2.1'
+  s.add_dependency 'nokogiri', '~> 1.6.0'
+
+  s.add_dependency 'syntax'
+  s.add_dependency 'pygments.rb', '~> 0.5.2'
 end

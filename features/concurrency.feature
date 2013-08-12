@@ -13,7 +13,7 @@ Feature: Support for concurency
         @driver.get "http://www.google.com"
         @driver.title.should include("Google")
       end
-      it "loads an external web page" do
+      it "loads an external web page 2" do
         @driver.get "http://www.google.com"
         @driver.title.should include("Google")
       end
@@ -97,4 +97,4 @@ Feature: Support for concurency
     Then the stdout should not contain "All examples were filtered out"
     And the stdout should not contain "0 examples, 0 failures"
     And there should be "4" unique results files in the "evidence" directory
-    And there should be "2" "report" log files in "evidence/cheese/cheese_loads_an_external_web_page"
+    And there should be "1" "report" log files in "evidence/cheese/cheese_loads_an_external_web_page"

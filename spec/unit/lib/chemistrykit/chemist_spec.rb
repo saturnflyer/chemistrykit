@@ -28,7 +28,7 @@ describe ChemistryKit::Chemist do
     @chemist.data.should eq my_key: VALID_VALUE
   end
 
-  it 'should not be able to override the key variable' do
+  it 'should not be able to override the key, or with variable' do
     @chemist.key = 'other'
     @chemist.key.should eq VALID_KEY
     @chemist.data.include?(:key).should be_false
@@ -40,4 +40,20 @@ describe ChemistryKit::Chemist do
     @chemist.name.should eq 'cool dude'
     @chemist.email.should eq 'fun@gmail.com'
   end
+
+  it 'should be able to change the chemist type' do
+    @chemist.type = 'new_type'
+    @chemist.type.should eq 'new_type'
+  end
+
+  it 'should be able to add another chemist as a data element' do
+    sub_chemist = ChemistryKit::Chemist.new('sub_key', 'sub_type')
+    other_sub = ChemistryKit::Chemist.new('other_key', 'other_type')
+    @chemist.with(sub_chemist).with(other_sub)
+    @chemist.sub_type.key.should eq 'sub_key'
+    @chemist.sub_type.type.should eq 'sub_type'
+    @chemist.other_type.key.should eq 'other_key'
+    @chemist.other_type.type.should eq 'other_type'
+  end
+
 end
