@@ -10,7 +10,8 @@ module ChemistryKit
     attr_accessor :base_url,
                   :concurrency,
                   :screenshot_on_fail,
-                  :retries_on_failure
+                  :retries_on_failure,
+                  :basic_auth
 
     attr_reader   :log
 
@@ -26,6 +27,7 @@ module ChemistryKit
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'
       @log.format = 'ChemistryKit::RSpec::JUnitFormatter'
+      @basic_auth = {}
 
       # overide with argument
       populate_with_hash hash
