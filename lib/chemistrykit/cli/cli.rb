@@ -210,6 +210,22 @@ module ChemistryKit
 
             example.run
           end
+          c.before(:each) do
+            # basic auth caching
+            if config.basic_auth[:username]
+              if config.basic_auth[:http_path]
+                basic_auth_http_url = config.base_url.gsub(%r{http://}, "http:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@") + config.basic_auth[:http_path]
+                @driver.get basic_auth_http_url
+              else
+                basic_auth_http_url = config.base_url.gsub(%r{http://}, "http:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@")
+                @driver.get basic_auth_http_url
+              end
+              if config.basic_auth[:https_path]
+                basic_auth_https_url = config.base_url.gsub(%r{http://}, "https:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@") + config.basic_auth[:https_path]
+                @driver.get basic_auth_https_url
+              end
+            end
+          end
           c.after(:each) do
             if example.exception != nil
               @job.finish failed: true, failshot: @config.screenshot_on_fail
