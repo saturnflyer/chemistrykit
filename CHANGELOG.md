@@ -1,3 +1,6 @@
+#3.9.0-rc.2 (2013-08-14)
+Added Basic Auth Support. Preserving release candidate numbering since there are improvements to be made to HTTP reporting
+
 #3.9.0-rc.1 (2013-08-12)
 Release candidate with new features including
 - Consolidated html report
