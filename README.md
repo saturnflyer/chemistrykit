@@ -123,7 +123,7 @@ Note that because the `Chemist` is set after the instantiation of your formula b
 describe "my beaker", :depth => 'shallow' do
   let(:my_formula) { @formula_lab.using('my_formula').with('admin1').mix }
   # or
-  let(:my_other_formula) { @formula_lab.formula.mix('my_other_formula') }
+  let(:my_other_formula) { @formula_lab.mix('my_other_formula') }
   ...
 end
 ```
@@ -186,6 +186,14 @@ ChemistryKit is configured by default with a `config.yaml` file that is created 
 ##Command Line Usage
 
 `screenshot_on_fail` By default false, set to true to download a screenshot of the failure (supported by sauce labs for now.)
+
+`basic_auth: username:` The username to access your site with basic HTTP authentication
+
+`basic_auth: password:` The password to access your site with basic HTTP authentication
+
+`basic_auth: http_path:` An HTTP end-point loaded before each test run to cache the credentials for the test run
+
+`basic_auth: https_path:` An HTTPS end-point loaded before each test run to cache the credentials for the test run
 
 ###new
 Creates a new ChemistryKit project.
