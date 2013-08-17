@@ -227,7 +227,7 @@ module ChemistryKit
             end
           end
           c.after(:each) do
-            if example.exception != nil
+            if example.exception.nil? == false
               @job.finish failed: true, failshot: @config.screenshot_on_fail
             else
               @job.finish passed: true

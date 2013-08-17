@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'spec_helper'
+require 'chemistrykit/cli/helpers/formula_loader'
 # might be able to use something like this: https://github.com/alexeypetrushin/class_loader
 
 describe ChemistryKit::CLI::Helpers::FormulaLoader do
