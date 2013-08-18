@@ -21,6 +21,8 @@ require 'rspec/core/formatters/html_formatter'
 require 'chemistrykit/rspec/html_formatter'
 
 require 'chemistrykit/reporting/html_report_assembler'
+require 'chemistrykit/split_testing/provider_factory'
+
 module ChemistryKit
   module CLI
 
@@ -124,7 +126,6 @@ module ChemistryKit
       protected
 
       def process_html
-        puts 'PROCESS HTML CALLED'
         File.join(Dir.getwd, 'evidence')
         results_folder = File.join(Dir.getwd, 'evidence')
         output_file = File.join(Dir.getwd, 'evidence', 'final_results.html')
@@ -216,6 +217,12 @@ module ChemistryKit
               puts config.basic_auth.https_url
               @driver.get(config.basic_auth.http_url)
               @driver.get(config.basic_auth.https_url) if config.basic_auth.https?
+            end
+
+            if config.split_testing
+              provider = ChemistryKit::SplitTesting::ProviderFactory.build(config.split_testing)
+              puts provider.inspect
+              provider.split(@driver)
             end
           end
           c.after(:each) do

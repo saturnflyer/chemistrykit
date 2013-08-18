@@ -23,7 +23,7 @@ describe ChemistryKit::SplitTesting::OptimizelyProvider do
   it 'should set the cookie correctly on split' do
 
     @config.should_receive :base_url
-    @config.should_receive(:opt_out).and_return(true)
+    @config.should_receive(:opt_out?).and_return(true)
 
     driver = double 'Selenium::WebDriver::Driver'
     driver.should_receive(:get)

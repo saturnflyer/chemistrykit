@@ -12,7 +12,7 @@ module ChemistryKit
 
       def split(driver)
         driver.get config.base_url
-        driver.manage.add_cookie(name: 'optimizelyOptOut', value: config.opt_out.to_s)
+        driver.manage.add_cookie(name: 'optimizelyOptOut', value: config.opt_out?.to_s)
         driver.navigate.refresh
       end
 
