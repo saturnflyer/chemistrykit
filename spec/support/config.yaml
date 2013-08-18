@@ -10,3 +10,8 @@ log:
 selenium_connect:
     log: 'evidence'
     host: 'localhost'
+basic_auth:
+    username: 'user'
+    password: 'pass'
+    http_path: '/basic'
+    https_path: '/secure'

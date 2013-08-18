@@ -53,6 +53,7 @@ describe ChemistryKit::Configuration do
     config.log.results_file.should eq VALID_JUNIT
     config.log.format.should eq VALID_JUNIT_FORMAT_OUT
     config.selenium_connect.should eq({ log: VALID_LOG_PATH })
+    config.basic_auth.should be_nil
   end
 
   it 'should initialize with a hash of configurations' do
@@ -88,5 +89,17 @@ describe ChemistryKit::Configuration do
   it 'should allow pass through of sauce options' do
     config =  ChemistryKit::Configuration.new selenium_connect: { log: 'sc-log', sauce_opts: { job_name: 'test' } }
     config.selenium_connect.should eq log: 'sc-log', sauce_opts: { job_name: 'test' }
+  end
+
+  it 'should return the basic auth object if it is set' do
+    config =  ChemistryKit::Configuration.new basic_auth: { username: 'user' }
+    config.basic_auth.should be_an_instance_of ChemistryKit::Config::BasicAuth
+    config.basic_auth.username.should eq 'user'
+  end
+
+  it 'should pass the base url to the auth object' do
+    yaml_file = File.join(Dir.pwd, 'spec', 'support', VALID_CONFIG_FILE)
+    config = ChemistryKit::Configuration.initialize_with_yaml yaml_file
+    config.basic_auth.http_url.should eq 'http://user:pass@google.com/basic'
   end
 end
