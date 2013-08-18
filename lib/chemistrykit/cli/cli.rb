@@ -21,6 +21,8 @@ require 'rspec/core/formatters/html_formatter'
 require 'chemistrykit/rspec/html_formatter'
 
 require 'chemistrykit/reporting/html_report_assembler'
+require 'chemistrykit/split_testing/provider_factory'
+
 module ChemistryKit
   module CLI
 
@@ -124,7 +126,6 @@ module ChemistryKit
       protected
 
       def process_html
-        puts 'PROCESS HTML CALLED'
         File.join(Dir.getwd, 'evidence')
         results_folder = File.join(Dir.getwd, 'evidence')
         output_file = File.join(Dir.getwd, 'evidence', 'final_results.html')
@@ -211,23 +212,19 @@ module ChemistryKit
             example.run
           end
           c.before(:each) do
-            # basic auth caching
-            if config.basic_auth[:username]
-              if config.basic_auth[:http_path]
-                basic_auth_http_url = config.base_url.gsub(%r{http://}, "http:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@") + config.basic_auth[:http_path]
-                @driver.get basic_auth_http_url
-              else
-                basic_auth_http_url = config.base_url.gsub(%r{http://}, "http:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@")
-                @driver.get basic_auth_http_url
-              end
-              if config.basic_auth[:https_path]
-                basic_auth_https_url = config.base_url.gsub(%r{http://}, "https:\/\/#{config.basic_auth[:username]}:#{config.basic_auth[:password]}@") + config.basic_auth[:https_path]
-                @driver.get basic_auth_https_url
-              end
+            if config.basic_auth
+              puts config.basic_auth.http_url
+              puts config.basic_auth.https_url
+              @driver.get(config.basic_auth.http_url)
+              @driver.get(config.basic_auth.https_url) if config.basic_auth.https?
+            end
+
+            if config.split_testing
+              ChemistryKit::SplitTesting::ProviderFactory.build(config.split_testing).split(@driver)
             end
           end
           c.after(:each) do
-            if example.exception != nil
+            if example.exception.nil? == false
               @job.finish failed: true, failshot: @config.screenshot_on_fail
             else
               @job.finish passed: true

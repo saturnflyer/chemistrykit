@@ -3,6 +3,9 @@
 require 'yaml'
 require 'ostruct'
 
+require 'chemistrykit/config/basic_auth'
+require 'chemistrykit/config/split_testing'
+
 module ChemistryKit
   # Default configuration class
   class Configuration
@@ -10,10 +13,9 @@ module ChemistryKit
     attr_accessor :base_url,
                   :concurrency,
                   :screenshot_on_fail,
-                  :retries_on_failure,
-                  :basic_auth
+                  :retries_on_failure
 
-    attr_reader   :log
+    attr_reader   :log, :basic_auth, :split_testing
 
     attr_writer   :selenium_connect
 
@@ -27,7 +29,8 @@ module ChemistryKit
       @log.path = 'evidence'
       @log.results_file = 'results_junit.xml'
       @log.format = 'ChemistryKit::RSpec::JUnitFormatter'
-      @basic_auth = {}
+      @basic_auth = nil
+      @split_testing = nil
 
       # overide with argument
       populate_with_hash hash
@@ -38,6 +41,14 @@ module ChemistryKit
         value = 'ChemistryKit::RSpec::JUnitFormatter' if key == :format && value =~ /junit/i
         @log.send("#{key}=", value) unless value.nil?
       end
+    end
+
+    def basic_auth=(basic_auth_hash)
+      @basic_auth = ChemistryKit::Config::BasicAuth.new(basic_auth_hash.merge(base_url: base_url))
+    end
+
+    def split_testing=(split_testing_hash)
+      @split_testing = ChemistryKit::Config::SplitTesting.new(split_testing_hash.merge(base_url: base_url))
     end
 
     def selenium_connect

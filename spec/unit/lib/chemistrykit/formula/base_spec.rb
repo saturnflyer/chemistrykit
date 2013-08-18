@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'spec_helper'
+require 'chemistrykit/formula/base'
 
 describe ChemistryKit::Formula::Base do
 
