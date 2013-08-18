@@ -31,10 +31,18 @@ describe ChemistryKit::Configuration do
     config.concurrency.should eq VALID_CONCURRENCY
     config.retries_on_failure.should eq VALID_RETRIES_ON_FAILURE
     config.base_url.should eq VALID_BASE_URL
+
+    # log configurations
     config.log.path.should eq VALID_LOG_PATH
     config.log.results_file.should eq VALID_JUNIT
     config.log.format.should eq VALID_JUNIT_FORMAT_OUT
+
+    # selenium connect configurations
     config.selenium_connect.should eq @valid_selenium_connect_hash
+
+    # basic auth configurations
+
+    # a/b testing configurations
   end
 
   it 'should initialize with sane defaults' do
