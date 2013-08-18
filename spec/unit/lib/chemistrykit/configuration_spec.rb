@@ -54,6 +54,7 @@ describe ChemistryKit::Configuration do
     config.log.format.should eq VALID_JUNIT_FORMAT_OUT
     config.selenium_connect.should eq({ log: VALID_LOG_PATH })
     config.basic_auth.should be_nil
+    config.split_testing.should be_nil
   end
 
   it 'should initialize with a hash of configurations' do
@@ -101,5 +102,12 @@ describe ChemistryKit::Configuration do
     yaml_file = File.join(Dir.pwd, 'spec', 'support', VALID_CONFIG_FILE)
     config = ChemistryKit::Configuration.initialize_with_yaml yaml_file
     config.basic_auth.http_url.should eq 'http://user:pass@google.com/basic'
+  end
+
+  it 'should return the split testing object if it is set' do
+    yaml_file = File.join(Dir.pwd, 'spec', 'support', VALID_CONFIG_FILE)
+    config = ChemistryKit::Configuration.initialize_with_yaml yaml_file
+    config.split_testing.should be_an_instance_of ChemistryKit::Config::SplitTesting
+    config.split_testing.provider.should eq 'optimizely'
   end
 end

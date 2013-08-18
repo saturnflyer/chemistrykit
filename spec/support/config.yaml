@@ -15,3 +15,6 @@ basic_auth:
     password: 'pass'
     http_path: '/basic'
     https_path: '/secure'
+split_testing:
+    provider: 'optimizely'
+    opt_out: true

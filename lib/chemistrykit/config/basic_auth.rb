@@ -1,8 +1,5 @@
 # Encoding: utf-8
 
-require 'yaml'
-require 'ostruct'
-
 module ChemistryKit
   module Config
     class BasicAuth
