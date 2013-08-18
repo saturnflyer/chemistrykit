@@ -220,9 +220,7 @@ module ChemistryKit
             end
 
             if config.split_testing
-              provider = ChemistryKit::SplitTesting::ProviderFactory.build(config.split_testing)
-              puts provider.inspect
-              provider.split(@driver)
+              ChemistryKit::SplitTesting::ProviderFactory.build(config.split_testing).split(@driver)
             end
           end
           c.after(:each) do

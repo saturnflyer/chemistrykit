@@ -24,7 +24,6 @@ Background:
         opt_out: true
       """
 
-  @announce
   Scenario: opt out is on
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"

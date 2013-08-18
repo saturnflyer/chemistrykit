@@ -23,7 +23,6 @@ Feature: Exit Status
     When I run `ckit brew`
     Then the exit code should be 0
 
-  @announce
   Scenario: Failing
     And a file named "beakers/test_beaker.rb" with:
     """

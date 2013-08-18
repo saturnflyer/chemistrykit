@@ -16,7 +16,6 @@ Background:
       end
     end
     """
-@announce
 Scenario: Pre-load HTTP before each test
   And a file named "config.yaml" with:
     """
@@ -29,7 +28,6 @@ Scenario: Pre-load HTTP before each test
   When I run `ckit brew`
   Then the stdout should contain "1 example, 0 failures"
 
-@announce
 Scenario: Pre-load HTTP before each test without the http_path set
   And a file named "config.yaml" with:
     """
@@ -41,7 +39,6 @@ Scenario: Pre-load HTTP before each test without the http_path set
   When I run `ckit brew`
   Then the stdout should contain "1 example, 0 failures"
 
-@announce
 Scenario: Works without Basic Auth
   And a file named "config.yaml" with:
     """
