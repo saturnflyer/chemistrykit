@@ -8,7 +8,7 @@ describe ChemistryKit::Config::SplitTesting do
   VALID_PROVIDER = 'optimizely'
 
   before(:each) do
-    @opts = { provider: VALID_PROVIDER, opt_out: true
+    @opts = { provider: VALID_PROVIDER, opt_out: true, base_url: 'http://google.com'
       }
       @split_testing = ChemistryKit::Config::SplitTesting.new(@opts)
   end
@@ -19,6 +19,7 @@ describe ChemistryKit::Config::SplitTesting do
 
   it 'should get the basic configuration values' do
     @split_testing.provider.should eq VALID_PROVIDER
+    @split_testing.base_url.should eq 'http://google.com'
     @split_testing.opt_out?.should be_true
   end
 

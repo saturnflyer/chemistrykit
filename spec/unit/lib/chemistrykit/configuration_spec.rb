@@ -108,6 +108,6 @@ describe ChemistryKit::Configuration do
     yaml_file = File.join(Dir.pwd, 'spec', 'support', VALID_CONFIG_FILE)
     config = ChemistryKit::Configuration.initialize_with_yaml yaml_file
     config.split_testing.should be_an_instance_of ChemistryKit::Config::SplitTesting
-    config.split_testing.provider.should eq 'optimizely'
+    config.split_testing.base_url.should eq VALID_BASE_URL
   end
 end

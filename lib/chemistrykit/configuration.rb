@@ -48,7 +48,7 @@ module ChemistryKit
     end
 
     def split_testing=(split_testing_hash)
-      @split_testing = ChemistryKit::Config::SplitTesting.new(split_testing_hash)
+      @split_testing = ChemistryKit::Config::SplitTesting.new(split_testing_hash.merge(base_url: base_url))
     end
 
     def selenium_connect

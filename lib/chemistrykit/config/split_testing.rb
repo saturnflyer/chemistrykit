@@ -4,7 +4,7 @@ module ChemistryKit
   module Config
     class SplitTesting
 
-      attr_accessor :provider
+      attr_accessor :provider, :base_url
 
       attr_writer :opt_out
 
