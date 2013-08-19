@@ -128,9 +128,14 @@ module ChemistryKit
       def render_failshot_if_found(example)
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
+
         path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'failshot.png')
         if File.exist?(path)
           render_section('Failure Screenshot') do |doc|
+             # if this is a jenkins job this variable is set and we can use it to get the right path to the images
+            if ENV['JOB_NAME']
+              path = File.join("/job/#{ENV['JOB_NAME']}/ws", 'evidence', beaker_folder, example_folder, 'failshot.png')
+            end
             doc.img(src: path)
           end
         end
