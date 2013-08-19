@@ -1,6 +1,7 @@
 # Encoding: utf-8
 
 require 'spec_helper'
+require 'chemistrykit/catalyst'
 
 describe ChemistryKit::Catalyst do
 

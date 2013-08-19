@@ -16,7 +16,6 @@ Background:
       end
     end
     """
-
 Scenario: Pre-load HTTP before each test
   And a file named "config.yaml" with:
     """

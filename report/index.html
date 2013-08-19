@@ -25,8 +25,65 @@
   <div class="report">
     <div class="summary">
       <div class="row status failing">
-        <div class="large-12 columns">
+
+<!-- mods start -->
+        <div class="large-9 columns">
           <h1><i class="icon-ok-sign"></i> Brew Failing</h1>
+        </div>
+        <div class="large-3 columns">
+
+<!-- successes -->
+            <div class="row switch-row top-row">
+              <div class="large-6 columns switch-label">
+                Passing
+              </div>
+              <div class="large-6 columns">
+                <div class="passing-switch">
+                  <input id="show-success" name="switch-show-success" type="radio" checked>
+                  <label for="show-success" onclick="togglePassing();">Hide</label>
+                  <input id="show-success1" name="switch-show-success" type="radio">
+                  <label for="show-success1" onclick="togglePassing();">Show</label>
+                  <span></span>
+                </div>
+              </div>
+          </div>
+
+
+<!-- failures -->
+          <div class="row switch-row">
+              <div class="large-6 columns switch-label">
+                Failing
+              </div>
+              <div class="large-6 columns">
+                <div class="failing-switch">
+                  <input id="show-failures" name="switch-show-failures" type="radio" checked>
+                  <label for="show-failures" onclick="toggleFailing();">Hide</label>
+                  <input id="show-failures1" name="switch-show-failures" type="radio">
+                  <label for="show-failures1" onclick="toggleFailing();">Show</label>
+                  <span></span>
+                </div>
+              </div>
+          </div>
+
+<!-- pendings -->
+
+          <div class="row switch-row">
+              <div class="large-6 columns switch-label">
+                Pending
+              </div>
+              <div class="large-6 columns">
+                <div class="pending-switch">
+                  <input id="show-pending" name="switch-show-pending" type="radio" checked>
+                  <label for="show-pending" onclick="togglePending();">Hide</label>
+                  <input id="show-pending1" name="switch-show-pending" type="radio">
+                  <label for="show-pending1" onclick="togglePending();">Show</label>
+                  <span></span>
+                </div>
+              </div>
+          </div>
+
+<!-- Modes end -->
+
         </div>
       </div>
       <div class="row details">
@@ -209,5 +266,28 @@
   <script>
     $(document).foundation();
   </script>
+
+
+
+<script>
+  function togglePassing() {
+    $('.example.passing').toggle();
+    $('.example-group.passing').toggle();
+  }
+
+  function toggleFailing() {
+    $('.example.failing').toggle();
+    $('.example-group.failing').toggle();
+  }
+
+  function togglePending() {
+    $('.example.pending').toggle();
+    $('.example-group.pending').toggle();
+  }
+</script>
+
+
+
+
 </body>
 </html>

@@ -30,7 +30,7 @@ Then(/^there should be "(.*?)" "(.*?)" log files in "(.*?)"$/) do |number, type,
     when 'report'
       count += 1 if file =~ /sauce_job\.log/
     when 'sauce log'
-        count += 1 if file =~ /server\.log/
+      count += 1 if file =~ /server\.log/
     end
   end
   count.should == number.to_i
