@@ -48,7 +48,7 @@
 // @import "foundation/components/progress-bars";
 // @import "foundation/components/side-nav";
 // @import "foundation/components/sub-nav";
-// @import "foundation/components/switch";
+@import "foundation/components/switch";
 // @import "foundation/components/magellan";
 // @import "foundation/components/tables";
 // @import "foundation/components/thumbs";
@@ -59,6 +59,8 @@ $light-green: #c9f76f;
 $darker-green: #83ae2c;
 $darkest-green: #659700;
 $light-red: #fc9b71;
+
+$light-yellow: #fcdf71;
 
 /* Ruby code, style similar to vibrant ink */
 .ruby {
@@ -131,7 +133,7 @@ $light-red: #fc9b71;
     h1, h2, h3 {
         color: $secondary-color;
     }
-    background-color: #fcdf71;
+    background-color: $light-yellow;
 }
 
 .pending-color {
@@ -569,3 +571,53 @@ $light-red: #fc9b71;
 }
 
 
+$transition-speed: $switch-paddle-transition-speed;
+
+$transition-ease: $switch-paddle-transition-ease;
+
+$height: $switch-height-tny;
+
+$font-size: $switch-font-size-tny;
+
+$line-height: 2.3em;
+
+$paddle-bg: $switch-paddle-bg;
+
+$positive-color: $switch-positive-color;
+
+$negative-color: $switch-negative-color;
+
+$radius: true;
+
+$base-style: true;
+
+
+.switch-row {
+    margin-bottom: 0em;
+}
+
+.top-row{
+    padding-top: 1.5em;
+}
+
+.passing-switch {
+    @include switch($transition-speed, $transition-ease, $height, $font-size, $line-height, $paddle-bg, $success-color, $light-green, $radius, $base-style);
+    margin-bottom: 0em;
+}
+
+.failing-switch {
+    @include switch($transition-speed, $transition-ease, $height, $font-size, $line-height, $paddle-bg, $alert-color, $light-red, $radius, $base-style);
+    margin-bottom: 0em;
+}
+
+.pending-switch {
+    @include switch($transition-speed, $transition-ease, $height, $font-size, $line-height, $paddle-bg, $secondary-color, $light-yellow, $radius, $base-style);
+    margin-bottom: 0em;
+}
+
+.switch-label {
+    text-align: right;
+    font-weight: bold;
+    font-size: .8em;
+    padding-top: 5px;
+}

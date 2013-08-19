@@ -48,6 +48,7 @@ Feature: Advanced HTML Reports
           browser: 'firefox'
       """
 
+  @announce
   Scenario: I can run the tests
     When I run `ckit brew`
     Then the stdout should contain "5 examples, 3 failures, 1 pending"
