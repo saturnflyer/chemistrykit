@@ -1,4 +1,4 @@
-#ChemistryKit 3.9.0-rc.2 (2013-08-14)
+#ChemistryKit 3.9.0.rc3 (2013-08-19)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
@@ -138,11 +138,11 @@ Here is a summary of the other methods available:
 Using `.and_with` lets you mix up various sets of user data. For example:
 
      @formula_lab.using('my_formula').with('admin1').and_with('sub_account1').mix
-     
+
 Would get you (assuming `sub_account1` has a type of `sub_account`, and a field `my_sub_field`) the ability to do something like this:
 
     chemist.sub_account.my_sub_field
-    
+
 Inside your formula. COOL!
 
 

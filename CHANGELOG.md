@@ -1,5 +1,12 @@
+#3.9.0-rc.3 (2013-08-19)
+- added toggle for parts of html reports
+- added a fix to allow jenkins ci server to show the html report images
+- integrated new selenium connect
+- updates to configurations
+- integrated optimizely opt out
+
 #3.9.0-rc.2 (2013-08-14)
-Added Basic Auth Support. Preserving release candidate numbering since there are improvements to be made to HTTP reporting
+- Added Basic Auth Support. Preserving release candidate numbering since there are improvements to be made to HTTP reporting
 
 #3.9.0-rc.1 (2013-08-12)
 Release candidate with new features including

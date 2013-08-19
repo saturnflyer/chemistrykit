@@ -14,3 +14,5 @@
 - opera
 - chrome
 - flex pilot (for flex/flash support)
+
+- add documentation about basic auth and a/b testing for final 3.9 release
