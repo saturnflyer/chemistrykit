@@ -11,6 +11,13 @@ Feature: Brewing a ChemistryKit project
       ran1,random,normal@email.com,Ms. Normal,test123%
       ran2,random,normal@email.com,Ms. Normal,test123%
       """
+    And I overwrite config.yaml with:
+      """
+      screenshot_on_fail: true
+      selenium_connect:
+          log: 'evidence'
+          browser: 'firefox'
+      """
     And a file named "formulas/basic_formula.rb" with:
       """
       module Formulas
@@ -76,13 +83,13 @@ Feature: Brewing a ChemistryKit project
             @driver.get url
           end
 
-          def find(locator)
-            @driver.find_element locator
+          def find(locater)
+            @driver.find_element locater
           end
 
-          def displayed?(locator)
+          def displayed?(locater)
             begin
-              find(locator).displayed?
+              find(locater).displayed?
             rescue
               false
             end
@@ -154,6 +161,7 @@ Feature: Brewing a ChemistryKit project
     When I run `ckit brew`
     Then the stdout should contain "2 examples, 0 failures"
 
+  @announce
   Scenario: Composing a chemist from multiple files
     Given a file named "beakers/chemist_beaker.rb" with:
       """
@@ -170,7 +178,7 @@ Feature: Brewing a ChemistryKit project
     And a file named "chemists/others.csv" with:
       """
       Key,Type,Item
-      other1,some_sub_account,some_item
+      other1,some_sub_account,some
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"

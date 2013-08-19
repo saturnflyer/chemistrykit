@@ -43,7 +43,7 @@ module ChemistryKit
           file.write '<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en" > <![endif]-->'
           file.write '<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->'
 
-            file.write get_report_head 'passing'
+            file.write get_report_head status
           file.write '<body>'
             file.write get_report_header
             file.write '<div class="report">'
