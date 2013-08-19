@@ -15,11 +15,8 @@ gem 'ruby2ruby'
 gem 'reek', '1.3.1'
 gem 'guard-reek'
 gem 'guard-rubocop'
-
 gem "selenium-client", "~> 1.2.18"
 gem 'compass'
 gem 'zurb-foundation'
 
 
-# s.add_dependency 'selenium-connect', '~> 3.5.0'
-gem 'selenium-connect', git: 'https://github.com/arrgyle/selenium-connect.git', branch: 'develop'
