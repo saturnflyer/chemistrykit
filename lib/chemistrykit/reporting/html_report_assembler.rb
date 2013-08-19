@@ -101,10 +101,28 @@ module ChemistryKit
         build_fragment do |doc|
           doc.div(class: 'summary') do
             doc.div(class: "row status #{status}") do
-              doc.div(class: 'large-12 columns') do
+              doc.div(class: 'large-9 columns') do
                 doc.h1 do
                   doc.i(class: icon)
                   doc.text message
+                end
+              end
+              doc.div(class: 'large-3 columns top-row') do
+                %w[passing failing pending].each do | type |
+                  doc.div(class: 'row switch-row') do
+                    doc.div(class: 'large-6 columns switch-label') do
+                      doc.text type.capitalize
+                    end
+                    doc.div(class: 'large-6 columns') do
+                      doc.div(class: "#{type}-switch") do
+                        doc.input(id: "show-#{type}", onclick: "toggle#{type.capitalize}();", name: "switch-show-#{type}", type: 'radio', checked: 'checked')
+                        doc.label(for: "show-#{type}") { doc.text 'Hide' }
+                        doc.input(id: "show-#{type}1", onclick: "toggle#{type.capitalize}();", name: "switch-show-#{type}", type: 'radio')
+                        doc.label(for: "show-#{type}1") { doc.text 'Show' }
+                        doc.span
+                      end
+                    end
+                  end
                 end
               end
             end
@@ -150,6 +168,26 @@ module ChemistryKit
             doc.text load_from_file(File.join(File.dirname(File.expand_path(__FILE__)), '../../../report/', 'javascripts', 'foundation', 'foundation.section.js'))
           end
           doc.script { doc.text '$(document).foundation();' }
+          doc.script do
+            doc.text "
+              function togglePassing() {
+                console.log('passing')
+                $('.example.passing').toggle();
+                $('.example-group.passing').toggle();
+              }
+
+              function toggleFailing() {
+                console.log('failing')
+                $('.example.failing').toggle();
+                $('.example-group.failing').toggle();
+              }
+
+              function togglePending() {
+                console.log('pending')
+                $('.example.pending').toggle();
+                $('.example-group.pending').toggle();
+              }"
+          end
         end
       end
 
