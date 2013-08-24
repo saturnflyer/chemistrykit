@@ -176,12 +176,6 @@ ChemistryKit is configured by default with a `config.yaml` file that is created 
 
 `concurrency:` You may override the default concurrency of 1 to run the tests in parallel
 
-`log: path:` You may override the default log path 'evidence'
-
-`log: results_file:` You may override the default file name 'results_junit.xml'
-
-`log: format:` You may override the default format 'junit' to an alternative like 'doc' or 'html'
-
 `selenium_connect:` Options in this node override the defaults for the [Selenium Connect](https://github.com/arrgyle/selenium-connect) gem.
 ##Command Line Usage
 
@@ -215,7 +209,6 @@ Available options for the `brew` command:
 -a, --all                   Run every beaker regardless of tag.
 -b, --beakers [BEAKERS]     Pass a list of beaker paths to be executed.
 -c, --config [PATH]         Pass the path to an alternative config.yaml file.
--r, --results_file [NAME]   Specify the name of your results file.
 --tag [TAGS]                Specify a list of tags to run or exclude.
 --params [HASH]             Send a list of "key:value" parameters to the ENV.
 -x, --retry [INT]           How many times should a failing test be retried.

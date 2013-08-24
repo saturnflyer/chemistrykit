@@ -135,7 +135,6 @@ module ChemistryKit
 
       def override_configs(options, config)
         # TODO: expand this to allow for more overrides as needed
-        config.log.results_file = options['results_file'] if options['results_file']
         config.retries_on_failure = options['retry'].to_i if options['retry']
         config
       end
@@ -237,16 +236,16 @@ module ChemistryKit
 
           html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results_0.html'
 
-          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
-          # c.add_formatter(::RSpec::Core::Formatters::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
+          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.reporting.path, html_log_name))
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
           c.default_retry_count = config.retries_on_failure
 
+          # TODO: this is messy... there should be a cleaner way to hook various reporter things.
           if config.concurrency == 1 || options['parallel']
-            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit.xml'
-            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, junit_log_name))
+            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit_0.xml'
+            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.reporting.path, junit_log_name))
           end
         end
       end

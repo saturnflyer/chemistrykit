@@ -15,7 +15,6 @@ Feature: Brewing a ChemistryKit project
       """
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           browser: 'firefox'
       """
     And a file named "formulas/basic_formula.rb" with:

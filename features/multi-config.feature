@@ -58,9 +58,8 @@ Feature: Support for multiple configuration files
     And a file named "alternate.yaml" with:
       """
       concurrency: 4
-      log:
-          path: 'evidence_alternate'
       selenium_connect:
+          log: 'evidence_alternate'
           host: 'localhost'
       """
       When I run `ckit brew --config alternate.yaml`

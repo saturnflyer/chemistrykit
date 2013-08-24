@@ -44,7 +44,6 @@ Feature: Advanced HTML Reports
       """
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           browser: 'firefox'
       """
 
@@ -60,7 +59,6 @@ Feature: Advanced HTML Reports
       concurrency: 2
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           browser: 'chrome'
       """
     When I run `ckit brew`
@@ -74,7 +72,6 @@ Feature: Advanced HTML Reports
       concurrency: 2
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           host: 'saucelabs'
           browser: 'firefox'
           sauce_username: 'testing_arrgyle'
