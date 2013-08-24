@@ -100,13 +100,13 @@ module ChemistryKit
           doc.div(class: 'row extra-content') do
             doc.div(class: 'large-12 columns') do
               doc.div(class: 'section-container auto', 'data-section' => '') do
+                doc << render_failshot_if_found(example)
                 doc << render_stack_trace(example)
                 doc << render_log_if_found(example, 'server.log')
                 doc << render_log_if_found(example, 'chromedriver.log')
                 doc << render_log_if_found(example, 'firefox.log')
                 doc << render_log_if_found(example, 'sauce_job.log')
                 doc << render_dom_html_if_found(example)
-                doc << render_failshot_if_found(example)
               end
             end
           end
@@ -191,7 +191,7 @@ module ChemistryKit
 
       def render_example(status, example)
         build_fragment do |doc|
-          show = status == 'passing' ? 'show' : ''
+          show = status == 'passing' ? 'hide' : ''
           doc.div(class: "row example #{status} #{show}") do
             doc.div(class: 'large-12 columns') do
               doc.div(class: 'row example-heading') do
