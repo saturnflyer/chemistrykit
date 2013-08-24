@@ -27,7 +27,7 @@ module ChemistryKit
     private
 
       def validate_key(key)
-        raise "Unknown \"#{key}\"" unless @data.has_key?(key.to_sym)
+        raise "Unknown \"#{key}\"" unless @data.key?(key.to_sym)
       end
   end
 end
