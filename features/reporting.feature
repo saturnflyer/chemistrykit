@@ -1,3 +1,4 @@
+@announce
 Feature: Advanced HTML Reports
   In order to quickly know the status of the application
   As a chemistry kit harness user

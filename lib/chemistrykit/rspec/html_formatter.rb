@@ -34,7 +34,8 @@ module ChemistryKit
 
       def example_group_finished(example_group)
         @output_html << build_fragment do |doc|
-          doc.div(class: "row example-group #{@example_group_status}") do
+          show = @example_group_status == 'passing' ? 'show' : ''
+          doc.div(class: "row example-group #{@example_group_status} #{show}") do
             doc.div(class: 'large-12 columns') do
               doc.h3 do
                 doc.i(class: 'icon-beaker')
@@ -190,7 +191,8 @@ module ChemistryKit
 
       def render_example(status, example)
         build_fragment do |doc|
-          doc.div(class: "row example #{status}") do
+          show = status == 'passing' ? 'show' : ''
+          doc.div(class: "row example #{status} #{show}") do
             doc.div(class: 'large-12 columns') do
               doc.div(class: 'row example-heading') do
                 doc.div(class: 'large-9 columns') do
