@@ -65,6 +65,5 @@ Feature: Support for multiple configuration files
       """
       When I run `ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
-      And there should be "1" unique results files in the "evidence_alternate" directory
       And the following files should exist:
       | evidence_alternate/cheese/cheese_loads_an_external_web_page/server.log |
