@@ -115,15 +115,11 @@ module ChemistryKit
                     end
                     doc.div(class: 'large-6 columns') do
                       doc.div(class: "#{type}-switch") do
-
                         opts = { onclick: "toggle#{type.capitalize}();", name: "switch-show-#{type}", type: 'radio' }
-
                         top = opts.merge(id: "show-#{type}")
                         bot = opts.merge(id: "show-#{type}1")
-
                         top.merge!(checked: 'checked') unless type == 'passing'
                         bot.merge!(checked: 'checked') if type == 'passing'
-
                         doc.input(top)
                         doc.label(for: "show-#{type}") { doc.text 'Hide' }
                         doc.input(bot)
