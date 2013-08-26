@@ -1,4 +1,4 @@
-For med consult before tripFeature: Exit Status
+Feature: Exit Status
 
   Background:
     Given I run `ckit new cheese`

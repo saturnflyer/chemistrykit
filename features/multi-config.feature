@@ -1,3 +1,4 @@
+@announce
 Feature: Support for multiple configuration files
   In order to quickly change between different configurations
   As a chemistry kit harness developer

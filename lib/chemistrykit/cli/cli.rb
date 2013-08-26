@@ -204,7 +204,13 @@ module ChemistryKit
               sauce_opts = {}
               sauce_opts.merge!(public: tags.delete(:public)) if tags.key?(:public)
               sauce_opts.merge!(tags: tags.map { |key, value| "#{key}:#{value}"}) unless tags.empty?
-              sc_config[:sauce_opts].merge!(sauce_opts) if sauce_opts
+
+              if sc_config[:sauce_opts]
+                sc_config[:sauce_opts].merge!(sauce_opts) unless sauce_opts.empty?
+              else
+                sc_config[:sauce_opts] = sauce_opts unless sauce_opts.empty?
+              end
+
             end
 
             # configure and start sc
