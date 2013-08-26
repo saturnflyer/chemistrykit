@@ -75,7 +75,7 @@ end
 
 # TODO This could probably be more cleanly automated
 desc 'Start a release (Requires Git Flow)'
-task :release_start, :version do |t, args|
+task :release_start, [:version, :no_verify] do |t, args|
   version = args['version']
 
   # make sure we have the latest stuff
@@ -90,7 +90,7 @@ task :release_start, :version do |t, args|
   system 'git pull --no-edit origin develop'
 
   # next assure all the tests run
-  task(:build_full).invoke
+  task(:build_full).invoke unless !!args['no_verify']
 
   # start the release process
   system "git flow release start #{version}"
