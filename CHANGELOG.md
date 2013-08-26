@@ -14,21 +14,6 @@ Improved reporting features and configuration for sauce permissions
 - removed specific log specification from system tests, cleaned up log configuration to just default to evidence and refactoried the cli a small bit to support it.
 - updated bundle and fixed new code quality error
 
-#3.9.0 (2013-08-26)
-Improved reporting features and configuration for sauce permissions
-
-- Bumped version to 3.9.0 to prepare for release.
-- updated rake file to override build verify in special cases
-- final fix to a test
-- fixed issues causing tests to fail
-- updated docs to reflect recent changes and future release
-- updated report generation to include dom dumps for all available windows
-- upgraded SC version and added hooks to handle tagging sauce jobs and setting the team permission via a beaker tag, plus tests
-- screenshots front and center, hiding of success
-- now hiding success by default with off switch
-- removed specific log specification from system tests, cleaned up log configuration to just default to evidence and refactoried the cli a small bit to support it.
-- updated bundle and fixed new code quality error
-
 #3.9.0-rc.3 (2013-08-19)
 - added toggle for parts of html reports
 - added a fix to allow jenkins ci server to show the html report images
