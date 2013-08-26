@@ -32,7 +32,6 @@ Feature: Support for concurency
       """
       concurrency: 4
       selenium_connect:
-          log: 'evidence'
           host: 'saucelabs'
           browser: 'firefox'
           sauce_username: 'testing_arrgyle'

@@ -50,7 +50,7 @@ module ChemistryKit
           c.add_setting :used_tags
           c.before(:suite) { ::RSpec.configuration.used_tags = [] }
           c.around(:each) do |example|
-            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
+            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result, :full_description]
             example.metadata.each do |key, value|
               tag = "#{key}:#{value}" unless standard_keys.include?(key)
               ::RSpec.configuration.used_tags.push tag unless ::RSpec.configuration.used_tags.include?(tag) || tag.nil?
@@ -135,7 +135,6 @@ module ChemistryKit
 
       def override_configs(options, config)
         # TODO: expand this to allow for more overrides as needed
-        config.log.results_file = options['results_file'] if options['results_file']
         config.retries_on_failure = options['retry'].to_i if options['retry']
         config
       end
@@ -197,6 +196,17 @@ module ChemistryKit
             test_path = File.join(Dir.getwd, sc_config[:log])
             Dir.mkdir test_path unless File.exists?(test_path)
 
+            # set the tags and permissions if sauce
+            if sc_config[:host] == 'saucelabs'
+              tags = example.metadata.reject do |key, value|
+                [:example_group, :example_group_block, :description_args, :caller, :execution_result, :full_description].include? key
+              end
+              sauce_opts = {}
+              sauce_opts.merge!(public: tags.delete(:public)) if tags.key?(:public)
+              sauce_opts.merge!(tags: tags.map { |key, value| "#{key}:#{value}"}) unless tags.empty?
+              sc_config[:sauce_opts].merge!(sauce_opts) if sauce_opts
+            end
+
             # configure and start sc
             configuration = SeleniumConnect::Configuration.new sc_config
             @sc = SeleniumConnect.start configuration
@@ -237,16 +247,16 @@ module ChemistryKit
 
           html_log_name = options[:parallel] ? "results_#{options[:parallel]}.html" : 'results_0.html'
 
-          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
-          # c.add_formatter(::RSpec::Core::Formatters::HtmlFormatter, File.join(Dir.getwd, config.log.path, html_log_name))
+          c.add_formatter(ChemistryKit::RSpec::HtmlFormatter, File.join(Dir.getwd, config.reporting.path, html_log_name))
 
           # for rspec-retry
           c.verbose_retry = true # for rspec-retry
           c.default_retry_count = config.retries_on_failure
 
+          # TODO: this is messy... there should be a cleaner way to hook various reporter things.
           if config.concurrency == 1 || options['parallel']
-            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit.xml'
-            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.log.path, junit_log_name))
+            junit_log_name = options[:parallel] ? "junit_#{options[:parallel]}.xml" : 'junit_0.xml'
+            c.add_formatter(ChemistryKit::RSpec::JUnitFormatter, File.join(Dir.getwd, config.reporting.path, junit_log_name))
           end
         end
       end

@@ -1,4 +1,4 @@
-Feature: Exit Status
+For med consult before tripFeature: Exit Status
 
   Background:
     Given I run `ckit new cheese`
@@ -6,7 +6,6 @@ Feature: Exit Status
     And a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
 

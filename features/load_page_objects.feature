@@ -7,7 +7,6 @@ Formulas should be loaded in the correct order with thier dependencies
     And a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
     And a file named "formulas/big.rb" with:
