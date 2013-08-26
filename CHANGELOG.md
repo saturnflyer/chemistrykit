@@ -1,3 +1,10 @@
+#3.9.1 (2013-08-26)
+small fix to gemfile
+
+- Bumped version to 3.9.1 to prepare for release.
+- updated gemfile
+- removed dupe log from changelog
+
 #3.9.0 (2013-08-26)
 Improved reporting features and configuration for sauce permissions
 
