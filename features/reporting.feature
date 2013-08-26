@@ -98,3 +98,18 @@ Feature: Advanced HTML Reports
   And the following files should exist:
       | evidence/final_results.html |
 
+Scenario: I capture the dom from all open windows
+Given a file named "beakers/fifth_beaker.rb" with:
+  """
+    describe "Reporting Beaker 5", :depth => 'shallow' do
+      it "loads two windows, from 5" do
+        @driver.get 'http://the-internet.herokuapp.com/windows'
+        @driver.find_element(css: '.example a').click
+        @driver.title.should include("Google")
+      end
+    end
+  """
+  When I run `ckit brew --beakers=beakers/fifth_beaker.rb`
+  And the following files should exist:
+      | evidence/final_results.html |
+

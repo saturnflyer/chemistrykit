@@ -50,7 +50,7 @@ module ChemistryKit
           c.add_setting :used_tags
           c.before(:suite) { ::RSpec.configuration.used_tags = [] }
           c.around(:each) do |example|
-            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result]
+            standard_keys = [:example_group, :example_group_block, :description_args, :caller, :execution_result, :full_description]
             example.metadata.each do |key, value|
               tag = "#{key}:#{value}" unless standard_keys.include?(key)
               ::RSpec.configuration.used_tags.push tag unless ::RSpec.configuration.used_tags.include?(tag) || tag.nil?
@@ -195,6 +195,17 @@ module ChemistryKit
             sc_config[:log] += "/#{test_name}"
             test_path = File.join(Dir.getwd, sc_config[:log])
             Dir.mkdir test_path unless File.exists?(test_path)
+
+            # set the tags and permissions if sauce
+            if sc_config[:host] == 'saucelabs'
+              tags = example.metadata.reject do |key, value|
+                [:example_group, :example_group_block, :description_args, :caller, :execution_result, :full_description].include? key
+              end
+              sauce_opts = {}
+              sauce_opts.merge!(public: tags.delete(:public)) if tags.key?(:public)
+              sauce_opts.merge!(tags: tags.map { |key, value| "#{key}:#{value}"}) unless tags.empty?
+              sc_config[:sauce_opts].merge!(sauce_opts) if sauce_opts
+            end
 
             # configure and start sc
             configuration = SeleniumConnect::Configuration.new sc_config
