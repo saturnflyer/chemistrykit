@@ -117,12 +117,18 @@ module ChemistryKit
         # TODO: pull out the common code for checking if the log file exists
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
-        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom.html')
-        if File.exist?(path)
-          render_section('Dom Html') do |doc|
-            doc << Pygments.highlight(File.read(path), lexer: 'html')
+        paths = Dir.glob(File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom_*.html'))
+        number = 0
+        sections = ''
+        paths.each do |path|
+          if File.exist?(path)
+            sections << render_section("Dom HTML #{number}") do |doc|
+              doc << Pygments.highlight(File.read(path), lexer: 'html')
+            end
+            number += 1
           end
         end
+        sections
       end
 
       # TODO: replace the section id with a uuid or something....
