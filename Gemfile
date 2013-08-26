@@ -6,7 +6,7 @@ gemspec
 gem 'aruba', '~> 0.5.1'
 gem 'cucumber', '~> 1.2.1'
 gem 'rake', '~> 10.0.3'
-gem 'rubocop',
+gem 'rubocop'
 gem 'coveralls', '~> 0.6.7'
 gem 'flog'
 gem 'flay'
