@@ -19,7 +19,6 @@ Feature: Initialize a global configuration
     """
     base_url: http://www.google.com
     selenium_connect:
-        log: 'evidence'
         host: 'localhost'
     """
     When I run `ckit brew`

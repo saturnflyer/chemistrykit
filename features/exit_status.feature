@@ -6,7 +6,6 @@ Feature: Exit Status
     And a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
 

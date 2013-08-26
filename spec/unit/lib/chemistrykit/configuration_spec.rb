@@ -9,19 +9,14 @@ describe ChemistryKit::Configuration do
   VALID_CONCURRENCY = 1
   VALID_RETRIES_ON_FAILURE = 1
   VALID_CONFIG_FILE = 'config.yaml'
-  VALID_LOG_PATH = 'evidence'
-  VALID_JUNIT = 'results_junit.xml'
-  VALID_FORMAT_JUNIT = 'junit'
-  VALID_JUNIT_FORMAT_OUT = 'ChemistryKit::RSpec::JUnitFormatter'
+  VALID_REPORTING_PATH = 'evidence'
 
   before(:each) do
     @valid_selenium_connect_hash = { log: 'evidence', host: 'localhost' }
-    @valid_log_hash = { path: VALID_LOG_PATH, results_file: VALID_JUNIT, format: VALID_FORMAT_JUNIT }
     @valid_config_hash = {
       base_url: VALID_BASE_URL,
       concurrency: VALID_CONCURRENCY,
       selenium_connect: @valid_selenium_connect_hash,
-      log: @valid_log_hash,
       retries_on_failure: VALID_RETRIES_ON_FAILURE
     }
   end
@@ -32,10 +27,8 @@ describe ChemistryKit::Configuration do
     config.retries_on_failure.should eq VALID_RETRIES_ON_FAILURE
     config.base_url.should eq VALID_BASE_URL
 
-    # log configurations
-    config.log.path.should eq VALID_LOG_PATH
-    config.log.results_file.should eq VALID_JUNIT
-    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
+    # reporting configurations
+    config.reporting.path.should eq VALID_REPORTING_PATH
 
     # selenium connect configurations
     config.selenium_connect.should eq @valid_selenium_connect_hash
@@ -49,10 +42,8 @@ describe ChemistryKit::Configuration do
     config = ChemistryKit::Configuration.new({})
     config.concurrency.should eq VALID_CONCURRENCY
     config.retries_on_failure.should eq VALID_RETRIES_ON_FAILURE
-    config.log.path.should eq VALID_LOG_PATH
-    config.log.results_file.should eq VALID_JUNIT
-    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
-    config.selenium_connect.should eq({ log: VALID_LOG_PATH })
+    config.reporting.path.should eq VALID_REPORTING_PATH
+    config.selenium_connect.should eq({ log: VALID_REPORTING_PATH })
     config.basic_auth.should be_nil
     config.split_testing.should be_nil
   end
@@ -72,18 +63,13 @@ describe ChemistryKit::Configuration do
     end.to raise_error ArgumentError, 'The config key: "bad" is unknown!'
   end
 
-  it 'should correct the format to JUnit' do
-    config = ChemistryKit::Configuration.new(@valid_config_hash)
-    config.log.format.should eq VALID_JUNIT_FORMAT_OUT
-  end
-
   it 'selenium_connect log should default to the main log' do
-    config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' } })
-    config.selenium_connect.should eq({ log: 'main-path' })
+    config =  ChemistryKit::Configuration.new({})
+    config.selenium_connect.should eq({ log: VALID_REPORTING_PATH })
   end
 
   it 'mainlog should not overide selenium_connect log' do
-    config =  ChemistryKit::Configuration.new({ log: { path: 'main-path' }, selenium_connect: { log: 'sc-log' } })
+    config =  ChemistryKit::Configuration.new selenium_connect: { log: 'sc-log' }
     config.selenium_connect.should eq({ log: 'sc-log' })
   end
 

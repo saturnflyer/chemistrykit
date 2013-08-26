@@ -34,7 +34,8 @@ module ChemistryKit
 
       def example_group_finished(example_group)
         @output_html << build_fragment do |doc|
-          doc.div(class: "row example-group #{@example_group_status}") do
+          show = @example_group_status == 'passing' ? 'show' : ''
+          doc.div(class: "row example-group #{@example_group_status} #{show}") do
             doc.div(class: 'large-12 columns') do
               doc.h3 do
                 doc.i(class: 'icon-beaker')
@@ -99,13 +100,13 @@ module ChemistryKit
           doc.div(class: 'row extra-content') do
             doc.div(class: 'large-12 columns') do
               doc.div(class: 'section-container auto', 'data-section' => '') do
+                doc << render_failshot_if_found(example)
                 doc << render_stack_trace(example)
                 doc << render_log_if_found(example, 'server.log')
                 doc << render_log_if_found(example, 'chromedriver.log')
                 doc << render_log_if_found(example, 'firefox.log')
                 doc << render_log_if_found(example, 'sauce_job.log')
                 doc << render_dom_html_if_found(example)
-                doc << render_failshot_if_found(example)
               end
             end
           end
@@ -116,12 +117,18 @@ module ChemistryKit
         # TODO: pull out the common code for checking if the log file exists
         beaker_folder = slugify(@example_group.description)
         example_folder = slugify(@example_group.description + '_' + example.description)
-        path = File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom.html')
-        if File.exist?(path)
-          render_section('Dom Html') do |doc|
-            doc << Pygments.highlight(File.read(path), lexer: 'html')
+        paths = Dir.glob(File.join(Dir.getwd, 'evidence', beaker_folder, example_folder, 'dom_*.html'))
+        number = 0
+        sections = ''
+        paths.each do |path|
+          if File.exist?(path)
+            sections << render_section("Dom HTML #{number}") do |doc|
+              doc << Pygments.highlight(File.read(path), lexer: 'html')
+            end
+            number += 1
           end
         end
+        sections
       end
 
       # TODO: replace the section id with a uuid or something....
@@ -190,7 +197,8 @@ module ChemistryKit
 
       def render_example(status, example)
         build_fragment do |doc|
-          doc.div(class: "row example #{status}") do
+          show = status == 'passing' ? 'hide' : ''
+          doc.div(class: "row example #{status} #{show}") do
             doc.div(class: 'large-12 columns') do
               doc.div(class: 'row example-heading') do
                 doc.div(class: 'large-9 columns') do

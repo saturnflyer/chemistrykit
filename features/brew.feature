@@ -1,3 +1,4 @@
+@announce
 Feature: Brewing a ChemistryKit project
 
   Running ckit brew runs the suite of tests.
@@ -34,20 +35,18 @@ Feature: Brewing a ChemistryKit project
     Given a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
     When I run `ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
-      | evidence/junit.xml |
+      | evidence/junit_0.xml |
       | evidence/bookie/bookie_loads_an_external_web_page/server.log        |
 
   Scenario: Brew a single beaker
     Given a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
     And a file named "beakers/other_beaker.rb" with:
@@ -67,7 +66,6 @@ Feature: Brewing a ChemistryKit project
     Given a file named "config.yaml" with:
       """
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
     And a file named "beakers/other_beaker.rb" with:
@@ -88,7 +86,6 @@ Feature: Brewing a ChemistryKit project
       """
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           host: 'saucelabs'
           browser: 'iexplore'
           os: 'windows 2003'
@@ -117,7 +114,6 @@ Feature: Brewing a ChemistryKit project
       """
       retries_on_failure: 3
       selenium_connect:
-          log: 'evidence'
           host: 'localhost'
       """
     And a file named "beakers/other_beaker.rb" with:
