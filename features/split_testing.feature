@@ -17,7 +17,6 @@ Background:
       screenshot_on_fail: true
       base_url: 'http://the-internet.herokuapp.com/abtest'
       selenium_connect:
-          log: 'evidence'
           browser: 'firefox'
       split_testing:
         provider: 'optimizely'

@@ -1,3 +1,4 @@
+@announce
 Feature: Advanced HTML Reports
   In order to quickly know the status of the application
   As a chemistry kit harness user
@@ -44,7 +45,6 @@ Feature: Advanced HTML Reports
       """
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           browser: 'firefox'
       """
 
@@ -60,7 +60,6 @@ Feature: Advanced HTML Reports
       concurrency: 2
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           browser: 'chrome'
       """
     When I run `ckit brew`
@@ -74,7 +73,6 @@ Feature: Advanced HTML Reports
       concurrency: 2
       screenshot_on_fail: true
       selenium_connect:
-          log: 'evidence'
           host: 'saucelabs'
           browser: 'firefox'
           sauce_username: 'testing_arrgyle'
@@ -97,6 +95,21 @@ Feature: Advanced HTML Reports
     end
     """
   When I run `ckit brew --beakers=beakers/fourth_beaker.rb`
+  And the following files should exist:
+      | evidence/final_results.html |
+
+Scenario: I capture the dom from all open windows
+Given a file named "beakers/fifth_beaker.rb" with:
+  """
+    describe "Reporting Beaker 5", :depth => 'shallow' do
+      it "loads two windows, from 5" do
+        @driver.get 'http://the-internet.herokuapp.com/windows'
+        @driver.find_element(css: '.example a').click
+        @driver.title.should include("Google")
+      end
+    end
+  """
+  When I run `ckit brew --beakers=beakers/fifth_beaker.rb`
   And the following files should exist:
       | evidence/final_results.html |
 

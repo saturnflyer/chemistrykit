@@ -1,3 +1,4 @@
+@announce
 Feature: Support for multiple configuration files
   In order to quickly change between different configurations
   As a chemistry kit harness developer
@@ -58,13 +59,11 @@ Feature: Support for multiple configuration files
     And a file named "alternate.yaml" with:
       """
       concurrency: 4
-      log:
-          path: 'evidence_alternate'
       selenium_connect:
+          log: 'evidence_alternate'
           host: 'localhost'
       """
       When I run `ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
-      And there should be "1" unique results files in the "evidence_alternate" directory
       And the following files should exist:
       | evidence_alternate/cheese/cheese_loads_an_external_web_page/server.log |

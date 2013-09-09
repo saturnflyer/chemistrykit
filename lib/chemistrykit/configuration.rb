@@ -5,6 +5,7 @@ require 'ostruct'
 
 require 'chemistrykit/config/basic_auth'
 require 'chemistrykit/config/split_testing'
+require 'chemistrykit/config/reporting'
 
 module ChemistryKit
   # Default configuration class
@@ -15,7 +16,7 @@ module ChemistryKit
                   :screenshot_on_fail,
                   :retries_on_failure
 
-    attr_reader   :log, :basic_auth, :split_testing
+    attr_reader   :reporting, :basic_auth, :split_testing
 
     attr_writer   :selenium_connect
 
@@ -25,22 +26,12 @@ module ChemistryKit
       @retries_on_failure = 1
       @selenium_connect = {}
       @screenshot_on_fail = false
-      @log = OpenStruct.new
-      @log.path = 'evidence'
-      @log.results_file = 'results_junit.xml'
-      @log.format = 'ChemistryKit::RSpec::JUnitFormatter'
+      @reporting = ChemistryKit::Config::Reporting.new
       @basic_auth = nil
       @split_testing = nil
 
       # overide with argument
       populate_with_hash hash
-    end
-
-    def log=(log_hash)
-      log_hash.each do |key, value|
-        value = 'ChemistryKit::RSpec::JUnitFormatter' if key == :format && value =~ /junit/i
-        @log.send("#{key}=", value) unless value.nil?
-      end
     end
 
     def basic_auth=(basic_auth_hash)
@@ -54,7 +45,7 @@ module ChemistryKit
     def selenium_connect
       # return the default log unless the sc log is set
       if @selenium_connect[:log].nil?
-        @selenium_connect[:log] = @log.path
+        @selenium_connect[:log] = @reporting.path
         return @selenium_connect
       end
       @selenium_connect
