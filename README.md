@@ -74,11 +74,11 @@ To exclude a tag, put a ~ in front of it.
 During development it is often helpful to just run a specific beaker, this can be accomplished with the `--beakers` flag:
 
     ckit brew --beakers=beakers/wip_beaker.rb
-    
+
 ####Special Tags
 There are some tags that can be used to control various aspects of the harness. The following are supported:
 
-- `public: SOME_VALUE` - If you are running your harness against sauce labs, then you can control how the permissions are set for a particular beaker according to the visibility options detailed at the bottom of [this page](https://saucelabs.com/docs/additional-config). For example if you wanted a test to be private you could add `public: 'private'` to your beaker tags.  
+- `public: SOME_VALUE` - If you are running your harness against sauce labs, then you can control how the permissions are set for a particular beaker according to the visibility options detailed at the bottom of [this page](https://saucelabs.com/docs/additional-config). For example if you wanted a test to be private you could add `public: 'private'` to your beaker tags.
 
 ###Formula Loading
 Code in the `formula` directory can be used to build out page objects and helper functions to facilitate your testing. The files are loaded in a particular way:
@@ -255,6 +255,8 @@ This project conforms to the [neverstopbuilding/craftsmanship](https://github.co
 - Branching theory
 - Documentation expectations
 - Release process
+
+Most importantly, submit your pull requests to the `develop` branch.
 
 ###Check out the user group!
 [https://groups.google.com/forum/#!forum/chemistrykit-users](https://groups.google.com/forum/#!forum/chemistrykit-users)
