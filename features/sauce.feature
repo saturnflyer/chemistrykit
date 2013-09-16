@@ -2,7 +2,7 @@
 Feature: Sauce specific feature tests
 
   Background:
-    Given I run `ckit new sauce-test`
+    Given I run `bundle exec ckit new sauce-test`
     And I cd to "sauce-test"
     And a file named "beakers/first_beaker.rb" with:
     """
@@ -26,7 +26,7 @@ Feature: Sauce specific feature tests
       """
 
   Scenario: Default permission config should work
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the file "evidence/sauce_beaker/sauce_beaker_test/sauce_job.log" should contain "private"
 
@@ -40,7 +40,7 @@ Feature: Sauce specific feature tests
       end
     end
     """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the file "evidence/sauce_beaker/sauce_beaker_test/sauce_job.log" should contain "share"
     And the file "evidence/sauce_beaker/sauce_beaker_test/sauce_job.log" should contain "crazy:test_tag"

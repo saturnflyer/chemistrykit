@@ -4,7 +4,7 @@ Feature: Listing all the tags
   I want to run a command to list all the tags
 
   Background: Setup the project
-    Given I run `ckit new tags-test`
+    Given I run `bundle exec ckit new tags-test`
     And I cd to "tags-test"
 
   Scenario: Get the tag for a single beaker
@@ -18,7 +18,7 @@ Feature: Listing all the tags
         end
       end
       """
-    When I run `ckit tags`
+    When I run `bundle exec ckit tags`
     Then the stdout should contain "depth:shallow"
 
   Scenario: Get the tags inside a beaker
@@ -35,7 +35,7 @@ Feature: Listing all the tags
         end
       end
       """
-    When I run `ckit tags`
+    When I run `bundle exec ckit tags`
     Then the stdout should contain "depth:shallow"
     And the stdout should contain "depth:deep"
 
@@ -66,7 +66,7 @@ Feature: Listing all the tags
         end
       end
       """
-    When I run `ckit tags`
+    When I run `bundle exec ckit tags`
     Then the stdout from "ckit tags" should contain:
       """
       ....

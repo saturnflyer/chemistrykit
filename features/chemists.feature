@@ -1,7 +1,7 @@
 Feature: Brewing a ChemistryKit project
 
   Background: Setup the project
-    Given I run `ckit new chemists-test`
+    Given I run `bundle exec ckit new chemists-test`
     And I cd to "chemists-test"
     And a file named "chemists/chemists.csv" with:
       """
@@ -112,7 +112,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
 
   Scenario: Chemist formula loading with formula_lab
@@ -128,7 +128,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
 
   Scenario: Loading multiple formulas in a beaker
@@ -157,7 +157,7 @@ Feature: Brewing a ChemistryKit project
       Key,Type,Email,Name,Password
       other1,other,other@email.com,Mr. Other,abc123$
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "2 examples, 0 failures"
 
   @announce
@@ -179,5 +179,5 @@ Feature: Brewing a ChemistryKit project
       Key,Type,Item
       other1,some_sub_account,some
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"

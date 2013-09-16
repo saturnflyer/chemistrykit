@@ -1,7 +1,7 @@
 Feature: opting out of ab tests based on configuration
 
 Background:
-    Given I run `ckit new split-test`
+    Given I run `bundle exec ckit new split-test`
     And I cd to "split-test"
     And a file named "beakers/first_beaker.rb" with:
     """
@@ -24,5 +24,5 @@ Background:
       """
 
   Scenario: opt out is on
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"

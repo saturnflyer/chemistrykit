@@ -5,7 +5,7 @@ Feature: Advanced HTML Reports
   I want a detailed HTML report of failures
 
   Background:
-    Given I run `ckit new reporting-test`
+    Given I run `bundle exec ckit new reporting-test`
     And I cd to "reporting-test"
     And a file named "beakers/first_beaker.rb" with:
     """
@@ -49,7 +49,7 @@ Feature: Advanced HTML Reports
       """
 
   Scenario: I can run the tests
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "5 examples, 3 failures, 1 pending"
     And the following files should exist:
       | evidence/final_results.html |
@@ -62,7 +62,7 @@ Feature: Advanced HTML Reports
       selenium_connect:
           browser: 'chrome'
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "5 examples, 3 failures, 1 pending"
     And the following files should exist:
       | evidence/final_results.html |
@@ -79,7 +79,7 @@ Feature: Advanced HTML Reports
           sauce_api_key: 'ab7a6e17-16df-42d2-9ef6-c8d2539cc38a'
           description: 'concurrency check'
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "2 processes for 3 beakers"
     And the following files should exist:
       | evidence/final_results.html |
@@ -94,7 +94,7 @@ Feature: Advanced HTML Reports
       end
     end
     """
-  When I run `ckit brew --beakers=beakers/fourth_beaker.rb`
+  When I run `bundle exec ckit brew --beakers=beakers/fourth_beaker.rb`
   And the following files should exist:
       | evidence/final_results.html |
 
@@ -109,7 +109,7 @@ Given a file named "beakers/fifth_beaker.rb" with:
       end
     end
   """
-  When I run `ckit brew --beakers=beakers/fifth_beaker.rb`
+  When I run `bundle exec ckit brew --beakers=beakers/fifth_beaker.rb`
   And the following files should exist:
       | evidence/final_results.html |
 

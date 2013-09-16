@@ -2,7 +2,7 @@ Feature: Catalyst
 Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test that needs it.
 
   Scenario: Use a catalyst value to drive a test
-    Given I run `ckit new catalyst-example`
+    Given I run `bundle exec ckit new catalyst-example`
     And I cd to "catalyst-example"
 
     And a file named "formulas/lib/catalysts/google_test_data.csv" with:
@@ -83,5 +83,5 @@ Catalyst: n. A pocket of data (consumed from a CSV file) used to drive a test th
       selenium_connect:
           host: 'localhost'
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"

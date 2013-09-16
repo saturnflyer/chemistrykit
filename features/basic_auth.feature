@@ -6,7 +6,7 @@ This way tests will be able to execute without being prompted by a modal dialog 
 
 
 Background:
-  Given I run `ckit new basic_auth_harness`
+  Given I run `bundle exec ckit new basic_auth_harness`
   And I cd to "basic_auth_harness"
   And a file named "beakers/basic_auth_1_beaker.rb" with:
     """
@@ -25,7 +25,7 @@ Scenario: Pre-load HTTP before each test
         password:   'admin'
         http_path:   '/'
     """
-  When I run `ckit brew`
+  When I run `bundle exec ckit brew`
   Then the stdout should contain "1 example, 0 failures"
 
 Scenario: Pre-load HTTP before each test without the http_path set
@@ -36,7 +36,7 @@ Scenario: Pre-load HTTP before each test without the http_path set
         username:   'admin'
         password:   'admin'
     """
-  When I run `ckit brew`
+  When I run `bundle exec ckit brew`
   Then the stdout should contain "1 example, 0 failures"
 
 Scenario: Works without Basic Auth
@@ -44,5 +44,5 @@ Scenario: Works without Basic Auth
     """
     base_url: 'http://google.com'
     """
-  When I run `ckit brew`
+  When I run `bundle exec ckit brew`
   Then the stdout should contain "1 example, 0 failures"

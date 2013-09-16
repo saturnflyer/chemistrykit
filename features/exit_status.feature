@@ -1,7 +1,7 @@
 Feature: Exit Status
 
   Background:
-    Given I run `ckit new cheese`
+    Given I run `bundle exec ckit new cheese`
     And I cd to "cheese"
     And a file named "config.yaml" with:
       """
@@ -19,7 +19,7 @@ Feature: Exit Status
       end
     end
     """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the exit code should be 0
 
   Scenario: Failing
@@ -32,5 +32,5 @@ Feature: Exit Status
       end
     end
     """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the exit code should be 1
