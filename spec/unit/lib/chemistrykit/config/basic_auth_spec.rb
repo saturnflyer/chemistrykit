@@ -12,7 +12,8 @@ describe ChemistryKit::Config::BasicAuth do
   VALID_HTTPS_PATH = '/secure'
 
   before(:each) do
-    @opts = { username: VALID_USERNAME,
+    @opts = {
+      username: VALID_USERNAME,
       password: VALID_PASSWORD,
       base_url: VALID_URL,
       http_path: VALID_HTTP_PATH,

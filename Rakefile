@@ -68,12 +68,12 @@ end
 
 # TODO: fix all the smells and turn on failing on error
 Reek::Rake::Task.new do |t|
-    t.fail_on_error = false
-    t.verbose = false
-    t.reek_opts = '--quiet'
+  t.fail_on_error = false
+  t.verbose = false
+  t.reek_opts = '--quiet'
 end
 
-# TODO This could probably be more cleanly automated
+# TODO: This could probably be more cleanly automated
 desc 'Start a release (Requires Git Flow)'
 task :release_start, [:version, :no_verify] do |t, args|
   version = args['version']
@@ -110,7 +110,7 @@ task :release_start, [:version, :no_verify] do |t, args|
   puts "You've started release #{version}, make any last minute updates now.\n"
 end
 
-# TODO This could probablly be more cleanly automated
+# TODO: This could probably be more cleanly automated
 desc 'Finish a release (Requires Git Flow and Gem Deploy Permissions'
 task :release_finish, :update_message do |t, args|
   message   = args['update_message']
@@ -166,7 +166,7 @@ task :release_finish, :update_message do |t, args|
   system "rm chemistrykit-#{version}.gem"
 
   # finish the release
-  # TODO there is a bug with git flow, and you still need to deal with merge
+  # TODO: there is a bug with git flow, and you still need to deal with merge
   # messages, might just do this with git directly
   system "git flow release finish -m'#{version}' #{version}"
 
