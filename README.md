@@ -149,8 +149,28 @@ Would get you (assuming `sub_account1` has a type of `sub_account`, and a field 
 
 Inside your formula. COOL!
 
-
 The FormulaLab will handle the heavy lifting of assembling your formula with a driver and correct chemist (if the formula needs one). Also note that the specific instance of chemist is cached so that any changes your formula makes to the chemist is reflected in other formulas that use it.
+
+###Catalysts! Driving Tests with Data
+In addition to using **Chemists** to mix data into your test barness, you can also use **Catalysts** simple key-value stores that can be populated from a CSV file. Formulas can set and get a catalyst or use the `catalyize` method to directly inject the data into the formula by file name. Once you have a catalyst, simply access the values by their keys:
+
+```Ruby
+# my_beaker.rb
+describe "my beaker", :depth => 'shallow' do
+  let(:my_formula) { @formula_lab.mix('my_other_formula') }
+  
+  my_formula.catalyst = ChemistryKit::Catalyst.new('/path/to/data.csv')
+  # or 
+  my_formula.catalyze('/path/to/data.csv')
+end
+
+# my_formula.rb
+module Formulas
+  class MyFormula < Formula
+    some_value = catalyst.my_key
+  end
+end
+```
 
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.
