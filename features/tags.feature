@@ -1,3 +1,4 @@
+@announce
 Feature: Listing all the tags
   In order to see all the tags I'm using
   As a harness developer
@@ -67,7 +68,7 @@ Feature: Listing all the tags
       end
       """
     When I run `bundle exec ckit tags`
-    Then the stdout from "ckit tags" should contain:
+    Then the stdout from "bundle exec ckit tags" should contain:
       """
       ....
       Tags used in harness:

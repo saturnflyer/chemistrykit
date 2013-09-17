@@ -1,5 +1,3 @@
-# Encoding: utf-8
-
 guard :rspec do
   watch(%r{^spec/unit/.+_spec\.rb$})
   watch(%r{^spec/integration/.+_spec\.rb$})
