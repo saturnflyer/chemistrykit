@@ -249,6 +249,3 @@ module ChemistryKit
     end
   end
 end
-
-
-

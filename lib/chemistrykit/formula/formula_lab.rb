@@ -71,13 +71,11 @@ module ChemistryKit
         end
 
         # TODO: try to resolve this backreff thing
-        # rubocop:disable AvoidPerlBackrefs
         def get_class_name(formula_file)
           string = formula_file.match(/(#{@formulas_dir.split('/').last}.*#{@formula})\.rb$/)[1]
           string = string.sub(/^[a-z\d]*/) { $&.capitalize }
-          string.gsub(/(?:_|(\/))([a-z\d]*)/) { "#{$1}#{$2.capitalize}" }.gsub('/', '::')
+          string.gsub(/(?:_|(\/))([a-z\d]*)/) { "#{$1}#{$2.capitalize}" }.gsub('/', '::') # rubocop:disable PerlBackrefs
         end
-        # rubocop:enable AvoidPerlBackrefs
 
         # "borrowed" from http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html#method-i-constantize
         # TODO: this could be simplified, refactored out, or just use the activestate module some how

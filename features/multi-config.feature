@@ -5,7 +5,7 @@ Feature: Support for multiple configuration files
   I want to specify different configuration files on the command line
 
   Background:
-    Given I run `ckit new config-test`
+    Given I run `bundle exec ckit new config-test`
     And I cd to "config-test"
     And a file named "beakers/test_beaker.rb" with:
     """
@@ -24,7 +24,7 @@ Feature: Support for multiple configuration files
           log: 'evidence_config'
           host: 'localhost'
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
       | evidence_config/cheese/cheese_loads_an_external_web_page/server.log |
@@ -37,7 +37,7 @@ Feature: Support for multiple configuration files
           log: 'evidence_alternate'
           host: 'localhost'
       """
-      When I run `ckit brew --config alternate.yaml`
+      When I run `bundle exec ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
       And the following files should exist:
         | evidence_alternate/cheese/cheese_loads_an_external_web_page/server.log |
@@ -50,7 +50,7 @@ Feature: Support for multiple configuration files
           log: 'evidence_alternate'
           host: 'localhost'
       """
-      When I run `ckit brew -c alternate.yaml`
+      When I run `bundle exec ckit brew -c alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
       And the following files should exist:
        | evidence_alternate/cheese/cheese_loads_an_external_web_page/server.log |
@@ -63,7 +63,7 @@ Feature: Support for multiple configuration files
           log: 'evidence_alternate'
           host: 'localhost'
       """
-      When I run `ckit brew --config alternate.yaml`
+      When I run `bundle exec ckit brew --config alternate.yaml`
       Then the stdout should contain "1 example, 0 failures"
       And the following files should exist:
       | evidence_alternate/cheese/cheese_loads_an_external_web_page/server.log |

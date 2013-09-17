@@ -9,3 +9,9 @@ SymbolName:
 
 Documentation:
   Enabled: false
+
+AllCops:
+    Includes:
+        - Gemfile
+    Excludes:
+        - report/config.rb

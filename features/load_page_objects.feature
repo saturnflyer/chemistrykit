@@ -2,7 +2,7 @@ Feature: Load Page Objects
 Formulas should be loaded in the correct order with thier dependencies
 
   Scenario: Load the libs first
-    Given I run `ckit new big-project`
+    Given I run `bundle exec ckit new big-project`
     And I cd to "big-project"
     And a file named "config.yaml" with:
       """
@@ -44,5 +44,5 @@ Formulas should be loaded in the correct order with thier dependencies
       end
       """
 
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"

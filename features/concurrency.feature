@@ -4,7 +4,7 @@ Feature: Support for concurency
   I want to run them in parallel
 
   Background:
-    Given I run `ckit new concurrency-test`
+    Given I run `bundle exec ckit new concurrency-test`
     And I cd to "concurrency-test"
     And a file named "beakers/first_beaker.rb" with:
     """
@@ -40,14 +40,14 @@ Feature: Support for concurency
       """
 
   Scenario: I can run the tests in parallel
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "4 processes for 2 beakers"
     And the stdout should contain "3 examples, 0 failures"
     And the file "evidence/results_junit.xml" should not exist
     And there should be "2" unique results files in the "evidence" directory
 
   Scenario: I can run a specific beaker in parallel
-    When I run `ckit brew --beakers=beakers/first_beaker.rb`
+    When I run `bundle exec ckit brew --beakers=beakers/first_beaker.rb`
     Then the stdout should contain "4 processes for 1 beakers"
     And the stdout should contain "2 examples, 0 failures"
 
@@ -70,7 +70,7 @@ Feature: Support for concurency
         end
       end
       """
-    When I run `ckit brew --tag item:test`
+    When I run `bundle exec ckit brew --tag item:test`
     And the stdout should contain "2 examples, 0 failures"
 
     Scenario: I can all beakers in parallel
@@ -92,7 +92,7 @@ Feature: Support for concurency
         end
       end
       """
-    When I run `ckit brew --all`
+    When I run `bundle exec ckit brew --all`
     Then the stdout should not contain "All examples were filtered out"
     And the stdout should not contain "0 examples, 0 failures"
     And there should be "4" unique results files in the "evidence" directory

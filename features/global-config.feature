@@ -4,7 +4,7 @@ Feature: Initialize a global configuration
   I want to specify configurations in a central file so they are available in test scripts
 
   Scenario: Use a configuration option in a beaker
-    Given I run `ckit new global-config-test`
+    Given I run `bundle exec ckit new global-config-test`
     And I cd to "global-config-test"
     And a file named "beakers/test_beaker.rb" with:
     """
@@ -21,5 +21,5 @@ Feature: Initialize a global configuration
     selenium_connect:
         host: 'localhost'
     """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"

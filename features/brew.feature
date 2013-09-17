@@ -8,7 +8,7 @@ Feature: Brewing a ChemistryKit project
     2. With Sauce Ondemand
 
   Background: Setup the project
-    Given I run `ckit new booker`
+    Given I run `bundle exec ckit new booker`
     And I cd to "booker"
     And a file named "formulas/bookie.rb" with:
       """
@@ -37,7 +37,7 @@ Feature: Brewing a ChemistryKit project
       selenium_connect:
           host: 'localhost'
       """
-    When I run `ckit brew`
+    When I run `bundle exec ckit brew`
     Then the stdout should contain "1 example, 0 failures"
     And the following files should exist:
       | evidence/junit_0.xml |
@@ -59,8 +59,28 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --beakers=beakers/other_beaker.rb`
+    When I run `bundle exec ckit brew --beakers=beakers/other_beaker.rb`
     Then the stdout should contain "1 example, 0 failures"
+
+  Scenario: Brew beakers where the beakers directory contains a sub-directory
+    Given a file named "config.yaml" with:
+      """
+      selenium_connect:
+          log: 'evidence'
+          host: 'localhost'
+      """
+    And a file named "beakers/sub/other_beaker.rb" with:
+      """
+      describe "SubDirectory" do
+        let(:book) { Formulas::Bookie.new(@driver) }
+
+        it "loads an external web page" do
+          book.open "http://www.google.com"
+        end
+      end
+      """
+    When I run `bundle exec ckit brew --all`
+    Then the stdout should contain "2 examples, 0 failures"
 
   Scenario: Run all the tests regardless of tag
     Given a file named "config.yaml" with:
@@ -78,7 +98,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --all`
+    When I run `bundle exec ckit brew --all`
     Then the stdout should contain "2 examples, 0 failures"
 
   Scenario: Saucelabs
@@ -103,7 +123,7 @@ Feature: Brewing a ChemistryKit project
       end
     end
     """
-    When I run `ckit brew --beakers=beakers/failure.rb`
+    When I run `bundle exec ckit brew --beakers=beakers/failure.rb`
     Then the stdout should contain "1 example, 1 failure"
     And there should be "1" "failed image" log files in "evidence/failing_beaker/failing_beaker_loads_an_external_web_page"
     And there should be "1" "report" log files in "evidence/failing_beaker/failing_beaker_loads_an_external_web_page"
@@ -127,7 +147,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --beakers=beakers/other_beaker.rb`
+    When I run `bundle exec ckit brew --beakers=beakers/other_beaker.rb`
     Then the stdout should contain "RSpec::Retry: 2nd try"
     Then the stdout should contain "RSpec::Retry: 3rd try"
 
@@ -150,7 +170,7 @@ Feature: Brewing a ChemistryKit project
         end
       end
       """
-    When I run `ckit brew --beakers=beakers/other_beaker.rb --retry=3`
+    When I run `bundle exec ckit brew --beakers=beakers/other_beaker.rb --retry=3`
     Then the stdout should contain "RSpec::Retry: 2nd try"
     Then the stdout should contain "RSpec::Retry: 3rd try"
 

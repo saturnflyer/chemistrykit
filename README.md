@@ -1,4 +1,4 @@
-#ChemistryKit 3.9.1 (2013-08-26)
+#ChemistryKit 3.10.0 (2013-09-17)
 
 [![Gem Version](https://badge.fury.io/rb/chemistrykit.png)](http://badge.fury.io/rb/chemistrykit) [![Build Status](https://travis-ci.org/arrgyle/chemistrykit.png?branch=develop)](https://travis-ci.org/jrobertfox/chef-broiler-platter) [![Code Climate](https://codeclimate.com/github/arrgyle/chemistrykit.png)](https://codeclimate.com/github/arrgyle/chemistrykit) [![Coverage Status](https://coveralls.io/repos/arrgyle/chemistrykit/badge.png?branch=develop)](https://coveralls.io/r/arrgyle/chemistrykit?branch=develop)
 
@@ -74,11 +74,11 @@ To exclude a tag, put a ~ in front of it.
 During development it is often helpful to just run a specific beaker, this can be accomplished with the `--beakers` flag:
 
     ckit brew --beakers=beakers/wip_beaker.rb
-    
+
 ####Special Tags
 There are some tags that can be used to control various aspects of the harness. The following are supported:
 
-- `public: SOME_VALUE` - If you are running your harness against sauce labs, then you can control how the permissions are set for a particular beaker according to the visibility options detailed at the bottom of [this page](https://saucelabs.com/docs/additional-config). For example if you wanted a test to be private you could add `public: 'private'` to your beaker tags.  
+- `public: SOME_VALUE` - If you are running your harness against sauce labs, then you can control how the permissions are set for a particular beaker according to the visibility options detailed at the bottom of [this page](https://saucelabs.com/docs/additional-config). For example if you wanted a test to be private you could add `public: 'private'` to your beaker tags.
 
 ###Formula Loading
 Code in the `formula` directory can be used to build out page objects and helper functions to facilitate your testing. The files are loaded in a particular way:
@@ -149,8 +149,28 @@ Would get you (assuming `sub_account1` has a type of `sub_account`, and a field 
 
 Inside your formula. COOL!
 
-
 The FormulaLab will handle the heavy lifting of assembling your formula with a driver and correct chemist (if the formula needs one). Also note that the specific instance of chemist is cached so that any changes your formula makes to the chemist is reflected in other formulas that use it.
+
+###Catalysts! Driving Tests with Data
+In addition to using **Chemists** to mix data into your test barness, you can also use **Catalysts** simple key-value stores that can be populated from a CSV file. Formulas can set and get a catalyst or use the `catalyize` method to directly inject the data into the formula by file name. Once you have a catalyst, simply access the values by their keys:
+
+```Ruby
+# my_beaker.rb
+describe "my beaker", :depth => 'shallow' do
+  let(:my_formula) { @formula_lab.mix('my_other_formula') }
+  
+  my_formula.catalyst = ChemistryKit::Catalyst.new('/path/to/data.csv')
+  # or 
+  my_formula.catalyze('/path/to/data.csv')
+end
+
+# my_formula.rb
+module Formulas
+  class MyFormula < Formula
+    some_value = catalyst.my_key
+  end
+end
+```
 
 ###Execution Order
 Chemistry Kit executes specs in a random order. This is intentional. Knowing the order a spec will be executed in allows for dependencies between them to creep in. Sometimes unintentionally. By having them go in a random order parallelization becomes a much easier.
@@ -255,6 +275,8 @@ This project conforms to the [neverstopbuilding/craftsmanship](https://github.co
 - Branching theory
 - Documentation expectations
 - Release process
+
+Most importantly, submit your pull requests to the `develop` branch.
 
 ###Check out the user group!
 [https://groups.google.com/forum/#!forum/chemistrykit-users](https://groups.google.com/forum/#!forum/chemistrykit-users)
